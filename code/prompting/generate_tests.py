@@ -278,6 +278,6 @@ def create_all_test_prompts(split="train", regenerate=False):
                                         regenerate=regenerate,
                                         split=split)
 
-run(max_workers=15, split="dev", regenerate=False, model="Qwen/Qwen2.5-Coder-32B-Instruct")
+run(max_workers=15, split="train", regenerate=False, model="Qwen/Qwen2.5-Coder-32B-Instruct")
 
 # create_all_test_prompts(split="train", regenerate=True)
