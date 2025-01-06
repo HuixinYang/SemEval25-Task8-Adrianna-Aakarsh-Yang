@@ -211,7 +211,7 @@ def error_detecting_reward_fn(question_idx, backing_df):
 
 # UCT Agent Arguments
 uct_args = dict(
-    rollouts=25,
+    rollouts=10,
     gamma=0.99,
     width=5,
     alg='p_uct',  
