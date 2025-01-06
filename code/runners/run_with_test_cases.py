@@ -184,7 +184,7 @@ def run_pipeline_on_qa(qa):
         outputs = pipeline(input_str=prompt)
         output_list.append((outputs['texts'], outputs['rewards']))
 
-        with open(f'/content/drive/MyDrive/TUE-WINTER-2024/CHALLENGES-CL/output_list-{idx}.pkl', 'wb') as f:
+        with open(f'/content/drive/MyDrive/TUE-WINTER-2024/CHALLENGES-CL/output_list-{idx}-06-01-2025.pkl', 'wb') as f:
             pickle.dump(output_list, f)
     return output_list
 
