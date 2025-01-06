@@ -4,6 +4,23 @@ import os
 import numpy as np
 import pandas as pd
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
+import transformers
+from dyna_gym.pipelines import uct_for_hf_transformer_pipeline
+from transformers import AutoModelForCausalLM, AutoTokenizer, AutoModel
+import pandas as pd
+import subprocess
+import shlex
+import zipfile
+import torch
+from databench_eval import Runner, Evaluator, utils
+from datasets import load_dataset
+from transformers import pipeline, AutoModelForCausalLM, AutoTokenizer
+from databench_eval import Runner, Evaluator, utils
+import os
+import numpy as np
+import json
+
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
 # Maximum number of steps / Tokens to generate in each episode
 horizon = 512  
@@ -29,7 +46,7 @@ model = AutoModelForCausalLM.from_pretrained(
 vocab_size = tokenizer.vocab_size
 
 
-def call_model(prompts, max_new_tokens=64):
+def call_model(prompts, max_new_tokens=2500):
     """
     Tokenize prompt, model generate;
     prompts: str
@@ -46,20 +63,66 @@ def call_model(prompts, max_new_tokens=64):
     print(result)
     return result
 
+def generate_dataframe_schma_json(df):
+  schema = {
+       "columns": [
+           {"name": col, "type": str(df[col].dtype)}
+           for col in df.columns
+       ]
+   }
+  json_schema = json.dumps(schema, indent=4)
+  return json_schema
 
-def prompt_generator(row):
-    """
-    Generates a Python code completion prompt from a dataframe row.
-    """
+def generate_dataframe_description_json(df):
+  description = df.describe().to_json(orient='index', indent=4)
+  return description
+
+def generate_dataframe_categorical_cols_json(df):
+    categorical_data = {}
+    for col_name in df.columns:
+        if df[col_name].dtype == 'category' and len(df_all[col_name].unique()) < 300 and  len(df_all[col_name].unique()) > 0 :
+            categorical_data[col_name] = df_all[col_name].unique().tolist()
+
+    json_data = json.dumps(categorical_data, indent=4)
+    return json_data
+
+def generate_random_sample_of_n_rows_json(df, n=10):
+    return df.sample(n=n).to_json(orient='records', indent=4)
+
+def get_dataframe_by_id(df_id):
+    parquet_file = f"hf://datasets/cardiffnlp/databench/data/{df_id}/all.parquet"
+    print(f"Loading {parquet_file}")
+    df = pd.read_parquet(parquet_file)
+    return df
+
+def prompt_generator(row, df):
     question = row['question']
-    df = row['df']
+    df_random_sample = '{}'
+    if not row['dataset'] == "029_NYTimes":
+       df_random_sample = generate_dataframe_description_json(df) 
+    print(f"Generating:{question}, dataset:{row['dataset']}")
     prompt = f"""
-# TODO: complete the following function in one line. It should give the answer to: How many rows are there in this dataframe?
+# Instructions: Generate ONLY python code. Do not include explanations.  
+# you can use pandas and numpy. Use the meta data information from df_schema, df_descprtion.
+import pandas as pd
+import numpy as np
+
+
+# Description of dataframe schema.
+df_schema = {generate_dataframe_schma_json(df)}
+
+# Description of dataframe columns.
+df_descrption = {generate_dataframe_description_json(df)}
+
+# Randome sample of 10 rows from the dataframe.
+df_random_sample = {df_random_sample}
+
+# TODO: complete the following function in one line, by completing the return statement. It should give the answer to: How many rows are there in this dataframe?
 def example(df: pd.DataFrame):
     df.columns=["A"]
     return df.shape[0]
 
-# TODO: complete the following function in one line. It should give the answer to: {question}
+# TODO: complete the following function in one line, by completing the return statement. It should give the answer to: {question}
 def answer(df: pd.DataFrame):
     df.columns = {list(df.columns)}
     return"""
@@ -97,7 +160,7 @@ def run_tests_for_answer(question_idx, sentence, model="Qwen/Qwen2.5-Coder-32B-I
     """
     Runs a specific test case based on test_case files.
     """
-    test_file = f"/content/drive/MyDrive/TUE-WINTER-2024/CHALLENGES-CL/test_cases/{model}/test_case_{question_idx}.py"
+    test_file = f"/content/drive/MyDrive/TUE-WINTER-2024/CHALLENGES-CL/test_cases/dev/{model}/test_case_{question_idx}.py"
     if not os.path.exists(test_file):
         print(f"Test file not found: test_case_{question_idx}.py for {model}")
         return False
@@ -114,13 +177,13 @@ def run_tests_for_answer(question_idx, sentence, model="Qwen/Qwen2.5-Coder-32B-I
         return False
 
 
-def error_detecting_reward_fn(question_idx):
+def error_detecting_reward_fn(question_idx, backing_df):
     def error_check(sentence):
         """
         Assign a reward based on the correctness of generated code.
         """
         pass_count = 0
-        for model in ["Qwen/Qwen2.5-Coder-32B-Instruct"]:
+        for model in ["Qwen/Qwen2.5-Coder-32B-Instruct", "nvidia/Llama-3.1-Nemotron-70B-Instruct", "meta-llama/Meta-Llama-3.1-70B-Instruct"]:
             max_tries = 3
             while max_tries > 0:
                 max_tries -= 1
@@ -134,7 +197,7 @@ def error_detecting_reward_fn(question_idx):
                 except Exception as e:
                     print(f"Runtime error: {e}")
 
-        result = post_process(sentence, df_all)
+        result = post_process(sentence, backing_df)
         if "CODE_ERROR" in str(result):
             print("CODE ERROR DETECTED")
             return -1
@@ -163,20 +226,22 @@ model_generation_args = dict(
 )
 
 
-def run_pipeline_on_qa(qa):
+def run_pipeline_on_qa(qa, dataset_map):
     """
     Run the full pipeline on a set of QA pairs
     """
     output_list = []
-    horizon = 256
+    horizon = 2500
     for idx in range(len(qa)):
         print("-" * 20, idx, "-" * 20)
-        prompt = prompt_generator(qa[idx])
+        dataset_id = qa[idx]['dataset']
+        backing_df =  dataset_map[dataset_id]
+        prompt = prompt_generator(qa[idx],backing_df)
         pipeline = uct_for_hf_transformer_pipeline(
             model=model,
             tokenizer=tokenizer,
             horizon=horizon,
-            reward_func=error_detecting_reward_fn(idx),
+            reward_func=error_detecting_reward_fn(idx, backing_df),
             uct_args=uct_args,
             model_generation_args=model_generation_args,
             should_plot_tree=False,
@@ -190,5 +255,13 @@ def run_pipeline_on_qa(qa):
 
 
 # Example usage:
-# qa = [{"question": "How many rows are in this dataframe?", "df": pd.DataFrame({"A": [1, 2, 3]})}]
 # run_pipeline_on_qa(qa)
+
+def fetch_all_dataframes(dataset):
+  dataset_ids  = set(map(lambda qa: qa['dataset'],  dataset))
+  retval = { ds_id: get_dataframe_by_id(ds_id) for ds_id in dataset_ids }
+  return retval
+
+semeval_dev_qa = load_dataset("cardiffnlp/databench", name="semeval", split="dev")
+dataset_map = fetch_all_dataframes(semeval_dev_qa)
+run_pipeline_on_qa(semeval_dev_qa, dataset_map)
