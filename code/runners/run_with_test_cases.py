@@ -237,27 +237,29 @@ def run_pipeline_on_qa(qa, dataset_map):
         if os.path.exists(f'/content/drive/MyDrive/TUE-WINTER-2024/CHALLENGES-CL/output_list-{idx}-06-01-2025.pkl'):
             print('SKIPPING')
             continue
-        dataset_id = qa[idx]['dataset']
-        backing_df =  dataset_map[dataset_id]
-        prompt = prompt_generator(qa[idx],backing_df)
-        pipeline = uct_for_hf_transformer_pipeline(
-            model=model,
-            tokenizer=tokenizer,
-            horizon=horizon,
-            reward_func=error_detecting_reward_fn(idx, backing_df),
-            uct_args=uct_args,
-            model_generation_args=model_generation_args,
-            should_plot_tree=False,
-        )
-        outputs = pipeline(input_str=prompt)
-        output_list[idx] = {'texts': outputs['texts'],'rewards': outputs['rewards']}
+        try:
+            dataset_id = qa[idx]['dataset']
+            backing_df =  dataset_map[dataset_id]
+            prompt = prompt_generator(qa[idx],backing_df)
+            pipeline = uct_for_hf_transformer_pipeline(
+                model=model,
+                tokenizer=tokenizer,
+                horizon=horizon,
+                reward_func=error_detecting_reward_fn(idx, backing_df),
+                uct_args=uct_args,
+                model_generation_args=model_generation_args,
+                should_plot_tree=False,
+            )
+            outputs = pipeline(input_str=prompt)
+            output_list[idx] = {'texts': outputs['texts'],'rewards': outputs['rewards']}
 
-        with open(f'/content/drive/MyDrive/TUE-WINTER-2024/CHALLENGES-CL/output_list-06-01-2025.pkl', 'wb') as f:
-            pickle.dump(output_list, f)
+            with open(f'/content/drive/MyDrive/TUE-WINTER-2024/CHALLENGES-CL/output_list-06-01-2025.pkl', 'wb') as f:
+                pickle.dump(output_list, f)
 
-        with open(f'/content/drive/MyDrive/TUE-WINTER-2024/CHALLENGES-CL/output_list-{idx}-06-01-2025.pkl', 'wb') as f:
-            pickle.dump(output_list, f)
-
+            with open(f'/content/drive/MyDrive/TUE-WINTER-2024/CHALLENGES-CL/output_list-{idx}-06-01-2025.pkl', 'wb') as f:
+                pickle.dump(output_list, f)
+        except Exception as e:
+            print(e)
     return output_list
 
 
