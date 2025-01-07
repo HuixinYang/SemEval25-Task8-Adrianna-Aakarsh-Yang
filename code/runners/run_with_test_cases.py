@@ -231,7 +231,7 @@ def run_pipeline_on_qa(qa, dataset_map):
     Run the full pipeline on a set of QA pairs
     """
     output_list = {}
-    horizon = 2500
+    horizon = 3000
     for idx in range(len(qa)):
         print("-" * 20, idx, "-" * 20)
         if os.path.exists(f'/content/drive/MyDrive/TUE-WINTER-2024/CHALLENGES-CL/output_list-{idx}-06-01-2025.pkl'):
