@@ -230,10 +230,13 @@ def run_pipeline_on_qa(qa, dataset_map):
     """
     Run the full pipeline on a set of QA pairs
     """
-    output_list = []
+    output_list = {}
     horizon = 2500
     for idx in range(len(qa)):
         print("-" * 20, idx, "-" * 20)
+        if os.path.exists(f'/content/drive/MyDrive/TUE-WINTER-2024/CHALLENGES-CL/output_list-{idx}-06-01-2025.pkl'):
+            print('SKIPPING')
+            continue
         dataset_id = qa[idx]['dataset']
         backing_df =  dataset_map[dataset_id]
         prompt = prompt_generator(qa[idx],backing_df)
@@ -247,10 +250,14 @@ def run_pipeline_on_qa(qa, dataset_map):
             should_plot_tree=False,
         )
         outputs = pipeline(input_str=prompt)
-        output_list.append((outputs['texts'], outputs['rewards']))
+        output_list[idx] = {'texts': outputs['texts'],'rewards': outputs['rewards']}
 
         with open(f'/content/drive/MyDrive/TUE-WINTER-2024/CHALLENGES-CL/output_list-06-01-2025.pkl', 'wb') as f:
             pickle.dump(output_list, f)
+
+        with open(f'/content/drive/MyDrive/TUE-WINTER-2024/CHALLENGES-CL/output_list-{idx}-06-01-2025.pkl', 'wb') as f:
+            pickle.dump(output_list, f)
+
     return output_list
 
 
