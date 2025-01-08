@@ -19,6 +19,7 @@ import numpy as np
 import json
 import logging
 import argparse
+import ast
  
 logging.basicConfig(level=logging.INFO)
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
@@ -142,24 +143,65 @@ def compare(value, truth):
     """
     return str(value).strip() == str(truth).strip()
 
+def extract_functions_and_imports(code):
+    """
+    Extract all import statements and function definitions from the code.
+    Returns a tuple:
+    - List of import statements as strings.
+    - Dictionary of function names and their evaluable strings.
+    """
+    # Parse the code into an AST
+    parsed_code = ast.parse(code)
+
+    # List to store import statements
+    imports = []
+
+    # Dictionary to store function names and their strings
+    functions_map = {}
+
+    for node in parsed_code.body:
+        # Check for import statements
+        if isinstance(node, ast.Import):
+            imports.append(ast.unparse(node))
+        elif isinstance(node, ast.ImportFrom):
+            imports.append(ast.unparse(node))
+        # Check for function definitions
+        elif isinstance(node, ast.FunctionDef):
+            function_name = node.name
+            function_source = ast.unparse(node)
+            functions_map[function_name] = function_source
+
+    return imports, functions_map
+
+def code_from_imports_function_map(imports, response_function_map, custom_answer=None):
+  answer = response_function_map['answer'] if custom_answer is None else custom_answer
+  preamble_template="\n".join(imports)
+  code_to_run=preamble_template+"\n"+response_function_map['dummy_data']+"\n"+answer+"\n"+response_function_map['test_answer']+"\n"
+  return code_to_run
 
 def run_tests_for_answer(question_idx, sentence, model="Qwen/Qwen2.5-Coder-32B-Instruct", random_seed=42, test_root=DEFAULT_TESTROOT):
     """
     Runs a specific test case based on test_case files.
     """
+    imports, function_map = extract_functions_and_imports(sentence)
+
     test_file = f"{test_root}/dev/{model}/test_case_{question_idx}.py"
     if not os.path.exists(test_file):
-        print(f"Test file not found: test_case_{question_idx}.py for {model}")
+        print(f"Not found test_case_{question_idx}.py for {model}")
         return False
-
+    test_file_str = ""
     with open(test_file) as file:
-        test_file_str = file.read()
+        test_file_str = file.read()  # Read the content of the test file
+
+    test_imports, test_function_map = extract_functions_and_imports(test_file_str)
+    # Combine imports, dummy_data, answer, and test_answer functions
+    code_to_run = code_from_imports_function_map(imports + test_imports, test_function_map, custom_answer=function_map["answer"])
+    # Execute the code and check for errors
     try:
-        exec(test_file_str, globals())  
-        test_answer(random_seed)  
+        exec(code_to_run, globals())  # Execute in the current scope
+        test_answer(random_seed)  # Call the test_answer function
         return True
     except Exception as e:
-        print(f"Error during test execution: {e}")
         return False
 
 def error_detecting_reward_fn(question_idx, backing_df, test_root=DEFAULT_TESTROOT):
@@ -267,6 +309,8 @@ def run_pipeline_on_qa_single(idx, qa_item, dataset_map,test_root=DEFAULT_TESTRO
             pickle.dump(result, f)
         return result
     except Exception as e:
+        with open(f'{output_dir}/err-parallel-output_list-{idx}-06-01-2025.log', 'wb') as f:
+            f.write(f"Error: {e}")
         print(e)
         return None
 
@@ -311,7 +355,7 @@ if __name__ == "__main__":
     semeval_dev_qa = load_dataset("cardiffnlp/databench", name="semeval", split="dev")
     dataset_map = fetch_all_dataframes(semeval_dev_qa)
 
-    # python run_with_test_cases_parallel.py --output-dir "/content/drive/MyDrive/TUE-WINTER-2024/CHALLENGES-CL/" --test-root "/content/drive/MyDrive/TUE-WINTER-2024/CHALLENGES-CL/test_cases" --horizon 512 --num_threads 2 --start-idx 0 --end-idx 300 
+    # python run_with_test_cases_parallel.py --output-dir "../output" --test-root "../output/test_cases" --horizon 512 --num_threads 5 --start-idx 0 --end-idx 300 
     run_pipeline_on_qa_parallel(semeval_dev_qa, dataset_map, 
                                                     test_root=args.test_root, 
                                                     output_dir=args.output_dir, 
