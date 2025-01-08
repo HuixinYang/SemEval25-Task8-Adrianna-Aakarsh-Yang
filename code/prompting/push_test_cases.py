@@ -17,7 +17,9 @@ def find_test_cases(root_dir, split):
     for root, dirs, files in os.walk(root_dir):
         for file in files:
             if file.endswith(".py"):
-                model = "/".join(os.path.dirname(file))[-2:]
+                model = "/".join(root.split("/")[-2:])
+                print(f"{os.path.dirname(file)} file:{file}, root:{root}")
+                print(f"found model: {model}")
                 test_cases.append({
                     'id': file.replace(".py", ""),
                     'path': os.path.join(root, file),
