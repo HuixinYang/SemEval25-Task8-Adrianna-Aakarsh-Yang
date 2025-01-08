@@ -23,6 +23,8 @@ import json
 
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
+DEFAULT_TESTROOT="/content/drive/MyDrive/TUE-WINTER-2024/CHALLENGES-CL/test_cases"
+
 # Maximum number of steps / Tokens to generate in each episode
 horizon = 512  
 
@@ -157,11 +159,11 @@ def compare(value, truth):
     return str(value).strip() == str(truth).strip()
 
 
-def run_tests_for_answer(question_idx, sentence, model="Qwen/Qwen2.5-Coder-32B-Instruct", random_seed=42):
+def run_tests_for_answer(question_idx, sentence, model="Qwen/Qwen2.5-Coder-32B-Instruct", random_seed=42, test_root=DEFAULT_TESTROOT):
     """
     Runs a specific test case based on test_case files.
     """
-    test_file = f"/content/drive/MyDrive/TUE-WINTER-2024/CHALLENGES-CL/test_cases/dev/{model}/test_case_{question_idx}.py"
+    test_file = f"{test_root}/dev/{model}/test_case_{question_idx}.py"
     if not os.path.exists(test_file):
         print(f"Test file not found: test_case_{question_idx}.py for {model}")
         return False
@@ -178,7 +180,7 @@ def run_tests_for_answer(question_idx, sentence, model="Qwen/Qwen2.5-Coder-32B-I
         return False
 
 
-def error_detecting_reward_fn(question_idx, backing_df):
+def error_detecting_reward_fn(question_idx, backing_df, test_root=DEFAULT_TESTROOT):
     def error_check(sentence):
         """
         Assign a reward based on the correctness of generated code.
@@ -191,7 +193,11 @@ def error_detecting_reward_fn(question_idx, backing_df):
                 try:
                     seed = np.random.randint(10000)
                     dummy_test_result = run_tests_for_answer(
-                        question_idx, sentence, model=model, random_seed=seed
+                        question_idx, 
+                        sentence, 
+                        model=model, 
+                        random_seed=seed,
+                        test_root=test_root
                     )
                     if dummy_test_result:
                         pass_count += 1
@@ -236,12 +242,12 @@ def fetch_all_dataframes(dataset):
   return retval
 
 
-def run_pipeline_on_qa_parallel(qa, dataset_map):
+def run_pipeline_on_qa_parallel(qa, dataset_map, test_root=DEFAULT_TESTROOT):
     output_list = {}
     horizon = 512
     with ThreadPoolExecutor(max_workers=2) as executor:  # Adjust max_workers based on your CPU capacity
         futures = {
-            executor.submit(run_pipeline_on_qa_single, idx, qa[idx], dataset_map): idx
+            executor.submit(run_pipeline_on_qa_single, idx, qa[idx], dataset_map, test_root=test_root): idx
             for idx in range(len(qa))
         }
 
@@ -255,7 +261,7 @@ def run_pipeline_on_qa_parallel(qa, dataset_map):
 
     return output_list
 
-def run_pipeline_on_qa_single(idx, qa_item, dataset_map):
+def run_pipeline_on_qa_single(idx, qa_item, dataset_map,test_root=DEFAULT_TESTROOT):
     if os.path.exists(f'/content/drive/MyDrive/TUE-WINTER-2024/CHALLENGES-CL/parallel-output_list-{idx}-06-01-2025.pkl'):
         print('SKIPPING')
         return None
@@ -268,7 +274,7 @@ def run_pipeline_on_qa_single(idx, qa_item, dataset_map):
             model=model,
             tokenizer=tokenizer,
             horizon=horizon,
-            reward_func=error_detecting_reward_fn(idx, backing_df),
+            reward_func=error_detecting_reward_fn(idx, backing_df, test_root=test_root),
             uct_args=uct_args,
             model_generation_args=model_generation_args,
             should_plot_tree=False,
@@ -289,5 +295,5 @@ semeval_dev_qa = load_dataset("cardiffnlp/databench", name="semeval", split="dev
 dataset_map = fetch_all_dataframes(semeval_dev_qa)
 # run_pipeline_on_qa(semeval_dev_qa, dataset_map)
 
-run_pipeline_on_qa_parallel(semeval_dev_qa, dataset_map)
+run_pipeline_on_qa_parallel(semeval_dev_qa, dataset_map, test_root=DEFAULT_TESTROOT)
 
