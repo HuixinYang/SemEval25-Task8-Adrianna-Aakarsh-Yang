@@ -20,4 +20,3 @@ export PYTHONPATH=$PYTHONPATH:/home/tu/tu_tu/tu_zxoxo45/challenges-cl/SemEval25-
 
 # Run the Python script with Hugging Face datasets
 python ../runners/run_with_test_cases_parallel.py
-
