@@ -4,7 +4,7 @@ import pickle
 import os
 import numpy as np
 import pandas as pd
-from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
+from transformers import AutoTokenizer, AutoModelForCausalLM
 import transformers
 from dyna_gym.pipelines import uct_for_hf_transformer_pipeline
 from transformers import AutoModelForCausalLM, AutoTokenizer, AutoModel
@@ -20,33 +20,15 @@ from databench_eval import Runner, Evaluator, utils
 import os
 import numpy as np
 import json
+import logging
 
+logging.basicConfig(level=logging.INFO)
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
 DEFAULT_TESTROOT="/content/drive/MyDrive/TUE-WINTER-2024/CHALLENGES-CL/test_cases"
 
 # Maximum number of steps / Tokens to generate in each episode
 horizon = 512  
-
-# Configure 8-bit quantization
-quantization_config = BitsAndBytesConfig(
-    load_in_8bit=True,  
-    device_map="auto",  
-    trust_remote_code=True,  
-    torch_dtype=torch.float16,  
-)
-
-# Load the tokenizer and model with quantization
-tokenizer = AutoTokenizer.from_pretrained("codellama/CodeLlama-7b-Python-hf")
-model = AutoModelForCausalLM.from_pretrained(
-    "codellama/CodeLlama-7b-Python-hf",
-    quantization_config=quantization_config,
-    device_map="auto",
-    trust_remote_code=True,
-    torch_dtype=torch.float16,
-)
-
-vocab_size = tokenizer.vocab_size
 
 
 def call_model(prompts, max_new_tokens=2500):
@@ -289,6 +271,44 @@ def run_pipeline_on_qa_single(idx, qa_item, dataset_map,test_root=DEFAULT_TESTRO
     except Exception as e:
         print(e)
         return None
+
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+# check cuda avialble
+print(torch.cuda.is_available())
+def model_and_tokenzier():
+    if torch.cuda.is_available():
+        from transformers import  BitsAndBytesConfig
+
+        # Configure 8-bit quantization
+        quantization_config = BitsAndBytesConfig(
+            load_in_8bit=True,  
+            device_map="auto",  
+            trust_remote_code=True,  
+            torch_dtype=torch.float16,  
+        )
+        logging.info("Quantization config: %s", quantization_config)
+        print("Quantization Config: %s", quantization_config)
+
+        # Load the tokenizer and model with quantization
+        tokenizer = AutoTokenizer.from_pretrained("codellama/CodeLlama-7b-Python-hf")
+        model = AutoModelForCausalLM.from_pretrained(
+            "codellama/CodeLlama-7b-Python-hf",
+            quantization_config=quantization_config,
+            device_map="auto",
+            trust_remote_code=True,
+            torch_dtype=torch.float16,
+        )
+    else:
+        tokenizer = AutoTokenizer.from_pretrained("codellama/CodeLlama-7b-Python-hf")
+        model = AutoModelForCausalLM.from_pretrained("codellama/CodeLlama-7b-Python-hf")
+    return model, tokenizer
+
+model, tokenizer = model_and_tokenzier()
+vocab_size = tokenizer.vocab_size
+
+logging.info("Torch version: %s", torch.__version__)
+logging.info("Transformers version: %s", transformers.__version__)
+
 
 # Example usage:
 semeval_dev_qa = load_dataset("cardiffnlp/databench", name="semeval", split="dev")
