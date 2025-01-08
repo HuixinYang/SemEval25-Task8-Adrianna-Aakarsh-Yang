@@ -29,10 +29,11 @@ DEFAULT_OUTPUTDIR=f"/content/drive/MyDrive/TUE-WINTER-2024/CHALLENGES-CL/"
 DEFAULT_TESTROOT=f"{DEFAULT_OUTPUTDIR}/test_cases"
 
 DEFAULT_NUM_THREADS=2
-START_IDX = 0
-END_IDX = 10
+START_IDX =None 
+END_IDX = None
 # maximum number of steps / tokens to generate in each episode
-DEFAULT_HORIZON = 512  
+DEFAULT_HORIZON = 128  
+DEFAULT_ROLLOUTS = 100
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Run QA pipeline in parallel")
@@ -42,6 +43,7 @@ def parse_arguments():
     parser.add_argument('--num_threads', type=int, default=DEFAULT_NUM_THREADS, help='Number of parallel threads')
     parser.add_argument('--start-idx', type=int, default=START_IDX, help='Start Index')
     parser.add_argument('--end-idx', type=int, default=END_IDX, help='End Index')
+    parser.add_argument('--rollouts', type=int, default=DEFAULT_ROLLOUTS, help='Number of rollouts')
     return parser.parse_args()
 
 def call_model(prompts, max_new_tokens=2500):
@@ -245,8 +247,6 @@ def error_detecting_reward_fn(question_idx, backing_df, test_root=DEFAULT_TESTRO
             return 0.1
     return error_check
 
-# UCT Agent Arguments
-uct_args = dict(rollouts=10, gamma=0.99, width=5, alg='p_uct')
 
 # Hugging Face Model Generation Arguments
 model_generation_args = dict(top_k=3,
@@ -263,6 +263,7 @@ def run_pipeline_on_qa_parallel(qa, dataset_map,
                                                 test_root=DEFAULT_TESTROOT, 
                                                 output_dir=None,
                                                 horizon=512, 
+                                                rollouts=100,
                                                 num_threads=2, 
                                                 start_idx=None, 
                                                 end_idx=None):
@@ -277,7 +278,7 @@ def run_pipeline_on_qa_parallel(qa, dataset_map,
     with ThreadPoolExecutor(max_workers=num_threads) as executor:  # Adjust max_workers based on your CPU capacity
         futures = {
             executor.submit(run_pipeline_on_qa_single, idx, qa[idx], dataset_map, 
-                            test_root=test_root, output_dir=output_dir, horizon=horizon): idx
+                            test_root=test_root, output_dir=output_dir, horizon=horizon, rollouts=rollouts): idx
             for idx in process_indices 
         }
 
@@ -291,7 +292,10 @@ def run_pipeline_on_qa_parallel(qa, dataset_map,
                 print(f"Error processing QA {idx}: {e}")
     return output_list
 
-def run_pipeline_on_qa_single(idx, qa_item, dataset_map,test_root=DEFAULT_TESTROOT, output_dir=DEFAULT_OUTPUTDIR, horizon=512):
+def run_pipeline_on_qa_single(idx, qa_item, dataset_map,
+                              test_root=DEFAULT_TESTROOT, 
+                              output_dir=DEFAULT_OUTPUTDIR, horizon=512
+                              , rollouts=100):
     if os.path.exists(f'{output_dir}/parallel-output_list-{idx}-06-01-2025.pkl'):
         print('SKIPPING')
         return None
@@ -305,7 +309,7 @@ def run_pipeline_on_qa_single(idx, qa_item, dataset_map,test_root=DEFAULT_TESTRO
             tokenizer=tokenizer,
             horizon=horizon,
             reward_func=error_detecting_reward_fn(idx, backing_df, test_root=test_root),
-            uct_args=uct_args,
+            uct_args=dict(rollouts=rollouts, gamma=0.99, width=5, alg='p_uct'),
             model_generation_args=model_generation_args,
             should_plot_tree=False,
         )
@@ -369,5 +373,6 @@ if __name__ == "__main__":
                                                     output_dir=args.output_dir, 
                                                     num_threads=args.num_threads, 
                                                     horizon=args.horizon,
+                                                    rollouts=args.rollouts,
                                                     start_idx=args.start_idx, 
                                                     end_idx=args.end_idx)
