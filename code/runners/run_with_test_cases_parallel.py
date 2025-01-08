@@ -198,32 +198,29 @@ def error_detecting_reward_fn(question_idx, backing_df, test_root=DEFAULT_TESTRO
     return error_check
 
 # UCT Agent Arguments
-uct_args = dict(
-    rollouts=10,
-    gamma=0.99,
-    width=5,
-    alg='p_uct',  
-)
+uct_args = dict(rollouts=10, gamma=0.99, width=5, alg='p_uct')
 
 # Hugging Face Model Generation Arguments
-model_generation_args = dict(
-    top_k=3,
+model_generation_args = dict(top_k=3,
     top_p=0.9,
     do_sample=True,
-    temperature=0.2,
-)
-
+    temperature=0.2)
 
 def fetch_all_dataframes(dataset):
   dataset_ids  = set(map(lambda qa: qa['dataset'],  dataset))
   retval = { ds_id: get_dataframe_by_id(ds_id) for ds_id in dataset_ids }
   return retval
 
-
 def run_pipeline_on_qa_parallel(qa, dataset_map, 
-                                test_root=DEFAULT_TESTROOT, 
-                                output_dir=None,
-                                horizon=512, num_threads=2, start_idx=0, end_idx=10):
+                                                test_root=DEFAULT_TESTROOT, 
+                                                output_dir=None,
+                                                horizon=512, 
+                                                num_threads=2, 
+                                                start_idx=None, 
+                                                end_idx=None):
+    start_idx = start_idx if start_idx is not None else 0
+    end_idx = end_idx if end_idx is not None else len(qa)
+
     if (start_idx < 0 or start_idx >= len(qa)) or (end_idx< 0 or end_idx >= len(qa)):
         print(f"Invalid start_idx or end_idx: {start_idx}, {end_idx}")
         return
