@@ -4,14 +4,11 @@ import pickle
 import os
 import numpy as np
 import pandas as pd
-from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
+from transformers import AutoTokenizer, AutoModelForCausalLM
 import transformers
 from dyna_gym.pipelines import uct_for_hf_transformer_pipeline
 from transformers import AutoModelForCausalLM, AutoTokenizer, AutoModel
 import pandas as pd
-import subprocess
-import shlex
-import zipfile
 import torch
 from databench_eval import Runner, Evaluator, utils
 from datasets import load_dataset
@@ -20,34 +17,30 @@ from databench_eval import Runner, Evaluator, utils
 import os
 import numpy as np
 import json
-
+import logging
+import argparse
+ 
+logging.basicConfig(level=logging.INFO)
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
-DEFAULT_TESTROOT="/content/drive/MyDrive/TUE-WINTER-2024/CHALLENGES-CL/test_cases"
+DEFAULT_OUTPUTDIR=f"/content/drive/MyDrive/TUE-WINTER-2024/CHALLENGES-CL/"
+DEFAULT_TESTROOT=f"{DEFAULT_OUTPUTDIR}/test_cases"
 
-# Maximum number of steps / Tokens to generate in each episode
-horizon = 512  
+DEFAULT_NUM_THREADS=2
+START_IDX = 0
+END_IDX = 10
+# maximum number of steps / tokens to generate in each episode
+DEFAULT_HORIZON = 512  
 
-# Configure 8-bit quantization
-quantization_config = BitsAndBytesConfig(
-    load_in_8bit=True,  
-    device_map="auto",  
-    trust_remote_code=True,  
-    torch_dtype=torch.float16,  
-)
-
-# Load the tokenizer and model with quantization
-tokenizer = AutoTokenizer.from_pretrained("codellama/CodeLlama-7b-Python-hf")
-model = AutoModelForCausalLM.from_pretrained(
-    "codellama/CodeLlama-7b-Python-hf",
-    quantization_config=quantization_config,
-    device_map="auto",
-    trust_remote_code=True,
-    torch_dtype=torch.float16,
-)
-
-vocab_size = tokenizer.vocab_size
-
+def parse_arguments():
+    parser = argparse.ArgumentParser(description="Run QA pipeline in parallel")
+    parser.add_argument('--output-dir', type=str, default=DEFAULT_OUTPUTDIR, help='Output directory')
+    parser.add_argument('--test-root', type=str, default=DEFAULT_TESTROOT, help='Root directory for test cases')
+    parser.add_argument('--horizon', type=int, default=DEFAULT_HORIZON, help='Horizon')
+    parser.add_argument('--num_threads', type=int, default=DEFAULT_NUM_THREADS, help='Number of parallel threads')
+    parser.add_argument('--start-idx', type=int, default=START_IDX, help='Start Index')
+    parser.add_argument('--end-idx', type=int, default=END_IDX, help='End Index')
+    return parser.parse_args()
 
 def call_model(prompts, max_new_tokens=2500):
     """
@@ -79,15 +72,6 @@ def generate_dataframe_schma_json(df):
 def generate_dataframe_description_json(df):
   description = df.describe().to_json(orient='index', indent=4)
   return description
-
-def generate_dataframe_categorical_cols_json(df):
-    categorical_data = {}
-    for col_name in df.columns:
-        if df[col_name].dtype == 'category' and len(df_all[col_name].unique()) < 300 and  len(df_all[col_name].unique()) > 0 :
-            categorical_data[col_name] = df_all[col_name].unique().tolist()
-
-    json_data = json.dumps(categorical_data, indent=4)
-    return json_data
 
 def generate_random_sample_of_n_rows_json(df, n=10):
     return df.sample(n=n).to_json(orient='records', indent=4)
@@ -170,7 +154,6 @@ def run_tests_for_answer(question_idx, sentence, model="Qwen/Qwen2.5-Coder-32B-I
 
     with open(test_file) as file:
         test_file_str = file.read()
-
     try:
         exec(test_file_str, globals())  
         test_answer(random_seed)  
@@ -178,7 +161,6 @@ def run_tests_for_answer(question_idx, sentence, model="Qwen/Qwen2.5-Coder-32B-I
     except Exception as e:
         print(f"Error during test execution: {e}")
         return False
-
 
 def error_detecting_reward_fn(question_idx, backing_df, test_root=DEFAULT_TESTROOT):
     def error_check(sentence):
@@ -215,7 +197,6 @@ def error_detecting_reward_fn(question_idx, backing_df, test_root=DEFAULT_TESTRO
             return 0.1
     return error_check
 
-
 # UCT Agent Arguments
 uct_args = dict(
     rollouts=10,
@@ -233,22 +214,26 @@ model_generation_args = dict(
 )
 
 
-# Example usage:
-# run_pipeline_on_qa(qa)
-
 def fetch_all_dataframes(dataset):
   dataset_ids  = set(map(lambda qa: qa['dataset'],  dataset))
   retval = { ds_id: get_dataframe_by_id(ds_id) for ds_id in dataset_ids }
   return retval
 
 
-def run_pipeline_on_qa_parallel(qa, dataset_map, test_root=DEFAULT_TESTROOT):
+def run_pipeline_on_qa_parallel(qa, dataset_map, 
+                                test_root=DEFAULT_TESTROOT, 
+                                output_dir=None,
+                                horizon=512, num_threads=2, start_idx=0, end_idx=10):
+    if (start_idx < 0 or start_idx >= len(qa)) or (end_idx< 0 or end_idx >= len(qa)):
+        print(f"Invalid start_idx or end_idx: {start_idx}, {end_idx}")
+        return
     output_list = {}
-    horizon = 512
-    with ThreadPoolExecutor(max_workers=2) as executor:  # Adjust max_workers based on your CPU capacity
+    process_indices = range(start_idx, end_idx)  
+    with ThreadPoolExecutor(max_workers=num_threads) as executor:  # Adjust max_workers based on your CPU capacity
         futures = {
-            executor.submit(run_pipeline_on_qa_single, idx, qa[idx], dataset_map, test_root=test_root): idx
-            for idx in range(len(qa))
+            executor.submit(run_pipeline_on_qa_single, idx, qa[idx], dataset_map, 
+                            test_root=test_root, output_dir=output_dir, horizon=horizon): idx
+            for idx in process_indices 
         }
 
         for future in as_completed(futures):
@@ -258,11 +243,10 @@ def run_pipeline_on_qa_parallel(qa, dataset_map, test_root=DEFAULT_TESTROOT):
                 output_list[idx] = result
             except Exception as e:
                 print(f"Error processing QA {idx}: {e}")
-
     return output_list
 
-def run_pipeline_on_qa_single(idx, qa_item, dataset_map,test_root=DEFAULT_TESTROOT):
-    if os.path.exists(f'/content/drive/MyDrive/TUE-WINTER-2024/CHALLENGES-CL/parallel-output_list-{idx}-06-01-2025.pkl'):
+def run_pipeline_on_qa_single(idx, qa_item, dataset_map,test_root=DEFAULT_TESTROOT, output_dir=DEFAULT_OUTPUTDIR, horizon=512):
+    if os.path.exists(f'{output_dir}/parallel-output_list-{idx}-06-01-2025.pkl'):
         print('SKIPPING')
         return None
 
@@ -282,18 +266,59 @@ def run_pipeline_on_qa_single(idx, qa_item, dataset_map,test_root=DEFAULT_TESTRO
         outputs = pipeline(input_str=prompt)
         result = {'texts': outputs['texts'], 'rewards': outputs['rewards'] }
 
-        with open(f'/content/drive/MyDrive/TUE-WINTER-2024/CHALLENGES-CL/parallel-output_list-{idx}-06-01-2025.pkl', 'wb') as f:
+        with open(f'{output_dir}/parallel-output_list-{idx}-06-01-2025.pkl', 'wb') as f:
             pickle.dump(result, f)
-
         return result
     except Exception as e:
         print(e)
         return None
 
-# Example usage:
-semeval_dev_qa = load_dataset("cardiffnlp/databench", name="semeval", split="dev")
-dataset_map = fetch_all_dataframes(semeval_dev_qa)
-# run_pipeline_on_qa(semeval_dev_qa, dataset_map)
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+def model_and_tokenzier():
+    if torch.cuda.is_available():
+        from transformers import  BitsAndBytesConfig
 
-run_pipeline_on_qa_parallel(semeval_dev_qa, dataset_map, test_root=DEFAULT_TESTROOT)
+        # Configure 8-bit quantization
+        quantization_config = BitsAndBytesConfig(
+            load_in_8bit=True,  
+            device_map="auto",  
+            trust_remote_code=True,  
+            torch_dtype=torch.float16,  
+        )
+        logging.info("Quantization config: %s", quantization_config)
+        print("Quantization Config: %s", quantization_config)
 
+        # Load the tokenizer and model with quantization
+        tokenizer = AutoTokenizer.from_pretrained("codellama/CodeLlama-7b-Python-hf")
+        model = AutoModelForCausalLM.from_pretrained(
+            "codellama/CodeLlama-7b-Python-hf",
+            quantization_config=quantization_config,
+            device_map="auto",
+            trust_remote_code=True,
+            torch_dtype=torch.float16,
+        )
+    else:
+        tokenizer = AutoTokenizer.from_pretrained("codellama/CodeLlama-7b-Python-hf")
+        model = AutoModelForCausalLM.from_pretrained("codellama/CodeLlama-7b-Python-hf")
+    return model, tokenizer
+
+model, tokenizer = model_and_tokenzier()
+vocab_size = tokenizer.vocab_size
+
+logging.info("Torch version: %s", torch.__version__)
+logging.info("Transformers version: %s", transformers.__version__)
+
+
+if __name__ == "__main__":
+    args = parse_arguments()
+    semeval_dev_qa = load_dataset("cardiffnlp/databench", name="semeval", split="dev")
+    dataset_map = fetch_all_dataframes(semeval_dev_qa)
+
+    # python run_with_test_cases_parallel.py --output-dir "/content/drive/MyDrive/TUE-WINTER-2024/CHALLENGES-CL/" --test-root "/content/drive/MyDrive/TUE-WINTER-2024/CHALLENGES-CL/test_cases" --horizon 512 --num_threads 2 --start-idx 0 --end-idx 300 
+    run_pipeline_on_qa_parallel(semeval_dev_qa, dataset_map, 
+                                                    test_root=args.test_root, 
+                                                    output_dir=args.output_dir, 
+                                                    num_threads=args.num_threads, 
+                                                    horizon=args.horizon,
+                                                    start_idx=args.start_idx, 
+                                                    end_idx=args.end_idx)
