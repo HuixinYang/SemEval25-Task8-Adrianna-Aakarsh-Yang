@@ -355,19 +355,19 @@ def model_and_tokenzier():
         model = AutoModelForCausalLM.from_pretrained("codellama/CodeLlama-7b-Python-hf")
     return model, tokenizer
 
-model, tokenizer = model_and_tokenzier()
-vocab_size = tokenizer.vocab_size
-
-logging.info("Torch version: %s", torch.__version__)
-logging.info("Transformers version: %s", transformers.__version__)
-
 
 if __name__ == "__main__":
     args = parse_arguments()
     semeval_dev_qa = load_dataset("cardiffnlp/databench", name="semeval", split="dev")
     dataset_map = fetch_all_dataframes(semeval_dev_qa)
+    model, tokenizer = model_and_tokenzier()
+    vocab_size = tokenizer.vocab_size
 
-    # python run_with_test_cases_parallel.py --output-dir "../output" --test-root "../output/test_cases" --horizon 128 --num_threads 5 --start-idx 0 --end-idx 300 
+    logging.info("Torch version: %s", torch.__version__)
+    logging.info("Transformers version: %s", transformers.__version__)
+
+
+    # python run_with_test_cases_parallel.py --output-dir "../output" --test-root "../output/test_cases" --horizon 128 --num_threads 5 --start-idx 0 --rollouts 100 
     run_pipeline_on_qa_parallel(semeval_dev_qa, dataset_map, 
                                                     test_root=args.test_root, 
                                                     output_dir=args.output_dir, 
