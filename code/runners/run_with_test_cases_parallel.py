@@ -20,6 +20,7 @@ import json
 import logging
 import argparse
 import ast
+import traceback
  
 logging.basicConfig(level=logging.INFO)
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
@@ -134,7 +135,9 @@ def answer(df):
         )
         return ans.split("\n")[0] if "\n" in str(ans) else ans
     except Exception as e:
+        traceback.print_exc()
         return f"__CODE_ERROR__: {e}"
+    
 
 
 def compare(value, truth):
@@ -183,6 +186,7 @@ def run_tests_for_answer(question_idx, sentence, model="Qwen/Qwen2.5-Coder-32B-I
     """
     Runs a specific test case based on test_case files.
     """
+    print(f"Running test for question {question_idx} with model {model} on sentence: {sentence}")
     imports, function_map = extract_functions_and_imports(sentence)
 
     test_file = f"{test_root}/dev/{model}/test_case_{question_idx}.py"
@@ -202,6 +206,7 @@ def run_tests_for_answer(question_idx, sentence, model="Qwen/Qwen2.5-Coder-32B-I
         test_answer(random_seed)  # Call the test_answer function
         return True
     except Exception as e:
+        traceback.print_exc()
         return False
 
 def error_detecting_reward_fn(question_idx, backing_df, test_root=DEFAULT_TESTROOT):
@@ -226,6 +231,7 @@ def error_detecting_reward_fn(question_idx, backing_df, test_root=DEFAULT_TESTRO
                     if dummy_test_result:
                         pass_count += 1
                 except Exception as e:
+                    traceback.print_exc()
                     print(f"Runtime error: {e}")
 
         result = post_process(sentence, backing_df)
@@ -281,6 +287,7 @@ def run_pipeline_on_qa_parallel(qa, dataset_map,
                 result = future.result()
                 output_list[idx] = result
             except Exception as e:
+                traceback.print_exc()
                 print(f"Error processing QA {idx}: {e}")
     return output_list
 
@@ -309,8 +316,9 @@ def run_pipeline_on_qa_single(idx, qa_item, dataset_map,test_root=DEFAULT_TESTRO
             pickle.dump(result, f)
         return result
     except Exception as e:
-        with open(f'{output_dir}/err-parallel-output_list-{idx}-06-01-2025.log', 'wb') as f:
+        with open(f'{output_dir}/err-parallel-output_list-{idx}-06-01-2025.log', 'w') as f:
             f.write(f"Error: {e}")
+        traceback.print_exc()
         print(e)
         return None
 
@@ -333,7 +341,7 @@ def model_and_tokenzier():
         tokenizer = AutoTokenizer.from_pretrained("codellama/CodeLlama-7b-Python-hf")
         model = AutoModelForCausalLM.from_pretrained(
             "codellama/CodeLlama-7b-Python-hf",
-            quantization_config=quantization_config,
+            #quantization_config=quantization_config,
             device_map="auto",
             trust_remote_code=True,
             torch_dtype=torch.float16,
@@ -355,7 +363,7 @@ if __name__ == "__main__":
     semeval_dev_qa = load_dataset("cardiffnlp/databench", name="semeval", split="dev")
     dataset_map = fetch_all_dataframes(semeval_dev_qa)
 
-    # python run_with_test_cases_parallel.py --output-dir "../output" --test-root "../output/test_cases" --horizon 512 --num_threads 5 --start-idx 0 --end-idx 300 
+    # python run_with_test_cases_parallel.py --output-dir "../output" --test-root "../output/test_cases" --horizon 128 --num_threads 5 --start-idx 0 --end-idx 300 
     run_pipeline_on_qa_parallel(semeval_dev_qa, dataset_map, 
                                                     test_root=args.test_root, 
                                                     output_dir=args.output_dir, 
