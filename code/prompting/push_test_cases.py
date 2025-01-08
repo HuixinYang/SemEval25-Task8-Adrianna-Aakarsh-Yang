@@ -21,7 +21,7 @@ def find_test_cases(root_dir, split):
                 print(f"{os.path.dirname(file)} file:{file}, root:{root}")
                 print(f"found model: {model}")
                 test_cases.append({
-                    'id': file.replace(".py", ""),
+                    'id': file.replace(".py", "").replace("test_case_",""),
                     'path': os.path.join(root, file),
                     'split': split,
                     'model': model 
