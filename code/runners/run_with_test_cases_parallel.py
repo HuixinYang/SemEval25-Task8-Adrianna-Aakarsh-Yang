@@ -32,7 +32,7 @@ DEFAULT_NUM_THREADS=2
 START_IDX =None 
 END_IDX = None
 # maximum number of steps / tokens to generate in each episode
-DEFAULT_HORIZON = 128  
+DEFAULT_HORIZON = 64  
 DEFAULT_ROLLOUTS = 100
 
 def parse_arguments():
@@ -184,12 +184,20 @@ def code_from_imports_function_map(imports, response_function_map, custom_answer
   code_to_run=preamble_template+"\n"+response_function_map['dummy_data']+"\n"+answer+"\n"+response_function_map['test_answer']+"\n"
   return code_to_run
 
-def run_tests_for_answer(question_idx, sentence, model="Qwen/Qwen2.5-Coder-32B-Instruct", random_seed=42, test_root=DEFAULT_TESTROOT):
+def run_tests_for_answer(question_idx, sentence, prompt, model="Qwen/Qwen2.5-Coder-32B-Instruct", random_seed=42, test_root=DEFAULT_TESTROOT):
     """
     Runs a specific test case based on test_case files.
     """
     print(f"Running test for question {question_idx} with model {model} on sentence: {sentence}")
-    imports, function_map = extract_functions_and_imports(sentence)
+    completion = sentence[len(prompt):]
+    return_statement = completion.split("\n")[0]
+    print("Extracted return statement:", return_statement)
+    method_template =f"""
+def answer(df: pd.DataFrame):
+    return {return_statement[0]}
+"""
+    print("Method template:\n", method_template)
+    imports, function_map = extract_functions_and_imports(method_template)
 
     test_file = f"{test_root}/dev/{model}/test_case_{question_idx}.py"
     if not os.path.exists(test_file):
@@ -211,7 +219,7 @@ def run_tests_for_answer(question_idx, sentence, model="Qwen/Qwen2.5-Coder-32B-I
         traceback.print_exc()
         return False
 
-def error_detecting_reward_fn(question_idx, backing_df, test_root=DEFAULT_TESTROOT):
+def error_detecting_reward_fn(question_idx, backing_df, prompt, test_root=DEFAULT_TESTROOT):
     def error_check(sentence):
         """
         Assign a reward based on the correctness of generated code.
@@ -225,7 +233,8 @@ def error_detecting_reward_fn(question_idx, backing_df, test_root=DEFAULT_TESTRO
                     seed = np.random.randint(10000)
                     dummy_test_result = run_tests_for_answer(
                         question_idx, 
-                        sentence, 
+                        sentence,
+                        prompt,
                         model=model, 
                         random_seed=seed,
                         test_root=test_root
@@ -262,7 +271,7 @@ def fetch_all_dataframes(dataset):
 def run_pipeline_on_qa_parallel(qa, dataset_map, 
                                                 test_root=DEFAULT_TESTROOT, 
                                                 output_dir=None,
-                                                horizon=512, 
+                                                horizon=DEFAULT_HORIZON, 
                                                 rollouts=100,
                                                 num_threads=2, 
                                                 start_idx=None, 
@@ -294,7 +303,7 @@ def run_pipeline_on_qa_parallel(qa, dataset_map,
 
 def run_pipeline_on_qa_single(idx, qa_item, dataset_map,
                               test_root=DEFAULT_TESTROOT, 
-                              output_dir=DEFAULT_OUTPUTDIR, horizon=512
+                              output_dir=DEFAULT_OUTPUTDIR, horizon=DEFAULT_HORIZON
                               , rollouts=100):
     if os.path.exists(f'{output_dir}/parallel-output_list-{idx}-06-01-2025.pkl'):
         print('SKIPPING')
@@ -308,7 +317,7 @@ def run_pipeline_on_qa_single(idx, qa_item, dataset_map,
             model=model,
             tokenizer=tokenizer,
             horizon=horizon,
-            reward_func=error_detecting_reward_fn(idx, backing_df, test_root=test_root),
+            reward_func=error_detecting_reward_fn(idx, backing_df, prompt, test_root=test_root),
             uct_args=dict(rollouts=rollouts, gamma=0.99, width=5, alg='p_uct'),
             model_generation_args=model_generation_args,
             should_plot_tree=False,
@@ -367,7 +376,7 @@ if __name__ == "__main__":
     logging.info("Transformers version: %s", transformers.__version__)
 
 
-    # python run_with_test_cases_parallel.py --output-dir "../output" --test-root "../output/test_cases" --horizon 128 --num_threads 5 --start-idx 0 --rollouts 100 
+    # python run_with_test_cases_parallel.py --output-dir "../output" --test-root "../output/test_cases" --horizon 64 --num_threads 5 --start-idx 0 --end-idx 319--rollouts 20 
     run_pipeline_on_qa_parallel(semeval_dev_qa, dataset_map, 
                                                     test_root=args.test_root, 
                                                     output_dir=args.output_dir, 
