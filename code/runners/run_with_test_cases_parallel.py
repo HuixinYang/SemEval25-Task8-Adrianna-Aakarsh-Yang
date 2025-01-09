@@ -194,7 +194,7 @@ def run_tests_for_answer(question_idx, sentence, prompt, model="Qwen/Qwen2.5-Cod
     print("Extracted return statement:", return_statement)
     method_template =f"""
 def answer(df: pd.DataFrame):
-    return {return_statement[0]}
+    return {return_statement}
 """
     print("Method template:\n", method_template)
     imports, function_map = extract_functions_and_imports(method_template)
