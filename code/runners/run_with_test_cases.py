@@ -173,7 +173,7 @@ def run_tests_for_answer(question_idx, sentence, model="Qwen/Qwen2.5-Coder-32B-I
         test_answer(random_seed)  
         return True
     except Exception as e:
-        print(f"Error during test execution: {e}")
+        print(f"Error during test execution: {e} for {sentence}")
         return False
 
 

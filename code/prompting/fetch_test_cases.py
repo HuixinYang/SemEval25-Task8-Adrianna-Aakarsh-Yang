@@ -1,7 +1,8 @@
 import os
-from pathlib import Path
-from datasets import load_dataset
 import argparse
+from pathlib import Path
+
+from datasets import load_dataset
 
 def download(output_root, split="dev"):
     # Loading the dataset
@@ -9,8 +10,10 @@ def download(output_root, split="dev"):
 
     # Loop through each test case
     for idx, test_case in enumerate(test_cases):
+
         model = test_case['model']
         test_case_id = test_case['id']  
+
         # Create output directory using the model name
         output_dir = os.path.join(output_root, "test_cases", split, *model.split("/"))
         
