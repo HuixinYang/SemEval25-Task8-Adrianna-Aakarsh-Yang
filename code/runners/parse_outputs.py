@@ -158,10 +158,7 @@ def make_dataset(results, output_file=None, save_to_disk=False, prompt_directory
     })
     
     dataset = None 
-    if False:
-        if save_to_disk:
-            dataset = Dataset.from_dict(results)
-            dataset.save_to_disk(output_file)
+    
     return dataset
     
     
