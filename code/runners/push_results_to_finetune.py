@@ -134,7 +134,10 @@ def make_dataset(results,
         "dataset": Value("string"),
         "prompt": Value("string"),
         "completion": Value("string"),
-        "reward": Value("float")
+        "reward": Value("float"),
+        "answer": Value("string"), 
+        "type": Value("string"), 
+        "sample_answer":Value("string")
     })
     
     def fine_tune_generator(results, split, prompt_db=None, semeval_db=None):
@@ -144,6 +147,9 @@ def make_dataset(results,
                     "semeval_id": problem_index,
                     "split": split,
                     "question": semeval_db[problem_index]['question'] if semeval_db else None, # TODO: Lookup problem in split dataset by problem-id.
+                    "answer": semeval_db[problem_index]['answer'] if semeval_db else None, # TODO: Lookup problem in split dataset by problem-id.
+                    "sample_answer": semeval_db[problem_index]['sample_answer'] if semeval_db else None, # TODO: Lookup problem in split dataset by problem-id.
+                    "type": semeval_db[problem_index]['type'] if semeval_db else None, # TODO: Lookup problem in split dataset by problem-id.
                     "dataset": semeval_db[problem_index]['dataset'] if semeval_db else None,   # TODO: Lookup dataset by problem-id.
                     "prompt": prompt_db[problem_index]['content'] if  prompt_db else None,  # TODO: Lookup prompt by problem-id.
                     "completion": solution['code'],
