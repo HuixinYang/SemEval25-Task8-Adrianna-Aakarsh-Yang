@@ -115,7 +115,11 @@ def write_to_json(results, output_file):
     with open(output_file, 'w') as f:
         json.dump(results, f, indent=2)
 
-def make_dataset(results, output_file=None, save_to_disk=False, prompt_directory=None):
+def make_dataset(results, 
+                    prompt_map=None, 
+                    semeval_map=None , 
+                    dataset_name=None, 
+                    save_to_disk=False):
     """
     Make a Hugging Face dataset from the results and write it to a file.
     
@@ -123,9 +127,8 @@ def make_dataset(results, output_file=None, save_to_disk=False, prompt_directory
         results (dict): The results to write.
         output_file (str): The path to the output file.
     """
-
     features = Features({
-        "id": Value("string"),
+        "semeval_id": Value("string"),
         "split": Value("string"),
         "question": Value("string"),
         "dataset": Value("string"),
@@ -134,46 +137,67 @@ def make_dataset(results, output_file=None, save_to_disk=False, prompt_directory
         "reward": Value("float")
     })
     
-    def fine_tune_generator(results, split, prompt_db=None):
+    def fine_tune_generator(results, split, prompt_db=None, semeval_db=None):
         for problem_index, solutions in results.items():
             for solution in solutions:
                 yield {
-                    "id": problem_index,
+                    "semeval_id": problem_index,
                     "split": split,
-                    "question": None,         # TODO: Lookup problem in split dataset by problem-id.
-                    "dataset": None,          # TODO: Lookup dataset by problem-id.
-                    "prompt": prompt_db[problem_index]['content'] if not prompt_db else None,           # TODO: Lookup prompt by problem-id.
-                    "code": solution['code'],
+                    "question": semeval_db[problem_index]['question'] if semeval_db else None, # TODO: Lookup problem in split dataset by problem-id.
+                    "dataset": semeval_db[problem_index]['dataset'] if semeval_db else None,   # TODO: Lookup dataset by problem-id.
+                    "prompt": prompt_db[problem_index]['content'] if  prompt_db else None,  # TODO: Lookup prompt by problem-id.
+                    "completion": solution['code'],
                     "reward": solution['reward']
                 }
-
+    
+    # Create a DatasetDict with streaming datasets
+    dataset  = DatasetDict({
+        split: Dataset.from_generator(lambda s=split: 
+            fine_tune_generator(results,s, prompt_db=prompt_map[s], semeval_db=semeval_map[s]), features=features)
+        for split in ['dev']
+    })
+   
+    if save_to_disk:
+        dataset.save_to_disk(dataset_name)
+        logging.debug(f"Dataset successfully saved to {dataset_name}")
+        
+    return dataset
+    
+def load_prompts():
     prompt_map = {
         'dev': load_dataset("aakarsh-nair/semeval-2025-task-8-prompts", split="dev"),
         'train': load_dataset("aakarsh-nair/semeval-2025-task-8-prompts", split="train")
     }
-    
-    # Create a DatasetDict with streaming datasets
-    dataset_dict = DatasetDict({
-        split: Dataset.from_generator(lambda s=split: fine_tune_generator(results,s, prompt_map[s]), features=features)
-        for split in ['dev']
-    })
-    
-    dataset = None 
-    
-    return dataset
-    
-    
+    return prompt_map 
+
+def load_sem_eval_dataset():
+    # What about QA split ?
+    return_map = {
+        'dev': load_dataset("cardiffnlp/databench", name="semeval", split="dev"),
+        'train': load_dataset("cardiffnlp/databench", name="semeval", split="train")
+    }
+    return return_map
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("directory", help="The directory containing the output files.")
-    parser.add_argument("output", help="The path to the output file.")
-    parser.add_argument("split",default='dev', help="The split of the dataset.")
+    parser.add_argument("--split",default='dev', help="The split of the dataset.")
+    parser.add_argument("--push-to-hub", action="store_true", help="Push the dataset to Hugging Face Hub.")
+    parser.add_argument("--repo-name", type=str, help="Hugging Face Hub repository name.")
 
     args = parser.parse_args()
     
     logging.debug(f"Directory: {args.directory}")
     results = collect_all_results(args.directory, args.split)
-    write_to_json(results, args.output)
+   
+    finetune_dataset = make_dataset(results, prompt_map=load_prompts(), 
+                          semeval_map=load_sem_eval_dataset(), 
+                          dataset_name=args.repo_name, 
+                          save_to_disk=True) 
+
+    # write_to_json(results, args.output)
+    if args.push_to_hub:
+        finetune_dataset.push_to_hub(args.repo_name)
 
 if __name__ == "__main__":
     main()
