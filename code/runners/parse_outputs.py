@@ -123,6 +123,7 @@ def make_dataset(results, output_file=None, save_to_disk=False, prompt_directory
         results (dict): The results to write.
         output_file (str): The path to the output file.
     """
+
     features = Features({
         "id": Value("string"),
         "split": Value("string"),
@@ -141,7 +142,7 @@ def make_dataset(results, output_file=None, save_to_disk=False, prompt_directory
                     "split": split,
                     "question": None,         # TODO: Lookup problem in split dataset by problem-id.
                     "dataset": None,          # TODO: Lookup dataset by problem-id.
-                    "prompt": prompt_db[problem_index] if not prompt_db else None,           # TODO: Lookup prompt by problem-id.
+                    "prompt": prompt_db[problem_index]['content'] if not prompt_db else None,           # TODO: Lookup prompt by problem-id.
                     "code": solution['code'],
                     "reward": solution['reward']
                 }
