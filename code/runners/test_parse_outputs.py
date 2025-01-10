@@ -15,18 +15,16 @@ def test_find_all_output_files():
     
 def test_make_dataset():
     results = {
-        '1': {
+        '1': [{
             'code': 'return 1',
-            id: 1,
             'reward': 1,
             'split': 'dev'
-        },
-        '2': {
+        }],
+        '2': [{
             'code': 'return 2',
-            id: 2,
             'reward': 2,
             'split': 'dev'
-        },
+        }],
     }
    
     # output_file = "../output/parallel-output_list-32-06-01-2025.pkl" 

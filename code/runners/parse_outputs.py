@@ -2,6 +2,8 @@ import argparse
 import os
 import re
 import logging
+import json
+import pickle
 
 from datasets import Dataset
 from datasets import Dataset, DatasetDict, Features, Value
@@ -29,7 +31,6 @@ def parse_return_statement(code_string):
         return None
     
 def read_pickle_output(result_file, idx=None, split='dev'):
-    import pickle
     output = None
     with open(result_file, 'rb') as f:
         output =  pickle.load(f)
@@ -111,11 +112,10 @@ def write_to_json(results, output_file):
         results (dict): The results to write.
         output_file (str): The path to the output file.
     """
-    import json
     with open(output_file, 'w') as f:
         json.dump(results, f, indent=2)
 
-def make_dataset(results, output_file = None, save_to_disk=False, prompt_directory=None):
+def make_dataset(results, output_file=None, save_to_disk=False, prompt_directory=None):
     """
     Make a Hugging Face dataset from the results and write it to a file.
     
@@ -132,40 +132,36 @@ def make_dataset(results, output_file = None, save_to_disk=False, prompt_directo
         "completion": Value("string"),
         "reward": Value("float")
     })
-    """
-    for problem_index, solutions in results.items():
-        for solution in solutions:
-            yield {
-                "id": problem_index,
-                "split": solution['split'],
-                "question": problem_index,
-                "dataset": 'codeforces',
-                "prompt": 'Complete the function',
-                "completion": solution['code'],
-                "reward": solution['reward']
-            } 
-            solution['question'] = problem_index
-            solution['dataset'] = 'codeforces'
-            solution['prompt'] = 'Complete the function'
-    """ 
     
-    split_dict = {
-        'train': [],
-        'dev': [],
-        'test': []
-    }        
+    def fine_tune_generator(results, split, prompt_db=None):
+        for problem_index, solutions in results.items():
+            for solution in solutions:
+                yield {
+                    "id": problem_index,
+                    "split": split,
+                    "question": None,         # TODO: Lookup problem in split dataset by problem-id.
+                    "dataset": None,          # TODO: Lookup dataset by problem-id.
+                    "prompt": prompt_db[problem_index] if not prompt_db else None,           # TODO: Lookup prompt by problem-id.
+                    "code": solution['code'],
+                    "reward": solution['reward']
+                }
 
-    # create a DatasetDict with streaming datasets
+    prompt_map = {
+        'dev': load_dataset("aakarsh-nair/semeval-2025-task-8-prompts", split="dev"),
+        'train': load_dataset("aakarsh-nair/semeval-2025-task-8-prompts", split="train")
+    }
+    
+    # Create a DatasetDict with streaming datasets
     dataset_dict = DatasetDict({
-        split: Dataset.from_generator(lambda s=split: test_case_generator(split_dict[s]), features=features)
-        for split in split_dict
+        split: Dataset.from_generator(lambda s=split: fine_tune_generator(results,s, prompt_map[s]), features=features)
+        for split in ['dev']
     })
- 
     
-    #dataset = Dataset.from_dict(results)
-    
-    if save_to_disk:
-        dataset.save_to_disk(output_file)
+    dataset = None 
+    if False:
+        if save_to_disk:
+            dataset = Dataset.from_dict(results)
+            dataset.save_to_disk(output_file)
     return dataset
     
     
@@ -180,7 +176,6 @@ def main():
     logging.debug(f"Directory: {args.directory}")
     results = collect_all_results(args.directory, args.split)
     write_to_json(results, args.output)
-
 
 if __name__ == "__main__":
     main()
