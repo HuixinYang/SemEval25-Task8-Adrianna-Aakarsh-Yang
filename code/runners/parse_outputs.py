@@ -3,6 +3,10 @@ import os
 import re
 import logging
 
+from datasets import Dataset
+from datasets import Dataset, DatasetDict, Features, Value
+from datasets import load_dataset
+
 logging.basicConfig(level=logging.DEBUG)
 
 def parse_return_statement(code_string):
@@ -24,7 +28,7 @@ def parse_return_statement(code_string):
     else:
         return None
     
-def read_pickle_output(result_file):
+def read_pickle_output(result_file, idx=None, split='dev'):
     import pickle
     output = None
     with open(result_file, 'rb') as f:
@@ -36,9 +40,13 @@ def read_pickle_output(result_file):
     solution_map = []
     for code, reward in zip(codes, rewards):
         return_completion = parse_return_statement(code)
-        logging.debug(f"code: [{return_completion}], Reward: {reward}") 
-        solution_map.append({ 'code': return_completion, 'reward': reward }) 
-
+        logging.debug(f"code: [{return_completion}], reward: {reward}") 
+        solution_map.append({ 
+                             'code': return_completion, 
+                             'id': idx,
+                             'reward': reward, 
+                             'split': split 
+        }) 
     return solution_map
 
 def find_all_output_files(directory):
@@ -78,7 +86,7 @@ def parse_problem_index(file_path):
     else:
         return None
     
-def collect_all_results(directory):
+def collect_all_results(directory, split='dev'):
     """
     Collect all the results from the output files in the given directory.
     
@@ -92,7 +100,7 @@ def collect_all_results(directory):
     output_files = find_all_output_files(directory)
     for file_path in output_files:
         problem_index = parse_problem_index(file_path)
-        results[problem_index] = read_pickle_output(file_path)
+        results[problem_index] = read_pickle_output(file_path, problem_index, split)
     return results
 
 def write_to_json(results, output_file):
@@ -106,14 +114,71 @@ def write_to_json(results, output_file):
     import json
     with open(output_file, 'w') as f:
         json.dump(results, f, indent=2)
-        
+
+def make_dataset(results, output_file = None, save_to_disk=False, prompt_directory=None):
+    """
+    Make a Hugging Face dataset from the results and write it to a file.
+    
+    Args:
+        results (dict): The results to write.
+        output_file (str): The path to the output file.
+    """
+    features = Features({
+        "id": Value("string"),
+        "split": Value("string"),
+        "question": Value("string"),
+        "dataset": Value("string"),
+        "prompt": Value("string"),
+        "completion": Value("string"),
+        "reward": Value("float")
+    })
+    """
+    for problem_index, solutions in results.items():
+        for solution in solutions:
+            yield {
+                "id": problem_index,
+                "split": solution['split'],
+                "question": problem_index,
+                "dataset": 'codeforces',
+                "prompt": 'Complete the function',
+                "completion": solution['code'],
+                "reward": solution['reward']
+            } 
+            solution['question'] = problem_index
+            solution['dataset'] = 'codeforces'
+            solution['prompt'] = 'Complete the function'
+    """ 
+    
+    split_dict = {
+        'train': [],
+        'dev': [],
+        'test': []
+    }        
+
+    # create a DatasetDict with streaming datasets
+    dataset_dict = DatasetDict({
+        split: Dataset.from_generator(lambda s=split: test_case_generator(split_dict[s]), features=features)
+        for split in split_dict
+    })
+ 
+    
+    #dataset = Dataset.from_dict(results)
+    
+    if save_to_disk:
+        dataset.save_to_disk(output_file)
+    return dataset
+    
+    
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("directory", help="The directory containing the output files.")
     parser.add_argument("output", help="The path to the output file.")
+    parser.add_argument("split",default='dev', help="The split of the dataset.")
+
     args = parser.parse_args()
+    
     logging.debug(f"Directory: {args.directory}")
-    results = collect_all_results(args.directory)
+    results = collect_all_results(args.directory, args.split)
     write_to_json(results, args.output)
 
 
