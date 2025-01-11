@@ -1,0 +1,523 @@
+question,dataset
+Is our average employee older than 35?,066_IBM_HR
+Is the most frequent travel value rarely traveling?,066_IBM_HR
+Is the highest DailyRate equal to 1499?,066_IBM_HR
+Is the highest DailyRate negative?,066_IBM_HR
+Is our research dept bigger than sales?,066_IBM_HR
+Is the highest rating given to any performance to 4?,066_IBM_HR
+Are there more employees who travel frequently than those who work in the HR department?,066_IBM_HR
+Is the average MonthlyIncome of employees affected by attrition less than those not affected?,066_IBM_HR
+Is the standard number of working hours the same across all employees?,066_IBM_HR
+What is the most common role?,066_IBM_HR
+Which department has the highest average YearsAtCompany?,066_IBM_HR
+What is the least common marital status?,066_IBM_HR
+What is the most frequent field of education for our employees?,066_IBM_HR
+Which travel category has the highest average income?,066_IBM_HR
+ Which gender is most satisfied with the job on average?,066_IBM_HR
+What is the most common score given work and life balance?,066_IBM_HR
+Which EducationField do we employ the least?,066_IBM_HR
+What is the average age of our employees?,066_IBM_HR
+What is the total number of different job roles offered by IBM?,066_IBM_HR
+What is the maximum years someone has been at IBM?,066_IBM_HR
+What is the median monthly income of our employees?,066_IBM_HR
+What is the sum of the miles employees have to travel to get to work?,066_IBM_HR
+What is the average number of total working years for employees who are working in sales?,066_IBM_HR
+How many employees rate their satisfaction with their environment with a score of 4?,066_IBM_HR
+What is the range (max - min) of YearsSinceLastPromotion?,066_IBM_HR
+What is the longest time someone has been without a promotion?,066_IBM_HR
+List the unique different grades received by anyone for their performance.,066_IBM_HR
+List the amounts of the lowest 5 monthly incomes.,066_IBM_HR
+List all the different education levels of our employees can be classified into.,066_IBM_HR
+"List the top 5 highest PercentSalaryHike values. The answer is a list with five values, even if they are repeated.",066_IBM_HR
+List the 5 most common ages of our employees.,066_IBM_HR
+List the top 3 most common job roles our company has.,066_IBM_HR
+List the 2 departments that employ the most people.,066_IBM_HR
+List the different marital status values in our database.,066_IBM_HR
+List all the different (unique) values we use to classify the field of education of our employees.,066_IBM_HR
+List the top 5 BusinessTravel categories.,066_IBM_HR
+List all the unique possible values overtime can take.,066_IBM_HR
+List the 4 most common JobLevels.,066_IBM_HR
+List the 3 most common JobLevels.,066_IBM_HR
+Does the dataset contain any review that more than forty users have labeled as helpful?,067_TripAdvisor
+Are all the reviews sources (phone or not phone) non-null?,067_TripAdvisor
+Is 1 the least frequent overall rating given in a review?,067_TripAdvisor
+How many reviews give ratings related to the location?,067_TripAdvisor
+Is there more overall ratings given than ratings related to the location?,067_TripAdvisor
+Is there any review written in 2024?,067_TripAdvisor
+Are all of our reviews labelled helpful by someone?,067_TripAdvisor
+Are there more reviews marked as being made from a phone than not?,067_TripAdvisor
+Is the maximum number of helpful votes found in only one review?,067_TripAdvisor
+Is the best possible review for room ratings found in more than fifteen reviews?,067_TripAdvisor
+Which year had the highest number of reviews made?,067_TripAdvisor
+What is the average rating given to rooms?,067_TripAdvisor
+What (non-null) room rating is most common?,067_TripAdvisor
+Which value is most frequent for num_helpful_votes`?,067_TripAdvisor
+Who is the author of 'value with a view'?,067_TripAdvisor
+What is the average review length (in characters) without taking the title into account?,067_TripAdvisor
+What is the total number of reviews?,067_TripAdvisor
+What is the highest number of users that has labeled a single review as helpful?,067_TripAdvisor
+What is the average number of helpful votes?,067_TripAdvisor
+What is the length of the longest text of a review (in chars)?,067_TripAdvisor
+What is the year of the first review made?,067_TripAdvisor
+How many reviews did family fun guru write?,067_TripAdvisor
+What is the sum of all helpful votes for these reviews?,067_TripAdvisor
+List the top 4 years according to the number of reviews.,067_TripAdvisor
+List the 5 (non-unique) highest values of `num_helpful_votes`.,067_TripAdvisor
+List the usernames of the authors who provided a username and wrote more than 3 reviews. If there are none answer with an empty list.,067_TripAdvisor
+List the usernames of the authors who provided a username and wrote more than 4 reviews. If there are none answer with an empty list.,067_TripAdvisor
+List the 5 largest non-unique (they can be repeated) offering IDs.,067_TripAdvisor
+List the 4 most common years a guest stayed at a property.,067_TripAdvisor
+Does any entry in the dataset have a supplier contract greater than one million dollars?,068_WorldBank_Awards
+Is there any region which was awarded only one contract?,068_WorldBank_Awards
+Is India amongst the borrower countries?,068_WorldBank_Awards
+Is India the borrower country with the most contracts awarded?,068_WorldBank_Awards
+Is there any project where the review is made before its execution?,068_WorldBank_Awards
+Is there any project where the review is made after its execution?,068_WorldBank_Awards
+Is any supplier from the US?,068_WorldBank_Awards
+What is the most frequent method of procurement for a given contract?,068_WorldBank_Awards
+Which region has the most contracts?,068_WorldBank_Awards
+What is the longest name amongst the countries which have borrowed money? ,068_WorldBank_Awards
+What is the procurement category associated with the largest contract?,068_WorldBank_Awards
+Which region has the largest contracts on average?,068_WorldBank_Awards
+Who is the most frequent country of borrowers present in the dataset?,068_WorldBank_Awards
+Which global project practice would appear first if we sorted the columnn from A to Z?,068_WorldBank_Awards
+How big is the biggest contract in the dataset? Answer in USD.,068_WorldBank_Awards
+How many different fiscal years the contracts belong to?,068_WorldBank_Awards
+What is the total number of procurements in the dataset?,068_WorldBank_Awards
+How big is the average procurement across all entries?,068_WorldBank_Awards
+"Assuming supplier IDs are assigned from lowest to highest, what is the ID of the oldest supplier present in the dataset?",068_WorldBank_Awards
+What is the standard deviation of the contracts awarded?,068_WorldBank_Awards
+What is the total number of supplier contracts in the 2024 fiscal year?,068_WorldBank_Awards
+List the 3 quantities of usd associated with the top 3 biggest contracts.,068_WorldBank_Awards
+Are there contracts awarded after the 2020 fiscal year had ended?,068_WorldBank_Awards
+"Assuming new suppliers get the last assigned id + 1, what are the unique IDs of the earliest 5 different suppliers we have in the dataset?",068_WorldBank_Awards
+What are the 3 fiscal years that had the most procurements?,068_WorldBank_Awards
+For each of the first three fiscal years present in this dataset list the total amount of dollars awarded.,068_WorldBank_Awards
+"List the amounts awarded to the 2 contracts that are strictly over 100k dollars but closest to 100,000USD.",068_WorldBank_Awards
+ How much were the 4 largest contracts in central and west africa awarded for? Answer with a list with one amount per contract,068_WorldBank_Awards
+List the 5 countries which most frequently borrow money through a procurement.,068_WorldBank_Awards
+List the 4 regions the countries most frequently belong to.,068_WorldBank_Awards
+List the 4 most frequent methods of procurement.,068_WorldBank_Awards
+What are the first 4 (row-wise) distinct 'Supplier Countries' we can find in the dataset?,068_WorldBank_Awards
+List the unique review methods for contracts awarded above five hundred thousand dollars,068_WorldBank_Awards
+List the unique review methods for contracts awarded more than 500000USD,068_WorldBank_Awards
+Is there a first tier category with a name related to attractions?,069_Taxonomy
+Are there more than five first tier categories?,069_Taxonomy
+Is any entry in the third tier a (direct or otherwise) descendant of 150?,069_Taxonomy
+Are all rows named?,069_Taxonomy
+Are there any fourth level entities in the taxonomy?,069_Taxonomy
+Are there more entities with a valid parent ID than third tier entities?,069_Taxonomy
+Does the dataset contain exactly 703 entries?,069_Taxonomy
+Do all entities have a valid unique value associated?,069_Taxonomy
+Which first tier category name has the most descendants? (direct or otherwise),069_Taxonomy
+What is most common category name among the first level categories?,069_Taxonomy
+Which first tier category has the second largest amount of descendants (direct or otherwise)?,069_Taxonomy
+What is the second most popular category name among the first level categories?,069_Taxonomy
+What is the most common unique parent ID found in the dataset?,069_Taxonomy
+What is the non-null third level value in the dataset that appears first?,069_Taxonomy
+What is the name of the direct ascendant of the bars and restaurants entity?,069_Taxonomy
+How many elements are there in our taxonomy?,069_Taxonomy
+How many elements in the taxonomy do not have a parent id associated?,069_Taxonomy
+What is the total number of unique non-null Parent values?,069_Taxonomy
+How many entries belong to the third or fourth tiers?,069_Taxonomy
+How many unique entries exist in the first level of our taxonomy?,069_Taxonomy
+How many rows contain null values in Tier 2?,069_Taxonomy
+How many Parent IDs appear exactly once?,069_Taxonomy
+Are all names unique?,069_Taxonomy
+What is the number of unique names?,069_Taxonomy
+List the 3 Parent values associated the 3 highest number of descendants (direct or otherwise).,069_Taxonomy
+List the entry counts for the attractions and automotive entities.,069_Taxonomy
+List the number of children for the categories of commercial trucks and convertibles. Answer with a two element list.,069_Taxonomy
+List counts of non-null values for each Tier column.,069_Taxonomy
+List the first (by number of appearance) 3 different values in the highest tier of the dataset. If there are less than 3 list as many as there are.,069_Taxonomy
+List the first (by row number) 2 different level 1 values found in the dataset. If there are less than 2 list as many as there are.,069_Taxonomy
+List the first (by number of appearance) 4 different second highest level values.,069_Taxonomy
+List all (unique) highest tier values present in the first 4 rows.,069_Taxonomy
+List the 4 first tier values present in the first 4 rows.,069_Taxonomy
+List the first 4 different non-null parent values found in the dataset. If there are less than 4 list as many as there are.,069_Taxonomy
+List the first 3 different non-null parent values found in the dataset. If there are less than 3 list as many as there are.,069_Taxonomy
+Is there any vegan product in our dataset?,070_OpenFoodFacts
+Did Eduardo create upload any products to the database?,070_OpenFoodFacts
+Is the product with code 00001522 apt for vegans?,070_OpenFoodFacts
+Is any product palm oil free?,070_OpenFoodFacts
+Are there any products belonging to the category 'Plant-based foods and beverages'?,070_OpenFoodFacts
+Are all products created by the openfoodfacts contributors labeled as vegan?,070_OpenFoodFacts
+ Are more than a 1000 products sold in Mercadona stores?,070_OpenFoodFacts
+Are there products from the 'Hacendado' brand in more than one country?,070_OpenFoodFacts
+What is the most frequent brand name? Answer with a single category.,070_OpenFoodFacts
+Which country has the most products listed? Answer with a single category.,070_OpenFoodFacts
+What is the single label associated with the most products? Answer with a single category.,070_OpenFoodFacts
+How many products are labeled as 'Vegan'?,070_OpenFoodFacts
+Which store has the most products listed?,070_OpenFoodFacts
+Which creator has contributed the most to the database?,070_OpenFoodFacts
+How many products belong to the 'Hacendado' brand?,070_OpenFoodFacts
+How many unique countries exist in the dataset?,070_OpenFoodFacts
+How many products have no labels?,070_OpenFoodFacts
+How many products are associated with the 'Mercadona' type of store?,070_OpenFoodFacts
+What is the total number of products in the dataset that have a non-empty product name?,070_OpenFoodFacts
+What is the total number of products in the dataset that have a unique product code?,070_OpenFoodFacts
+How many products are listed under 'Plant-based foods and beverages'?,070_OpenFoodFacts
+ List the product codes associated with the Seitan category,070_OpenFoodFacts
+ List the product names associated with the Seitan category,070_OpenFoodFacts
+List the two most frequent labels in the dataset,070_OpenFoodFacts
+" ""List the five most frequent labels in the dataset. If there are less than five list as many as there are.""",070_OpenFoodFacts
+ List the two most frequent store names in the dataset,070_OpenFoodFacts
+ List the two number of stores for the two most frequent store names in the dataset,070_OpenFoodFacts
+ List the 3 most frequent countries in the dataset,070_OpenFoodFacts
+ List the 3 number of products present for the 3 most frequent countries in the dataset,070_OpenFoodFacts
+Is Switzerland the country with the highest Cost of Living Index?,071_COL
+Is the Bahamas ranked second in the dataset?,071_COL
+Is there any country with a Rent Index above 65?,071_COL
+Does Iceland have more purchasing power than a country that has a 100 in that index?,071_COL
+Is Barbados considered overall more expensive than the country ranked in the 10th place?,071_COL
+Does the dataset include at least 120 countries?,071_COL
+"If I am from Iceland and I move to Singapore, would I expect my rent to be more expensive according to the index?",071_COL
+Is Switzerland considered to be the most expensive country regardless if I rent or own my home?,071_COL
+Which country ranks the most expensive in terms of overall cost of living?,071_COL
+In which country would it be cheaper to buy groceries?,071_COL
+"If I have to rent but I want to move to the cheapest country to live in, where should I move to?",071_COL
+In which country would it be most expensive to eat in a restaurant?,071_COL
+Which country has the second-highest world rent?,071_COL
+Which country is the second most expensive destination to move to considering I am not a home owner in the country?,071_COL
+Which country has a Groceries Index closest to 80?,071_COL
+What is the Cost of Living Index assigned to the most expensive country to live in?,071_COL
+What is the Rent Index of the top-ranked country?,071_COL
+What is the total number of countries in the dataset?,071_COL
+What is the average Groceries Index across all countries?,071_COL
+What is the difference between the highest and lowest Restaurant Price Index?,071_COL
+"If I'm moving to Singapore and I have to rent there, what would my associated index for cost of living be?",071_COL
+What is the mean Local Purchasing Power Index of the top 10 countries by rank?,071_COL
+What is Iceland's rank?,071_COL
+List the Rent Index values of the top 5 overall most expensive countries excluding rent.,071_COL
+List the Cost of Living Index values of the 5 countries that are ranked the cheapest.,071_COL
+List the Local Purchasing Power Index values of countries ranked 1st to 5th.,071_COL
+List the 3 associated index values for the countries where groceries are most expensive.,071_COL
+List the index given to restaurant prices for the top 5 overall most expensive countries for home owners.,071_COL
+List the 5 lowest indices for cost of life for a person who have to rent.,071_COL
+List the 5 Local Purchasing Power Index values closest to 100.,071_COL
+List the names of the top 5 ranked countries.,071_COL
+List the 3 countries where I would pay the most for groceries.,071_COL
+List the 3 countries where it's cheapest to rent.,071_COL
+List the countries ranked 10th to 15th.,071_COL
+List the top 5 countries by Local Purchasing Power Index.,071_COL
+List the 3 countries where restaurants are the cheapest.,071_COL
+Is there any applicant who got a grade better than 330 in their graduate record examination?,072_Admissions
+Is there any applicant who got a score worse than 100 in their English test?,072_Admissions
+Is the best CGPA greater than 9.5?,072_Admissions
+Did any applicant with a perfect university rating score get a grade below 320 in their graduate record examination?,072_Admissions
+Is there an applicant with a chance above 95 per cent of getting into the university they applied to?,072_Admissions
+Is the lowest score assigned to a student's stated purpose for admission worse than 2?,072_Admissions
+Are there any applicants who don't have any research experience previous to their application?,072_Admissions
+Is the average English score better than 105?,072_Admissions
+What is the rating given by the college they applied to to the applicant with the highest CGPA?,072_Admissions
+What is the university rating of the applicant with the lowest GRE score?,072_Admissions
+Which score given to the stated purpose of admission of the student is most common among applications?,072_Admissions
+What is the score for the recommendation letters presented by the student with the lowest English score?,072_Admissions
+What is the university rating of the applicant who is less likely to be admitted?,072_Admissions
+Which rating given to the stated purpose of students is associated with the highest accumulated grade point average?,072_Admissions
+Which rating number is most commonly given by universities?,072_Admissions
+Do most students have some research experience prior to the application?,072_Admissions
+What is the highest graduate record score in the dataset?,072_Admissions
+What is the average English score of applicants who have at least some research experience?,072_Admissions
+What is the total number of applicants with a university rating of 3?,072_Admissions
+What is the maximum grade point average among applicants without research experience?,072_Admissions
+What is the minimum score of letters presented among applicants who have over an eighty per cent chance of admission?,072_Admissions
+What is the standard deviation of CGPA scores?,072_Admissions
+What is the sum of English test scores for applicants with an stated purpose better than 4?,072_Admissions
+How many applicants have a graduate record score between 300 and 310 (including both)?,072_Admissions
+List the 5 highest graduate record scores in the dataset.,072_Admissions
+How many people in the dataset got a perfect English score?,072_Admissions
+How many applicants got a perfect score in their statement of purpose?,072_Admissions
+List the top 5 English scores in the dataset.,072_Admissions
+List the 5 lowest grade point average scores in the dataset.,072_Admissions
+List the top 5 stated purpose scores in the dataset.,072_Admissions
+List the top 5 scores assigned to endorsement letters in the dataset.,072_Admissions
+List the top 5 English scores of applicants who have experience as researchers.,072_Admissions
+List the best 2 graduate record scores of applicants whose stated motivation to enter got a rating better than 4.,072_Admissions
+List the 2 worst grade point average scores of applicants who received the second worst possible rating from their university.,072_Admissions
+List the university ratings associated with the top 5 CGPA scores.,072_Admissions
+List the university ratings of the lowest 5 grade point average scores.,072_Admissions
+List the scores given to the stated motivations of the 4 applicants who have the best shot at getting into the university they applied to.,072_Admissions
+List the SOP ratings of applicants with the top 5 English scores.,072_Admissions
+List the LOR ratings of applicants with the lowest 5 gpa scores.,072_Admissions
+Is there any individual in the dataset with a body mass index greater than 50?,073_Med_Cost
+Is it true that the number of regions represented are more than 3?,073_Med_Cost
+Is it true that there are no centenarians in this dataset? ,073_Med_Cost
+Is the average BMI found in this dataset considered not to be obese?,073_Med_Cost
+Are there any childless individuals?,073_Med_Cost
+Does the dataset contain people who do not consume tobacco?,073_Med_Cost
+Is there anyone that is a northeastern?,073_Med_Cost
+Would an individual with the median BMI of the dataset considered to be underweight?,073_Med_Cost
+"Is the maximum medical charge in the dataset greater than $60,000?",073_Med_Cost
+What is the location most represented in this dataset?,073_Med_Cost
+Which gender has the highest number of individuals?,073_Med_Cost
+What is the smoking status of the individual who paid the most money?,073_Med_Cost
+What is the region the youngest teenager comes from?,073_Med_Cost
+What is the gender of the person with the highest body mass index?,073_Med_Cost
+Is being childless the most common state for people in the dataset? True,073_Med_Cost
+What is the most frequent number of children?,073_Med_Cost
+What region is represented least in the dataset?,073_Med_Cost
+What is the smoking status of the individual with the lowest BMI?,073_Med_Cost
+What is the maximum BMI in the dataset?,073_Med_Cost
+What is the average number of children?,073_Med_Cost
+How many unique regions are in the dataset?,073_Med_Cost
+What is the sum of all medically related charges in the dataset?,073_Med_Cost
+How old is the youngest teenager in the dataset?,073_Med_Cost
+How many people in the dataset have lived for more than six decades?,073_Med_Cost
+How many people could be considered smokers?,073_Med_Cost
+What is the median BMI in the dataset?,073_Med_Cost
+List the 2 highest BMIs in the dataset for people who can be considered to suffer from Class III Obesity.,073_Med_Cost
+List the charges of individuals with the 3 highest BMIs.,073_Med_Cost
+List the ages of individuals with the 5 lowest charges.,073_Med_Cost
+List the ages of the 3 youngest teenagers.,073_Med_Cost
+List the unique different smoking statuses found among individuals over 60 years of age.,073_Med_Cost
+List the regions of individuals with the 3 highest BMIs.,073_Med_Cost
+Is there a lifter older than 50?,074_Lift
+Does the dataset contain squatting lifts?,074_Lift
+Is the biggest lift performed greater than 880 pounds?,074_Lift
+Is the minimum lifted less than 330 pounds?,074_Lift
+Are there more than 100 lifters in the weight class someone that weights 82kg would compete in?,074_Lift
+Is the average age of all lifting records in the '105 kg' weight class above 40?,074_Lift
+Is the average age of all lifting records in the weight class of someone who weights 103000 grams above 40?,074_Lift
+Does 'Jessica Wilson' appear in the dataset?,074_Lift
+Are there fewer than 5 unique types of exercise recorded?,074_Lift
+Which weight class has the best average lifted weight?,074_Lift
+What is the most common 'Weight Class'?,074_Lift
+Which type of exercise has the best average lift?,074_Lift
+What is the current record in kilograms for maximum weight ever lifted'?,074_Lift
+How many different athletes are there in the dataset?,074_Lift
+How many different men can we find in this dataset?,074_Lift
+How many different women are there in the dataset?,074_Lift
+What's the highest record set by men in the bench press category?,074_Lift
+What's the best record set by women in the bench press category?,074_Lift
+Who is the woman with the best lifting record?,074_Lift
+What is the total sum of the amounts lifted in a bench press exercise?,074_Lift
+What is the least amount of kilos lifted in the weight class that someone who is 55kg would participate in?,074_Lift
+What is the difference betweent the highest amount lifted and the lowest?,074_Lift
+How many lifters are in the weight class that people who weight 139 pounds would enter?,074_Lift
+What are the highest 3 amounts ever lifted by anyone?,074_Lift
+List the 5 smallest amounts ever lifted by anyone.,074_Lift
+What are the top 5 total lifts by 'Weight Class'?,074_Lift
+What are the 3 largest age gaps present between lifts for each weight class?,074_Lift
+List the 2 worst lifts in the '105 kg' weight class.,074_Lift
+List the top 3 amounts lifted while squatting.,074_Lift
+List the 5 names of the women lifting in this dataset,074_Lift
+List the 5 men names of men who perform exercises in this dataset,074_Lift
+What are the top 3 'Weight Classes' by total lifts?,074_Lift
+List 5 lifters from the '74 kg' weight class.,074_Lift
+What are the 3 least frequent types of exercise we find in the dataset?,074_Lift
+What are the 3 most frequent types of exercise we find in the dataset?,074_Lift
+Is there any condition where the mortality rate is more prevalent than a condition with a rate of 300?,075_Mortality
+Are there more cases recorded in cities overall?,075_Mortality
+Is the maximum mortality rate in the dataset worse than 250?,075_Mortality
+Does the dataset include any case with an error less than 0.5?,075_Mortality
+Are all values associated with the death rate higher than 100?,075_Mortality
+Are all of the most frequent causes of mortality related to the heart?,075_Mortality
+Does any region appear more than 50 times?,075_Mortality
+Are there more cases recorded for men than for women?,075_Mortality
+What is the region with the most deaths per capita?,075_Mortality
+What cause corresponds to the lowest mortality rate?,075_Mortality
+What gender has the worst average mortality rate?,075_Mortality
+What is the type of status with the best average ratio?,075_Mortality
+What region has the worst average rate?,075_Mortality
+What is the maximum value in the ratio column?,075_Mortality
+What is the minimum error present in this dataset?,075_Mortality
+How many cases have a death rate worse than 200?,075_Mortality
+What is the total sum of all death rate values?,075_Mortality
+What is the average error recorded?,075_Mortality
+What is the standard deviation of ratio?,075_Mortality
+How many distinct HHS regions are present?,075_Mortality
+What is the range (max-min) that death rates for any cause of death appearing in this dataset can take?,075_Mortality
+What are the 5 worst death rates recorded?,075_Mortality
+What are the lowest 5 values for error deviations recorded for the rates?,075_Mortality
+List the 5 smallest ratio values that are still greater than 100.,075_Mortality
+List the highest 4 deviations recorded to the expected rate recorded in urban areas.,075_Mortality
+List the 5 smallest deviations from the expected death rate in relation to diseases of the heart.,075_Mortality
+List the unique causes for death found in the first region of the United States Department of Health and Human Services.,075_Mortality
+What are the 3 regions with the worst average mortality rate?,075_Mortality
+What are the 2 categories present in the dataset that discriminate if a case happened in a city-like environment or not?,075_Mortality
+Is there a player with exactly a thousand total points in a given season? Answer True or False,076_NBA
+Is there a season where any player scored more than 3000 points? Answer True or False,076_NBA
+Did any player not miss any free throws in a single season? Answer True or False ,076_NBA
+Is there a team that had a player scoring exactly 2k points in one season? Answer True or False,076_NBA
+Is there any player with a number of rebounds better than 500 in a single season? Answer True or False,076_NBA
+Did any player ever achieve more than 500 assists in one season? Answer True or False,076_NBA
+Did any player play in every game of a season? Answer True or False,076_NBA
+Is there any player with a field goal record for a given season/playoffs better than 9/10?,076_NBA
+Which player scored the most points in the season that finished in 2013?,076_NBA
+Which player scored the most points in the season that started in 2012?,076_NBA
+Which team had the highest total points scored by its players?,076_NBA
+What is the player name with the highest yet non-perfect free throw performance in the 2012-2013 year?,076_NBA
+Which team had the most rebounds?,076_NBA
+Who led in assists in the regular season that started in 2012?,076_NBA
+Which player had the most steals in a given season?,076_NBA
+What is the highest number of steals in a given season?,076_NBA
+What is the total number of rebounds recorded in the dataset?,076_NBA
+What is the total number of rebounds recorded in the dataset where the ball didn't change possession?,076_NBA
+In what percentage of the rebounds recorded in the dataset did the ball remain on the same team? Answer with a number,076_NBA
+How many games did the player with the most minutes played in a single season play in that season?,076_NBA
+What is the record set for single-season assists within the dataset?,076_NBA
+How many players played in the 2010-11 season?,076_NBA
+How many players scored exactly 2000 points in a season?,076_NBA
+What was the highest number of blocks by any player in a season?,076_NBA
+List the three highest rebound totals by a single player in one season.,076_NBA
+What are the three highest total assist values in one season?,076_NBA
+List the top 4 total point achieved by a single player in one season.,076_NBA
+List the three highest numbers of steals.,076_NBA
+List the top 3 block counts in the dataset.,076_NBA
+List the 5 players with the least games played.,076_NBA
+List the three players with the most rebounds.,076_NBA
+List the top 5 of teams with the highest total points overall.,076_NBA
+List the top 5 of teams with the highest total rebounds overall.,076_NBA
+List the 2 players with the most steals overall.,076_NBA
+List the three players with the highest blocks in a single season.,076_NBA
+List the top 4 players by assists in a single given season.,076_NBA
+Is there any woman in the dataset with a BMI greater than 30?,077_Gestational
+Is there any woman younger than 18 years?,077_Gestational
+Does the dataset contain any woman who has never been pregnant?,077_Gestational
+Are all women in the dataset younger than 40 years?,077_Gestational
+Does every woman in the dataset have an associated height strictly greater than 1.40 meters?,077_Gestational
+Is there at least one woman with heredity marked positively?,077_Gestational
+Are all women in the dataset predicted to be free of diabetes? (to have diabetes is associated with the positive label of the model),077_Gestational
+How many teen pregnancies are there in this dataset?,077_Gestational
+Is there a woman with a weight of exactly 50000 grams?,077_Gestational
+What is the most value of the status marking hereditary diabetes risk in the dataset?,077_Gestational
+What is the age of the woman with the lowest body mass index?,077_Gestational
+What is the maximum height amongst the two heaviest women?,077_Gestational
+Which number of pregnancies is most common?,077_Gestational
+What is the most frequent BMI value in the dataset?,077_Gestational
+How much does the heaviest person in the dataset weight?,077_Gestational
+How tall is the shortest person in the dataset? Answer with the number of meters.,077_Gestational
+What is the average BMI across all women?,077_Gestational
+What is the total number of women in the dataset?,077_Gestational
+What is the median age of women in the dataset?,077_Gestational
+How many women weight less than 60 kg?,077_Gestational
+What is the range (max-min) of the different heights in meters? Answer with a single number,077_Gestational
+What is the standard deviation found among the BMIs?,077_Gestational
+List the 3 heights of the 3 tallest women in the dataset (in cm).,077_Gestational
+List the different ages (in years) of teenagers found in the dataset.,077_Gestational
+Provide a list with the unique reported pregnancy numbers of women weighing more (>) than 70000g. If there are none answer with an empty list.,077_Gestational
+List the weights of women with a height of exactly 1m and 45cm.,077_Gestational
+List the different labels assigned to heredity statuses.,077_Gestational
+List the different prediction outcomes for diabetes found in the dataset.,077_Gestational
+List the unique height values (converted to cm) found among of women with a BMI<18.5.,077_Gestational
+List the unique pregnancy numbers of women older than 30 years. If there are none answer with an empty list.,077_Gestational
+List the unique ages of the youngest five women who have a diabetes risk associated with their family. If there are less than five answer with all the unique ages that match the criteria.,077_Gestational
+Is there any record where the area affected is greater than 50ha?,078_Fires
+Was there any fire unaffected by wind?,078_Fires
+Is the maximum value of 'DMC' less than 200?,078_Fires
+Are all of the horizontal axis coordinates plotted to the right of the third column?,078_Fires
+Are there any entries where the temperature is below freezing level in Celsius?,078_Fires
+Is there any measuring that recorded 0% humidity ?,078_Fires
+Are there more than 10 unique months in the dataset?,078_Fires
+Are all months of the year present in the dataset?,078_Fires
+Is the average value of wind speed recorded faster than 3?,078_Fires
+"If the year starts in January, what is the numeric id of the worst month in terms of number of fires?",078_Fires
+Answer with the numeric ID of the day of the week the hottest temperature was recorded,078_Fires
+What is the name of the month that recorded the driest day when a fire took place?,078_Fires
+What is the label id of the month with the largest area burned?,078_Fires
+What is the name of the windiest day on average?,078_Fires
+What is the name of the month with the smallest average 'DC' value?,078_Fires
+Which month number corresponds to the highest average 'ISI' value?,078_Fires
+Which day was the minimum 'DMC' value recorded? Answer with the day's name,078_Fires
+What is the hottest temperature recorded?,078_Fires
+What is the speed of the slowest wind in our records?,078_Fires
+"Assuming fires are always in different terrain, what is the total added area affected by fires in the dataset?",078_Fires
+How many unique values are there in the vertical axis column?,078_Fires
+What is the mean percentage of relative humidity? Answer with a number,078_Fires
+What is the range (max - min) of 'DC' values?,078_Fires
+What is the standard deviation of the 'ISI' column?,078_Fires
+How many fires affected a negligible (zero) amount of terrain?,078_Fires
+What are the 3 hottest temperatures recorded?,078_Fires
+List the 5 smallest values in the 'DC' column.,078_Fires
+Provide the unique values in the vertical axis of the associated graph from bottom to top.,078_Fires
+What are the 4 recorded humidity percentages of the 4 driest records?,078_Fires
+List the 5 (can be repeated) highest wind speeds recorded.,078_Fires
+Provide the size of the top 3 greatest areas a fire affected.,078_Fires
+List the minimum 3 'DMC' values in ascending order.,078_Fires
+List the unique full month names when fires were recorded in ascending order.,078_Fires
+Provide the 3 names of the days when fires were most frequently recorded. ,078_Fires
+What are the 2 full names of the 2 months the first 2 rows of the database took place in?,078_Fires
+Provide the name of the days when the 3 highest temperatures were recorded. ,078_Fires
+List the unique month names corresponding to the driest 4 percentages of RH.,078_Fires
+Provide the unique day names associated with the highest 5 'DMC' values.,078_Fires
+List the unique full names of the days where wind speed has been faster than 5mph.,078_Fires
+ Is there a transaction where more than 10 products were sold?,079_Coffee
+ Is 99 an existing id for a store?,079_Coffee
+ Do all rows of this dataset have a different product id?,079_Coffee
+Did we ever sell 20 items in the same transaction?,079_Coffee
+Is there any single product with a price greater than 100?,079_Coffee
+Does the dataset have fewer than 200k rows?,079_Coffee
+Do we have a separate category for drinking chocolate in our stores?,079_Coffee
+Is 5 the ID of the store with the most transactions?,079_Coffee
+What is the location of our most popular store?,079_Coffee
+Which category is associated with the smallest single product price in the database?,079_Coffee
+Which are the first three letters of day of the week which has worst performance in terms of revenue?,079_Coffee
+What is the product type of the transactions with yielded the most money in revenue? Answer with a category.,079_Coffee
+What are the first three letters of the month that has the highest average products per transaction?,079_Coffee
+Which hour has the lowest number of transactions? Answer with a number from 0 to 23.,079_Coffee
+What is the location of the first purchase row-wise?,079_Coffee
+What is the categorization of the first product row-wise?,079_Coffee
+What is the maximum amount of products that were sold in a single given transaction?,079_Coffee
+How many unique different products do we sell?,079_Coffee
+What is the total revenue provided by all the transactions in the dataset?,079_Coffee
+Are our stores open on Sunday?,079_Coffee
+What is the average unitary price in our transactions?,079_Coffee
+What is the total number of transactions carried on a Sunday?,079_Coffee
+How many active stores do we own according to this dataset?,079_Coffee
+How much revenue did our best single transaction bring?,079_Coffee
+How many transactions occurred in the sixth month of the year?,079_Coffee
+List the 3 largest amount of products bought in one transaction? If there are less than 3 list as many as there are.,079_Coffee
+List the different store ids,079_Coffee
+List the lowest 4 single-product price values,079_Coffee
+List highest 3 different revenues a given transaction has yielded?,079_Coffee
+List the unique numerical weekly values present in this dataset,079_Coffee
+What are the different locations where our business is present?,079_Coffee
+What are the unique product_category names in transactions with transaction_qty > 5? If there are none answer with an empty list,079_Coffee
+What are the 3 most common product_type names?,079_Coffee
+What are the abbreviated month names where transactions have been present?,079_Coffee
+Could you list the unique weekday names our transactions are recorded in?,079_Coffee
+ List the IDs of our 2 most popular stores in terms of number of purchases,079_Coffee
+ What are the 2 (non-unique) product types associated with the highest 2 revenues of a single given purchase? Answer with a list with 2 elements.,079_Coffee
+ What is the name of the animal involved in the production of the most expensive coffee-related product that we offer? Answer with a value present in a cell of the database.,079_Coffee
+Do we have any book on sale? Answer True or False,080_Books
+Are there any books that are longer than 500 pages? Answer True or False,080_Books
+Did Mr Harari write a book on history? Answer True or False,080_Books
+Does any book have a rating better than 35? Answer True or False,080_Books
+Do we still have enough stock of all books? Answer True or False,080_Books
+"A customer asked for a book titled 'The greatest book to ever exist', do we have it in stock? Answer True or False",080_Books
+Is there any book published by Harper Collins for India?,080_Books
+Are there any books with fewer than 100 pages?,080_Books
+Which book is considered the best by our clients?,080_Books
+"Assuming all books are similar in reading difficulty, which category does the book that would take longest to read belong to?",080_Books
+How many suns were there in the title of Hosseinis' novel? Answer with a number,080_Books
+How many books are written by multiple authors? (explicitly mentioned translators and editors count as authors),080_Books
+Who was the book with most reviewed book written by?,080_Books
+"If I wanted to buy the shortest book, how long would be the book that I'd pick?",080_Books
+What is the publisher of the nineteenth edition of Let Us C?,080_Books
+How much stock (in number of books) of Ben Graham's work is there in this store?,080_Books
+Which category does the Quran belong to?,080_Books
+"According to this database, how many editions has 'The Intelligent Investor' gone through?",080_Books
+What is the total number of book pages in our database?,080_Books
+"If I can read 200 pages a day and I want to pick a book that I can read in half a day, what is the number of books that I can choose from?",080_Books
+What is the average rating of all books?,080_Books
+"If we had 30 copies of the arabic reader this morning, how many have we sold?",080_Books
+How many pages does Sapiens have?,080_Books
+How many books could be said to fall in the islamic category?,080_Books
+How many books have been reviewed more than 10 times?,080_Books
+What is the total number of books that we are selling below their usual price?,080_Books
+List the page counts of the first five books in the dataset?,080_Books
+List the page lengths (in numeric form) of the first five books?,080_Books
+List the ratings of the top four books with the most reviews?,080_Books
+Provide me with a list containing all the lengths of the books about computer science.,080_Books
+List the number of copies left for the first five books.,080_Books
+List the ratings of the last five books in the dataset,080_Books
+List the page counts of books in the 'History and Tradition' category?,080_Books
+What is the stock of the book that is closest to running out copies but hasn't yet?.,080_Books
+List the categories of the first five books.,080_Books
+List the authors of books that are not on sale today.,080_Books
+List the titles of books with fewer than 200 pages.,080_Books
+List the categories of books with ratings above 20.,080_Books
+List the authors of books with more than 10 reviews.,080_Books
+List the 5 categories of the last five books in the dataset.,080_Books
+"List the editions of books in the 'Business, Investment and Economics' category.",080_Books
