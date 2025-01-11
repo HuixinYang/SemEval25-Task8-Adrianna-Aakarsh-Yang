@@ -219,7 +219,11 @@ def answer(df: pd.DataFrame):
         traceback.print_exc()
         return False
 
-def error_detecting_reward_fn(question_idx, backing_df, prompt, test_root=DEFAULT_TESTROOT):
+def error_detecting_reward_fn(question_idx, 
+                              backing_df, 
+                              prompt, 
+                              test_root=DEFAULT_TESTROOT):
+
     def error_check(sentence):
         """
         Assign a reward based on the correctness of generated code.
@@ -303,8 +307,9 @@ def run_pipeline_on_qa_parallel(qa, dataset_map,
 
 def run_pipeline_on_qa_single(idx, qa_item, dataset_map,
                               test_root=DEFAULT_TESTROOT, 
-                              output_dir=DEFAULT_OUTPUTDIR, horizon=DEFAULT_HORIZON
-                              , rollouts=100):
+                              output_dir=DEFAULT_OUTPUTDIR, 
+                              horizon=DEFAULT_HORIZON
+                              ,rollouts=100):
     if os.path.exists(f'{output_dir}/parallel-output_list-{idx}-06-01-2025.pkl'):
         print('SKIPPING')
         return None

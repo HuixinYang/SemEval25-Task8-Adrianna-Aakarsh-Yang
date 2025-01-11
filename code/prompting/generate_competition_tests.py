@@ -9,8 +9,6 @@ import pandas as pd
 import test_case_prompt_builder
 import test_case_runner
 import test_case_query_model
-# Assume openai>=1.0.0
-from openai import OpenAI
 
 def process_idx(idx, question_df=None,
                                 backing_dataset_map=None,
@@ -34,7 +32,7 @@ def process_idx(idx, question_df=None,
     while max_attempts > 0 and not found:
         max_attempts -= 1
         try:
-            # Generate test prompt
+            # generate test prompt
             dataset_id = question_df[idx]['dataset']
             backing_dataset_df = backing_dataset_map[dataset_id]
 
@@ -46,8 +44,11 @@ def process_idx(idx, question_df=None,
             completion = test_case_query_model.get_api_prompt_completion(test_prompt, model=model, max_tokens=4*1024)
 
             # Parse the code into an AST
-            parsed_code = ast.parse(test_case_query_model.extract_code_from_response(completion))
-            imports, response_function_map = test_case_query_model.extract_functions_and_imports(parsed_code)
+            parsed_code = \
+                ast.parse(test_case_query_model.extract_code_from_response(completion))
+                
+            imports, response_function_map = \
+                test_case_query_model.extract_functions_and_imports(parsed_code)
 
             # Run the test
             found = test_case_runner.test_run_code(imports, 
@@ -80,7 +81,6 @@ def fetch_all_dataframes(dataset):
   return retval
 
 # GET COMPETITION QUESTIONS
-
 def run(max_workers=24, split="train", regenerate=False, model="nvidia/Llama-3.1-Nemotron-70B-Instruct"):
     # Parallel execution using ThreadPoolExecutor
 
@@ -120,6 +120,8 @@ def create_test_prompt_file(idx, question_df=None,
         dataset_id = question_df[idx]['dataset']
         backing_dataset_df = backing_dataset_map[dataset_id]
         test_prompt = test_case_prompt_builder.build_prompt(question_df[idx], backing_dataset_df, skip_description=filtered_datasets)
+        
+        # TODO: Directly create a hugging face repository with the updated prompt. 
         with open(output_file, "w") as f:
             f.write(test_prompt)
     except Exception as e:
@@ -139,3 +141,4 @@ def create_all_test_prompts(split="train", regenerate=False):
 run(max_workers=15, split="competition", regenerate=False, model="Qwen/Qwen2.5-Coder-32B-Instruct")
 
 # create_all_test_prompts(split="train", regenerate=True)
+# create main funciton, which will run and push the test cases to hub.
