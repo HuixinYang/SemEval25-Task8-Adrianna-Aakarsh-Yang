@@ -2,7 +2,9 @@ from type_checks import (check_boolean,
                          check_number, 
                          check_category, 
                          check_list_category, 
-                         check_list_number)
+                         check_list_number,
+                         is_valid_boolean,
+                         is_valid_category)
 
 def test_check_boolean():
     assert check_boolean("true", "true")
@@ -55,4 +57,28 @@ def test_check_list_number():
     # rounding to 2 decimal places
     assert check_list_number("[1.0, 2.001]", "[1.001, 2.0]")
     assert not check_list_number("[1.0, 2.01]", "[1.01, 2.0, 2.0]")
-    
+   
+   
+def test_is_valid_category():
+    valid_categories = ["a", "b"]
+    assert is_valid_category("a", valid_categories) 
+    assert is_valid_category("b", valid_categories)
+    assert not is_valid_category("c", valid_categories)
+   
+def test_is_valid_boolean():
+    assert is_valid_boolean("true")
+    assert is_valid_boolean("yes")
+    assert is_valid_boolean("false")
+    assert is_valid_boolean("no")
+    assert not is_valid_boolean("a")
+    assert not is_valid_boolean("b")
+    assert not is_valid_boolean("1")
+    assert not is_valid_boolean("0")
+    assert not is_valid_boolean("2")
+    assert not is_valid_boolean("3")
+    assert not is_valid_boolean("4")
+    assert not is_valid_boolean("5")
+    assert not is_valid_boolean("6")
+    assert not is_valid_boolean("7")
+    assert not is_valid_boolean("8")
+    assert not is_valid_boolean("9") 

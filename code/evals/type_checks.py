@@ -12,6 +12,20 @@ def one_null(value, truth):
     one_null = str(value).strip(STRIP_CHARS) in VALID_NULL_SET or str(truth).strip(STRIP_CHARS) in VALID_NULL_SET
     return one_null
 
+def is_valid_boolean(value):
+    valid_true_values = ['true', 'yes', 'y']
+    valid_false_values = ['false', 'no', 'n']
+    value_str = str(value).strip(STRIP_CHARS).lower()
+    return value_str in valid_true_values or value_str in valid_false_values
+
+def is_valid_category(value, valid_categories):
+    value_str = str(value).strip(STRIP_CHARS)
+    
+    for valid_category in valid_categories:
+        if check_category(value_str, valid_category): 
+            return True
+    return False
+
 def check_boolean(value, truth):
     valid_true_values = ['true', 'yes', 'y']
     valid_false_values = ['false', 'no', 'n']
