@@ -1,0 +1,38 @@
+# OUTPUT: ONLY PYTHON CODE, Replace all TODO with actual code. You can use pandas and numpy.
+import pandas as pd
+import numpy as np
+
+# Description of dataframe schema.
+df_schema = {{ schema }}
+
+# Description of dataframe columns.
+df_description = {{ description }}
+
+# Random sample of 10 rows from the dataframe.
+df_random_sample = {{ random_sample }}
+
+# It should give the answer to: {question}
+# The answer should only contain python code, you are not allowed leave any TODO undone.
+def answer(df: pd.DataFrame):
+    # Use df to answer: {{ question }}
+    df.columns = {{ columns }}
+
+# Create a dummy data in the same format as actual data. so we can
+# answer unit test answer to: {{ question }}.
+def dummy_data(random_seed) -> pd.DataFrame:
+    # pd.DataFrame has columns , {{ columns }}
+    df = pd.DataFrame(TODO: GENERATE DUMMY DATA HERE, Make it random using random seed)
+    return df
+
+# Complete the following function which tests "answer" function using
+# a dummy data pd.Dataframe and tests it with assert statements.
+def test_answer(random_seed):
+    df.columns = {{ columns }}
+    dummy_data_df = dummy_data(random_seed)
+    # We need to check that result correctly answers the question: {{ question }}
+    result = answer(dummy_data_df)
+    # TODO: Don't check datatypes only semantics. 
+    # assert that "answer" function is correct using dummy data.
+    assert result # TODO: Make a unique semantic test of functionality of "answer" function.
+    assert ... # TODO: complete this assert using information from dummy_data to test semantics.
+    assert ... # TODO: complete this assert using information from dummy_data to test semantics.
