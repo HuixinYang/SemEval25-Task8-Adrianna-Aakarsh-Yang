@@ -4,6 +4,7 @@ import re
 import logging
 import json
 import pickle
+from datetime import datetime
 
 from datasets import Dataset
 from datasets import Dataset, DatasetDict, Features, Value
@@ -136,8 +137,15 @@ def make_dataset(results,
         "completion": Value("string"),
         "reward": Value("float"),
         "answer": Value("string"), 
+        "computed_answer": Value("string"),
+        "computed_sample_answer" : Value("string"),
+        "is_correct": Value("bool"),
+        "is_correct_sample": Value("bool"),
         "type": Value("string"), 
-        "sample_answer":Value("string")
+        "sample_answer":Value("string"),
+        "create_timestamp": Value("string"),
+        "update_timestamp": Value("string")
+
     })
     
     def fine_tune_generator(results, split, prompt_db=None, semeval_db=None):
@@ -153,6 +161,13 @@ def make_dataset(results,
                     "dataset": semeval_db[problem_index]['dataset'] if semeval_db else None,   # TODO: Lookup dataset by problem-id.
                     "prompt": prompt_db[problem_index]['content'] if  prompt_db else None,  # TODO: Lookup prompt by problem-id.
                     "completion": solution['code'],
+                    "create_timestamp": datetime.now().isoformat(),
+                    "update_timestamp": None,
+                    "computed_answer": None,
+                    "is_correct": None,
+                    "is_correct_sample": None,
+                    "computed_sample_answer": None,
+                    "correct_sample": None,
                     "reward": solution['reward']
                 }
     

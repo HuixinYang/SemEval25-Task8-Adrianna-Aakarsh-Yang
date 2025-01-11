@@ -4,6 +4,13 @@ from datasets import load_dataset
 from multiprocessing import Pool, Manager, cpu_count
 from runners.run_with_test_cases_parallel import extract_functions_and_imports
 import numpy as np
+from datetime import datetime
+import logging
+import os
+import pyarrow as pa
+
+logging.basicConfig(level=logging.INFO)
+
 responses = []
 
 def load_table(name, shared_datasets):
@@ -102,13 +109,15 @@ def process_question(index, shared_data, shared_datasets):
     semantic = row["type"]
     correct =  default_compare(value, truth, semantic)
     correct_str = "CORRECT" if correct else "INCORRECT"
-    correct_value =''
-    if correct:
-      correct_value = value
-    else:
-      correct_value = value[:4096]
+    correct_value =value
+
     print("Q:", question, "Completion:", row["completion"], row["dataset"], f"\n{correct_str}: TRUTH:{truth}, VALUE:{correct_value},  SEMANTIC:{semantic}")
-    return question
+    
+    row['is_correct'] = bool(correct)
+    row['computed_answer'] = str(value)
+    row['update_timestamp'] = datetime.now().isoformat()
+    
+    return row
 
 def post_process(return_statement, df):
     """Placeholder for the post-processing step."""
@@ -122,8 +131,7 @@ def answer(df: pd.DataFrame):
         ) 
         return ans
     except Exception as e:
-        return f"__RUNTIME_ERROR__{e}"
-    return sentence  # Modify as needed
+         return f"__RUNTIME_ERROR__{str(e)}"
 
 def generate_responses(dataset, num_workers=4):
     """Generate responses using multiprocessing."""
@@ -139,10 +147,49 @@ def generate_responses(dataset, num_workers=4):
             )
     return responses
 
-# Load dataset
 print("Loading dataset...")
 dataset_df = load_dataset('aakarsh-nair/semeval-2025-task-8-finetune')
-responses = generate_responses(dataset_df)
+
+push_to_hub = False
+output_file = os.path.join(os.path.dirname(__file__), "updated_rows.parquet")
+if os.path.exists(output_file):
+    print(f"{output_file} exists. Proceeding with evaluation.")
+    if push_to_hub:
+        # Load data set from the updateds and save it to hub
+        updated_rows = pd.read_parquet(output_file).to_dict(orient='records')
+        dataset_df['dev'] = updated_rows
+        pd.read_parquet(output_file).to_dict(orient='records')
+        dataset_df.push_to_hub("aakarsh-nair/semeval-2025-task-8-finetune")
+else:
+    print(f"{output_file} does not exist. Skipping evaluation.")
+    # Load dataset
+    updated_rows = generate_responses(dataset_df)
+    print("Done processing questions.")
+    # Persist the updated rows to disk
+
+    schema = pa.schema([
+                    ('semeval_id', pa.string()),
+                    ('split', pa.string()),
+                    ('question', pa.string()),
+                    ('dataset', pa.string()),
+                    ('prompt', pa.string()),
+                    ('completion', pa.string()),
+                    ('reward', pa.float64()),
+                    ('answer', pa.string()),
+                    ('computed_answer', pa.string()),
+                    ('computed_sample_answer', pa.string()),
+                    ('is_correct', pa.bool_()),
+                    ('is_correct_sample', pa.bool_()),
+                    ('type', pa.string()),
+                    ('sample_answer', pa.string()),
+                    ('create_timestamp', pa.string()),
+                    ('update_timestamp', pa.string())
+    ])
+
+    pd.DataFrame(updated_rows).to_parquet(output_file, engine="pyarrow", schema=schema) 
+    if push_to_hub:
+        dataset_df['dev'] = updated_rows
+        dataset_df.push_to_hub("aakarsh-nair/semeval-2025-task-8-finetune")
 
 
 """
