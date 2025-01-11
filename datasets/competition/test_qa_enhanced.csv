@@ -11,7 +11,7 @@ Is the standard number of working hours the same across all employees?,066_IBM_H
 What is the most common role?,066_IBM_HR,category
 Which department has the highest average YearsAtCompany?,066_IBM_HR,category
 What is the least common marital status?,066_IBM_HR,category
-What is the most frequent field of education for our employees?,066_IBM_HR,None
+What is the most frequent field of education for our employees?,066_IBM_HR,category
 Which travel category has the highest average income?,066_IBM_HR,category
 Which gender is most satisfied with the job on average?,066_IBM_HR,category
 What is the most common score given work and life balance?,066_IBM_HR,category
@@ -33,7 +33,7 @@ List the 5 most common ages of our employees.,066_IBM_HR,list[number]
 List the top 3 most common job roles our company has.,066_IBM_HR,list[category]
 List the 2 departments that employ the most people.,066_IBM_HR,list[category]
 List the different marital status values in our database.,066_IBM_HR,list[category]
-List all the different (unique) values we use to classify the field of education of our employees.,066_IBM_HR,None
+List all the different (unique) values we use to classify the field of education of our employees.,066_IBM_HR,list[category]
 List the top 5 BusinessTravel categories.,066_IBM_HR,list[category]
 List all the unique possible values overtime can take.,066_IBM_HR,list[category]
 List the 4 most common JobLevels.,066_IBM_HR,list[category]
@@ -51,7 +51,7 @@ Is the best possible review for room ratings found in more than fifteen reviews?
 Which year had the highest number of reviews made?,067_TripAdvisor,number
 What is the average rating given to rooms?,067_TripAdvisor,number
 What (non-null) room rating is most common?,067_TripAdvisor,category
-Which value is most frequent for num_helpful_votes`?,067_TripAdvisor,None
+Which value is most frequent for num_helpful_votes`?,067_TripAdvisor,category
 Who is the author of 'value with a view'?,067_TripAdvisor,category
 What is the average review length (in characters) without taking the title into account?,067_TripAdvisor,number
 What is the total number of reviews?,067_TripAdvisor,number
@@ -78,8 +78,8 @@ What is the most frequent method of procurement for a given contract?,068_WorldB
 Which region has the most contracts?,068_WorldBank_Awards,category
 What is the longest name amongst the countries which have borrowed money? ,068_WorldBank_Awards,category
 What is the procurement category associated with the largest contract?,068_WorldBank_Awards,category
-Which region has the largest contracts on average?,068_WorldBank_Awards,None
-Who is the most frequent country of borrowers present in the dataset?,068_WorldBank_Awards,None
+Which region has the largest contracts on average?,068_WorldBank_Awards,category
+Who is the most frequent country of borrowers present in the dataset?,068_WorldBank_Awards,category
 Which global project practice would appear first if we sorted the columnn from A to Z?,068_WorldBank_Awards,category
 How big is the biggest contract in the dataset? Answer in USD.,068_WorldBank_Awards,number
 How many different fiscal years the contracts belong to?,068_WorldBank_Awards,number
@@ -110,9 +110,9 @@ Are there more entities with a valid parent ID than third tier entities?,069_Tax
 Does the dataset contain exactly 703 entries?,069_Taxonomy,boolean
 Do all entities have a valid unique value associated?,069_Taxonomy,boolean
 Which first tier category name has the most descendants? (direct or otherwise),069_Taxonomy,category
-What is most common category name among the first level categories?,069_Taxonomy,None
+What is most common category name among the first level categories?,069_Taxonomy,category
 Which first tier category has the second largest amount of descendants (direct or otherwise)?,069_Taxonomy,category
-What is the second most popular category name among the first level categories?,069_Taxonomy,None
+What is the second most popular category name among the first level categories?,069_Taxonomy,category
 What is the most common unique parent ID found in the dataset?,069_Taxonomy,category
 What is the non-null third level value in the dataset that appears first?,069_Taxonomy,category
 What is the name of the direct ascendant of the bars and restaurants entity?,069_Taxonomy,category
@@ -126,9 +126,9 @@ How many Parent IDs appear exactly once?,069_Taxonomy,number
 Are all names unique?,069_Taxonomy,boolean
 What is the number of unique names?,069_Taxonomy,number
 List the 3 Parent values associated the 3 highest number of descendants (direct or otherwise).,069_Taxonomy,list[category]
-List the entry counts for the attractions and automotive entities.,069_Taxonomy,None
+List the entry counts for the attractions and automotive entities.,069_Taxonomy,list[number]
 List the number of children for the categories of commercial trucks and convertibles. Answer with a two element list.,069_Taxonomy,list[number]
-List counts of non-null values for each Tier column.,069_Taxonomy,None
+List counts of non-null values for each Tier column.,069_Taxonomy,list[number]
 List the first (by number of appearance) 3 different values in the highest tier of the dataset. If there are less than 3 list as many as there are.,069_Taxonomy,list[category]
 List the first (by row number) 2 different level 1 values found in the dataset. If there are less than 2 list as many as there are.,069_Taxonomy,list[category]
 List the first (by number of appearance) 4 different second highest level values.,069_Taxonomy,list[category]
@@ -160,11 +160,11 @@ How many products are listed under 'Plant-based foods and beverages'?,070_OpenFo
  List the product codes associated with the Seitan category,070_OpenFoodFacts,list[category]
  List the product names associated with the Seitan category,070_OpenFoodFacts,list[category]
 List the two most frequent labels in the dataset,070_OpenFoodFacts,list[category]
-" ""List the five most frequent labels in the dataset. If there are less than five list as many as there are.""",070_OpenFoodFacts,None
+" ""List the five most frequent labels in the dataset. If there are less than five list as many as there are.""",070_OpenFoodFacts,list[category]
  List the two most frequent store names in the dataset,070_OpenFoodFacts,list[category]
- List the two number of stores for the two most frequent store names in the dataset,070_OpenFoodFacts,None
- List the 3 most frequent countries in the dataset,070_OpenFoodFacts,None
- List the 3 number of products present for the 3 most frequent countries in the dataset,070_OpenFoodFacts,None
+ List the two number of stores for the two most frequent store names in the dataset,070_OpenFoodFacts,list[number]
+ List the 3 most frequent countries in the dataset,070_OpenFoodFacts,list[category]
+ List the 3 number of products present for the 3 most frequent countries in the dataset,070_OpenFoodFacts,list[number]
 Is Switzerland the country with the highest Cost of Living Index?,071_COL,boolean
 Is the Bahamas ranked second in the dataset?,071_COL,boolean
 Is there any country with a Rent Index above 65?,071_COL,boolean
@@ -174,7 +174,7 @@ Does the dataset include at least 120 countries?,071_COL,boolean
 "If I am from Iceland and I move to Singapore, would I expect my rent to be more expensive according to the index?",071_COL,boolean
 Is Switzerland considered to be the most expensive country regardless if I rent or own my home?,071_COL,boolean
 Which country ranks the most expensive in terms of overall cost of living?,071_COL,category
-In which country would it be cheaper to buy groceries?,071_COL,None
+In which country would it be cheaper to buy groceries?,071_COL,category
 "If I have to rent but I want to move to the cheapest country to live in, where should I move to?",071_COL,category
 In which country would it be most expensive to eat in a restaurant?,071_COL,category
 Which country has the second-highest world rent?,071_COL,category
@@ -210,7 +210,7 @@ Is the lowest score assigned to a student's stated purpose for admission worse t
 Are there any applicants who don't have any research experience previous to their application?,072_Admissions,boolean
 Is the average English score better than 105?,072_Admissions,boolean
 What is the rating given by the college they applied to to the applicant with the highest CGPA?,072_Admissions,number
-What is the university rating of the applicant with the lowest GRE score?,072_Admissions,None
+What is the university rating of the applicant with the lowest GRE score?,072_Admissions,number
 Which score given to the stated purpose of admission of the student is most common among applications?,072_Admissions,category
 What is the score for the recommendation letters presented by the student with the lowest English score?,072_Admissions,number
 What is the university rating of the applicant who is less likely to be admitted?,072_Admissions,number
@@ -256,7 +256,7 @@ What is the region the youngest teenager comes from?,073_Med_Cost,category
 What is the gender of the person with the highest body mass index?,073_Med_Cost,category
 Is being childless the most common state for people in the dataset? True,073_Med_Cost,boolean
 What is the most frequent number of children?,073_Med_Cost,number
-What region is represented least in the dataset?,073_Med_Cost,None
+What region is represented least in the dataset?,073_Med_Cost,category
 What is the smoking status of the individual with the lowest BMI?,073_Med_Cost,category
 What is the maximum BMI in the dataset?,073_Med_Cost,number
 What is the average number of children?,073_Med_Cost,number
@@ -307,7 +307,7 @@ What are the top 3 'Weight Classes' by total lifts?,074_Lift,list[category]
 List 5 lifters from the '74 kg' weight class.,074_Lift,list[category]
 What are the 3 least frequent types of exercise we find in the dataset?,074_Lift,list[category]
 What are the 3 most frequent types of exercise we find in the dataset?,074_Lift,list[category]
-Is there any condition where the mortality rate is more prevalent than a condition with a rate of 300?,075_Mortality,None
+Is there any condition where the mortality rate is more prevalent than a condition with a rate of 300?,075_Mortality,boolean
 Are there more cases recorded in cities overall?,075_Mortality,boolean
 Is the maximum mortality rate in the dataset worse than 250?,075_Mortality,boolean
 Does the dataset include any case with an error less than 0.5?,075_Mortality,boolean
@@ -334,8 +334,8 @@ List the 5 smallest ratio values that are still greater than 100.,075_Mortality,
 List the highest 4 deviations recorded to the expected rate recorded in urban areas.,075_Mortality,list[number]
 List the 5 smallest deviations from the expected death rate in relation to diseases of the heart.,075_Mortality,list[number]
 List the unique causes for death found in the first region of the United States Department of Health and Human Services.,075_Mortality,list[category]
-What are the 3 regions with the worst average mortality rate?,075_Mortality,None
-What are the 2 categories present in the dataset that discriminate if a case happened in a city-like environment or not?,075_Mortality,None
+What are the 3 regions with the worst average mortality rate?,075_Mortality,list[category]
+What are the 2 categories present in the dataset that discriminate if a case happened in a city-like environment or not?,075_Mortality,list[category]
 Is there a player with exactly a thousand total points in a given season? Answer True or False,076_NBA,boolean
 Is there a season where any player scored more than 3000 points? Answer True or False,076_NBA,boolean
 Did any player not miss any free throws in a single season? Answer True or False ,076_NBA,boolean
@@ -346,11 +346,11 @@ Did any player play in every game of a season? Answer True or False,076_NBA,bool
 Is there any player with a field goal record for a given season/playoffs better than 9/10?,076_NBA,boolean
 Which player scored the most points in the season that finished in 2013?,076_NBA,category
 Which player scored the most points in the season that started in 2012?,076_NBA,category
-Which team had the highest total points scored by its players?,076_NBA,None
+Which team had the highest total points scored by its players?,076_NBA,category
 What is the player name with the highest yet non-perfect free throw performance in the 2012-2013 year?,076_NBA,category
 Which team had the most rebounds?,076_NBA,category
 Who led in assists in the regular season that started in 2012?,076_NBA,category
-Which player had the most steals in a given season?,076_NBA,number
+Which player had the most steals in a given season?,076_NBA,category
 What is the highest number of steals in a given season?,076_NBA,number
 What is the total number of rebounds recorded in the dataset?,076_NBA,number
 What is the total number of rebounds recorded in the dataset where the ball didn't change possession?,076_NBA,number
@@ -381,7 +381,7 @@ Is there at least one woman with heredity marked positively?,077_Gestational,boo
 Are all women in the dataset predicted to be free of diabetes? (to have diabetes is associated with the positive label of the model),077_Gestational,boolean
 How many teen pregnancies are there in this dataset?,077_Gestational,number
 Is there a woman with a weight of exactly 50000 grams?,077_Gestational,boolean
-What is the most value of the status marking hereditary diabetes risk in the dataset?,077_Gestational,None
+What is the most value of the status marking hereditary diabetes risk in the dataset?,077_Gestational,number
 What is the age of the woman with the lowest body mass index?,077_Gestational,number
 What is the maximum height amongst the two heaviest women?,077_Gestational,number
 Which number of pregnancies is most common?,077_Gestational,number
@@ -424,7 +424,7 @@ What is the hottest temperature recorded?,078_Fires,number
 What is the speed of the slowest wind in our records?,078_Fires,number
 "Assuming fires are always in different terrain, what is the total added area affected by fires in the dataset?",078_Fires,number
 How many unique values are there in the vertical axis column?,078_Fires,number
-What is the mean percentage of relative humidity? Answer with a number,078_Fires,None
+What is the mean percentage of relative humidity? Answer with a number,078_Fires,number
 What is the range (max - min) of 'DC' values?,078_Fires,number
 What is the standard deviation of the 'ISI' column?,078_Fires,number
 How many fires affected a negligible (zero) amount of terrain?,078_Fires,number
@@ -477,7 +477,7 @@ What are the unique product_category names in transactions with transaction_qty 
 What are the 3 most common product_type names?,079_Coffee,list[category]
 What are the abbreviated month names where transactions have been present?,079_Coffee,list[category]
 Could you list the unique weekday names our transactions are recorded in?,079_Coffee,list[category]
- List the IDs of our 2 most popular stores in terms of number of purchases,079_Coffee,list[category]
+ List the IDs of our 2 most popular stores in terms of number of purchases,079_Coffee,list[number]
  What are the 2 (non-unique) product types associated with the highest 2 revenues of a single given purchase? Answer with a list with 2 elements.,079_Coffee,list[category]
  What is the name of the animal involved in the production of the most expensive coffee-related product that we offer? Answer with a value present in a cell of the database.,079_Coffee,category
 Do we have any book on sale? Answer True or False,080_Books,boolean
@@ -492,7 +492,7 @@ Which book is considered the best by our clients?,080_Books,category
 "Assuming all books are similar in reading difficulty, which category does the book that would take longest to read belong to?",080_Books,category
 How many suns were there in the title of Hosseinis' novel? Answer with a number,080_Books,number
 How many books are written by multiple authors? (explicitly mentioned translators and editors count as authors),080_Books,number
-Who was the book with most reviewed book written by?,080_Books,None
+Who was the book with most reviewed book written by?,080_Books,category
 "If I wanted to buy the shortest book, how long would be the book that I'd pick?",080_Books,number
 What is the publisher of the nineteenth edition of Let Us C?,080_Books,category
 How much stock (in number of books) of Ben Graham's work is there in this store?,080_Books,number
@@ -513,7 +513,7 @@ Provide me with a list containing all the lengths of the books about computer sc
 List the number of copies left for the first five books.,080_Books,list[number]
 List the ratings of the last five books in the dataset,080_Books,list[number]
 List the page counts of books in the 'History and Tradition' category?,080_Books,list[number]
-What is the stock of the book that is closest to running out copies but hasn't yet?.,080_Books,None
+What is the stock of the book that is closest to running out copies but hasn't yet?.,080_Books,number
 List the categories of the first five books.,080_Books,list[category]
 List the authors of books that are not on sale today.,080_Books,list[category]
 List the titles of books with fewer than 200 pages.,080_Books,list[category]
