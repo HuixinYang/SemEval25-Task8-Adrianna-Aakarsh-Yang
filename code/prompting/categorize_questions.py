@@ -76,38 +76,44 @@ The question categories are:
     - Number: A numerical value from a cell in the dataset, which may represent a computed statistic (e.g., average, maximum, minimum). - List[category]: A list containing a fixed number of categories. The expected format is: "['cat', 'dog']". Pay attention to the wording of the question to determine if uniqueness is required or if repeated values are allowed. - List[number]: Similar to List[category], but with numbers as its elements. ,
 
 Question: Is the person with the highest net worth self-made?
-Output only the question category which is going to be one of the following: boolean, list[category], list[number], number
+Output only the question category which is going to be one of the following: boolean, list[category], list[number], number.
+DO NOT give any explanation or other infromation except exact category in the answer.
 
 Answer: boolean
 
 Question: What's the total worth of billionaires in the 'Automotive' category?
 Output only the question category which is going to be one of the following: boolean, list[category], list[number], number
+DO NOT give any explanation or other infromation except exact category in the answer.
 
 Answer: number
 
 Question: What's the country of origin of the oldest billionaire?
 Output only the question category which is going to be one of the following: boolean, list[category], list[number], number
+DO NOT give any explanation or other infromation except exact category in the answer.
 
 Answer: category
 
 Question: List the top 2 final worth values of billionaires in the 'Automotive' category.
 Output only the question category which is going to be one of the following: boolean, list[category], list[number], number
+DO NOT give any explanation or other infromation except exact category in the answer.
 
 Answer: list[number]
 
 Question: Name the top 3 passenger classes by survival rate.
 Output only the question category which is going to be one of the following: boolean, list[category], list[number], number
+DO NOT give any explanation or other infromation except exact category in the answer.
 
 Answer: list[category]
 
 Question: {question_row['question']}
 Output only the question category which is going to be one of the following: boolean, list[category], list[number], number
+DO NOT give any explanation or other infromation except exact category in the answer.
 
 Answer:
 """
     return prompt
 
-def process_idx(idx, question_df = None, model=None, regenerate=False, split="competition", max_tries=5):
+def process_idx(idx, question_df = None, model=None, regenerate=False, split="competition", max_tries=100):
     """
     Processes a question at a given index in a DataFrame, generates a prompt, and extracts code from the response.
 
