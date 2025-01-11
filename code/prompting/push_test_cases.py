@@ -2,6 +2,19 @@ import argparse
 from datasets import Dataset, DatasetDict, Features, Value
 import os
 
+# Createa set of testcases with the following features 
+features = Features({
+    "id": Value("string"),
+    "split": Value("string"),
+    "model": Value("string"),
+    "content": Value("string")
+    # Consider adding folling features 
+    # competition - split
+    # predicted_type - string
+    # The test cases should be pushed as is to hugging face rather than to specify a output directory.
+    # add assertion that the generated test cases matches the expected output type. 
+})
+
 # Argument Parsing Setup
 def parse_args():
     parser = argparse.ArgumentParser(description="Prepare and upload Hugging Face dataset with splits.")
@@ -43,13 +56,6 @@ def test_case_generator(test_cases):
         except Exception as e:
             print(f"Error reading file {details['path']}: {e}")
 
-# Hugging Face schema definition
-features = Features({
-    "id": Value("string"),
-    "split": Value("string"),
-    "model": Value("string"),
-    "content": Value("string")
-})
 
 def main():
     args = parse_args()

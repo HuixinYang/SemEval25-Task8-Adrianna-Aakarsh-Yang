@@ -88,7 +88,7 @@ def get_api_prompt_completion(prompt, model="Qwen/Qwen2.5-Coder-32B-Instruct", m
 def code_from_imports_function_map(imports, response_function_map, custom_answer=None):
   answer = response_function_map['answer'] if custom_answer is None else custom_answer
   preamble_template="\n".join(imports)
-  code_to_run=preamble_template+"\n"+response_function_map['dummy_data']+"\n"+answer+"\n"+response_function_map['test_answer']+"\n"
+  code_to_run = preamble_template+"\n"+response_function_map['dummy_data']+"\n"+answer+"\n"+response_function_map['test_answer']+"\n"
   return code_to_run
 
 
@@ -148,7 +148,7 @@ df_schema = {generate_dataframe_schma_json(df)}
 # Description of dataframe columns.
 df_descrption = {generate_dataframe_description_json(df)}
 
-# Randome sample of 10 rows from the dataframe.
+# Random sample of 10 rows from the dataframe.
 df_random_sample = {df_random_sample}
 
 
@@ -240,7 +240,13 @@ def run(max_workers=24, split="train", regenerate=False, model="nvidia/Llama-3.1
     datasets_map = fetch_all_dataframes(semeval_train_qa)
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:  # Adjust max_workers based on your system
-            executor.map(partial(process_idx, model=model, regenerate=regenerate, question_df=semeval_train_qa, backing_dataset_map=datasets_map, split=split), range(len(semeval_train_qa)))
+            executor.map(partial(process_idx, 
+                                    model=model, 
+                                    regenerate=regenerate, 
+                                    question_df=semeval_train_qa, 
+                                    backing_dataset_map=datasets_map, 
+                                    split=split), 
+                         range(len(semeval_train_qa)))
 
 
 def create_test_prompt_file(idx, question_df=None,
