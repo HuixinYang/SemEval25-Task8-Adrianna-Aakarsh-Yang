@@ -8,6 +8,7 @@ from datetime import datetime
 import logging
 import os
 import pyarrow as pa
+from datasets import Dataset
 
 logging.basicConfig(level=logging.INFO)
 
@@ -149,7 +150,6 @@ def generate_responses(dataset, num_workers=4):
 
 print("Loading dataset...")
 dataset_df = load_dataset('aakarsh-nair/semeval-2025-task-8-finetune')
-
 push_to_hub = False
 output_file = os.path.join(os.path.dirname(__file__), "updated_rows.parquet")
 if os.path.exists(output_file):
@@ -157,7 +157,7 @@ if os.path.exists(output_file):
     if push_to_hub:
         # Load data set from the updateds and save it to hub
         updated_rows = pd.read_parquet(output_file).to_dict(orient='records')
-        dataset_df['dev'] = updated_rows
+        dataset_df['dev'] = Dataset.from_list(updated_rows)
         pd.read_parquet(output_file).to_dict(orient='records')
         dataset_df.push_to_hub("aakarsh-nair/semeval-2025-task-8-finetune")
 else:

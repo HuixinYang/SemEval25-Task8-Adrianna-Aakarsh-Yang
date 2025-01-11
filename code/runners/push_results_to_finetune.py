@@ -145,7 +145,6 @@ def make_dataset(results,
         "sample_answer":Value("string"),
         "create_timestamp": Value("string"),
         "update_timestamp": Value("string")
-
     })
     
     def fine_tune_generator(results, split, prompt_db=None, semeval_db=None):
