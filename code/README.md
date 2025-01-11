@@ -10,6 +10,11 @@ Computed finetune accuracy by type:
 
 https://huggingface.co/datasets/aakarsh-nair/semeval-2025-task-8-finetune/sql-console/mMQoACm
 
+boolean 480 271 0.564583
+list[number] 480 15 0.03125
+number 510 452 0.886275
+category 570 381 0.668421
+list[category] 540 55 0.101852
 
 ### [Yang.16.12.2024] 
 This is what I have done so far. I feel the algorithms is very clear to me. But the hardest thing is the implementation, especially to figure out code details of mct_process in mct.py, also the related details. It took me some time.  

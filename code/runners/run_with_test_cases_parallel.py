@@ -318,7 +318,7 @@ def run_pipeline_on_qa_single(idx, qa_item, dataset_map,
             tokenizer=tokenizer,
             horizon=horizon,
             reward_func=error_detecting_reward_fn(idx, backing_df, prompt, test_root=test_root),
-            uct_args=dict(rollouts=rollouts, gamma=0.99, width=5, alg='p_uct'),
+            uct_args=dict(rollouts=rollouts, gamma=1, width=5, alg='p_uct'),
             model_generation_args=model_generation_args,
             should_plot_tree=False,
         )
