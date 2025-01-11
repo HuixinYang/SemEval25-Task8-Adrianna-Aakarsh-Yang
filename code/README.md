@@ -5,8 +5,10 @@ This repository is a fork of [mcts-for-llm](https://github.com/shunzh/mcts-for-l
 
 Run the code-generator file in examples, .py file for local, notebook for colab.
 
-### [01.07.2025]
+### [01.11.2025]
+Computed finetune accuracy by type: 
 
+https://huggingface.co/datasets/aakarsh-nair/semeval-2025-task-8-finetune/sql-console/mMQoACm
 
 
 ### [Yang.16.12.2024] 
