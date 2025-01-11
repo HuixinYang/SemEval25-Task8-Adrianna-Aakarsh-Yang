@@ -1,6 +1,6 @@
 from concurrent.futures import ThreadPoolExecutor
-from datasets import load_dataset
 from functools import partial
+
 import ast
 import os
 import numpy as np
@@ -9,6 +9,7 @@ import pandas as pd
 import test_case_prompt_builder
 import test_case_runner
 import test_case_query_model
+import test_case_load_dataset
 
 def process_idx(idx, question_df=None,
                                 backing_dataset_map=None,
@@ -68,36 +69,24 @@ def process_idx(idx, question_df=None,
             print("FAILED")
     return
 
-# GET BACKING DATAFRAMES
-def get_dataframe_by_id(df_id):
-    parquet_file = f"hf://datasets/cardiffnlp/databench/data/{df_id}/all.parquet"
-    print(f"Loading {parquet_file}")
-    df = pd.read_parquet(parquet_file)
-    return df
-
-def fetch_all_dataframes(dataset):
-  dataset_ids  = set(map(lambda qa: qa['dataset'],  dataset))
-  retval = { ds_id: get_dataframe_by_id(ds_id) for ds_id in dataset_ids }
-  return retval
-
-# GET COMPETITION QUESTIONS
-def run(max_workers=24, split="train", regenerate=False, model="nvidia/Llama-3.1-Nemotron-70B-Instruct"):
+def run(max_workers=24, 
+        phase=None, split="train", 
+        regenerate=False, 
+        model="nvidia/Llama-3.1-Nemotron-70B-Instruct"):
     # Parallel execution using ThreadPoolExecutor
 
-    # Question Dataset
-    semeval_train_qa = load_dataset("cardiffnlp/databench", name="semeval", split=split)
-    # Backing Datasets
-    datasets_map = fetch_all_dataframes(semeval_train_qa)
-
+    questions_dataset, backing_dataset_map = \
+        test_case_load_dataset.load_phase_dataset(phase=phase, split=split)
+        
     with ThreadPoolExecutor(max_workers=max_workers) as executor:  # Adjust max_workers based on your system
             executor.map(partial(process_idx, 
                                     model=model, 
                                     regenerate=regenerate, 
-                                    question_df=semeval_train_qa, # questions 
-                                    backing_dataset_map=datasets_map,  # backing datasets 
+                                    question_df=questions_dataset, # questions 
+                                    backing_dataset_map=backing_dataset_map,  # backing datasets 
                                     # TODO: No output directory specified.
                                     split=split), 
-                         range(len(semeval_train_qa)))
+                         range(len(questions_dataset)))
 
 
 def create_test_prompt_file(idx, question_df=None,
@@ -130,15 +119,15 @@ def create_test_prompt_file(idx, question_df=None,
 
 
 def create_all_test_prompts(split="train", regenerate=False):
-    semeval_train_qa = load_dataset("cardiffnlp/databench", name="semeval", split=split)
-    datasets_map = fetch_all_dataframes(semeval_train_qa)
-    for idx in range(len(semeval_train_qa)):
-        create_test_prompt_file(idx, question_df=semeval_train_qa, 
-                                        backing_dataset_map = datasets_map, 
+    questions_dataset, backing_datasets_map = test_case_load_dataset.load_phase_dataset(phase=None, split="train")
+    for idx in range(len(questions_dataset)):
+        create_test_prompt_file(idx, question_df=questions_dataset, 
+                                        backing_dataset_map = backing_datasets_map, 
                                         regenerate=regenerate,
                                         split=split)
 
-run(max_workers=15, split="competition", regenerate=False, model="Qwen/Qwen2.5-Coder-32B-Instruct")
+run(max_workers=15, split="competition", 
+    regenerate=False, model="Qwen/Qwen2.5-Coder-32B-Instruct")
 
 # create_all_test_prompts(split="train", regenerate=True)
 # create main funciton, which will run and push the test cases to hub.

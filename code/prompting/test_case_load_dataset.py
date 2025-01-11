@@ -31,15 +31,19 @@ def fetch_all_dataframes(dataset, phase = None, lite = False):
     }
     return retval
 
-def load_phase_dataset(phase="competition", split="dev"):
+def load_phase_dataset(phase="competition", split="dev", limit=None):
     if phase == "competition":
         # Load the competition dataset
         file_path = os.path.join(os.path.dirname(__file__), '..', '..', 'datasets', 'competition', 'test_qa_enhanced.csv')
         questions_dataset =  Dataset.from_pandas(pd.read_csv(file_path))
-        datasets_map = {} 
+        if limit:
+            questions_dataset = questions_dataset.select(range(limit))
+        datasets_map = fetch_all_dataframes(questions_dataset, phase=phase)
     else:
         # Questions Dataset 
         questions_dataset = load_dataset("cardiffnlp/databench", name="semeval", split=split)
+        if limit:
+            questions_dataset = questions_dataset.select(range(limit))
         datasets_map = fetch_all_dataframes(questions_dataset)
         
     return questions_dataset, datasets_map
