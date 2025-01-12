@@ -164,12 +164,11 @@ def run(max_workers=24,
     
     # Update or create rows in the test case dataset
     def update_or_create(row):
-        matching_rows = updated_rows.filter(lambda x: x['semeval_id'] == row['semeval_id'])
+        matching_rows = updated_rows.filter(lambda x: x['semeval_id'] == row['semeval_id'] and x['model'] == row['model'])
         if len(matching_rows) > 0:
             return matching_rows[0]
         else:
             return row
-    
     # Apply the update_or_create function to each row in the test_case_dataset
     # Ensure correct split handling during update
     if isinstance(test_case_dataset, DatasetDict):
@@ -275,9 +274,8 @@ empty_dataset = \
 question_dataset, backing_dataset_map = test_case_load_dataset.load_phase_dataset(phase="competition", split="dev")
 
 test_case_dataset = load_dataset("aakarsh-nair/semeval-2025-task-8-test-cases-competition", split='dev')
-
 test_case_dataset = run(max_workers=os.cpu_count(), 
-                            question_dataset=select_based_on_predicted_type(question_dataset, "list[number]"),
+                            question_dataset=select_based_on_predicted_type(question_dataset, "category"),
                             backing_dataset_map=backing_dataset_map,
                             test_case_dataset=test_case_dataset,
                             use_cache=True, 

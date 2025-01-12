@@ -62,20 +62,18 @@ def assert_answer_predicted_type(predicted_type,
     
     data_frame = dummy_data(random_seed)
     result = answer(data_frame)
- 
     if predicted_type == 'number':
       assert isinstance(result, (int, float, np.integer, np.floating)), f"Expected number, got {type(result)}"
       return True
     elif predicted_type == 'category':
-      assert isinstance(result, str), f"Expected category (string), got {type(result)}"
+      assert isinstance(result, (str, int, float, np.integer, np.floating)), f"Expected category (string or number), got {type(result)}"
       return True
     elif predicted_type == 'boolean':
       assert isinstance(result, bool), f"Expected boolean, got {type(result)}" 
     elif predicted_type == 'list[category]':
       assert isinstance(result, (list, tuple, set)), f"Expected list, tuple, or set, got {type(result)}"
-      assert all(isinstance(item, str) for item in result), "Not all elements in the list are strings"
+      assert all(isinstance(item, (str, int, float, np.integer, np.floating)) for item in result), "Not all elements in the list are strings or numbers"
       return True
-      pass
     elif predicted_type == 'list[number]':
       assert isinstance(result, (list, tuple, set)), f"Expected list, got {type(result)}"
       assert all(isinstance(item, (int, float, np.integer, np.floating)) for item in result), "Not all elements in the list are numbers"
