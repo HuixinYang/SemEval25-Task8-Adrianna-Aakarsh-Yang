@@ -32,14 +32,20 @@ def process_idx(idx, question_df=None,
     max_attempts = 10
     found = False
     
+    cache_dir = os.path.expanduser(os.path.join(cache_dir, f"{model}"))
     if not os.path.exists(cache_dir) and use_cache:
         os.makedirs(cache_dir)
 
     current_timestamp = pd.Timestamp.now().strftime("%Y%m%d%H%M%S")
-    output_file = f"{cache_dir}/split_{split}_model_{model}_test_case_{idx}.parquet"
+    output_file = f"{cache_dir}/split-{split}-phase-{phase}-test_case_{idx}.parquet"
+    logging.debug(f"CACHE_DIR: {cache_dir} OUTPUT_FILE: {output_file}")
+
+    skip_condition = (os.path.exists(output_file) and not regenerate and use_cache)  \
+                    or question_df[idx]['dataset'] in set(filtered_datasets)
+
+    logging.info(f"Output file: {output_file}, skip_condition: {skip_condition} regenerate: {regenerate} use_cache: {use_cache} filtered_datasets: {filtered_datasets}")   
     # skip if the test file already exists
-    if (os.path.exists(output_file) and not regenerate and use_cache) \
-            or question_df[idx]['dataset'] in set(filtered_datasets):
+    if skip_condition:
         logging.info(f"SKIPPING: {idx}")
         return output_file
 
@@ -74,7 +80,7 @@ def process_idx(idx, question_df=None,
                 df = pd.DataFrame([{
                                     'semeval_id': int(idx),
                                     'split': split,
-                                    'phase': question_df[idx]['phase'],
+                                    'phase': phase,
                                     'question': question_df[idx]['question'],
                                     'dataset': question_df[idx]['dataset'],
                                     'predicted_type': question_df[idx]['predicted_type'] if 'predicted_type' in question_df[idx] else None,
@@ -82,13 +88,15 @@ def process_idx(idx, question_df=None,
                                     'content': code_to_run,
                                     'update_timestamp': current_timestamp
                                 }])
+                logging.info(f"Saving to file: {output_file}, df: {df.to_json()}")
                 # save the test case to a file
                 df.to_parquet(output_file)
                 return output_file
             else:
-                print("FAILED")
+                logging.error("FAILED", exc_info=True)
         except Exception as e:
             print(f"Error in test_answer: {e}")
+            logging.exception("Exception occurred while processing index: %s", idx)
             print("FAILED")
     return None
 
@@ -105,15 +113,14 @@ def run(max_workers=24,
    
     logging.info(f"Running test cases for phase: {phase}, split: {split}") 
     # Parallel execution using ThreadPoolExecutor
-    
     # Adjust max_workers based on your system 
     results = []
     with ThreadPoolExecutor(max_workers=max_workers) as executor:  
             results = executor.map(partial(process_idx, model=model, 
                                     cache_dir=cache_dir,
-                                    phase=phase,
                                     use_cache=use_cache,
                                     regenerate=regenerate, 
+                                    phase=phase,
                                     question_df=question_dataset, # questions 
                                     backing_dataset_map=backing_dataset_map,  # backing datasets 
                                     split=split # TODO: No output directory specified.
@@ -225,13 +232,16 @@ test_case_dataset = run(max_workers=os.cpu_count(),
         question_dataset=select_based_on_predicted_type(question_dataset, "number"),
         backing_dataset_map=backing_dataset_map,
         test_case_dataset=empty_dataset,
-        use_cache=True, cache_dir="/tmp/cache", 
-        phase="competition", 
+        use_cache=True, 
+        cache_dir="~/.cache", 
         regenerate=False, 
+        phase="competition", 
+        split="dev",
         model="Qwen/Qwen2.5-Coder-32B-Instruct")
 
+logging.info(f"Updated dataset: {test_case_dataset}")
 # save to cahce directory 
-test_case_dataset.save_to_disk("~/.cache/semval-2025-task-8-test-cases-competition")
+test_case_dataset.save_to_disk(os.path.expanduser("~/.cache/semval-2025-task-8-test-cases-competition"))
 test_case_dataset.push_to_hub("aakarsh-nair/semval-2025-task-8-test-cases-competition")
 
 # create_all_test_prompts(split="train", regenerate=True)
