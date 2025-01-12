@@ -257,7 +257,7 @@ question_dataset, backing_dataset_map = test_case_load_dataset.load_phase_datase
 test_case_dataset = empty_dataset #load_dataset("aakarsh-nair/semeval-2025-task-8-test-cases-competition", split='dev')
 
 test_case_dataset = run(max_workers=os.cpu_count(), 
-                            question_dataset=select_based_on_predicted_type(question_dataset, "boolean"),
+                            question_dataset=select_based_on_predicted_type(question_dataset, "number"),
                             backing_dataset_map=backing_dataset_map,
                             test_case_dataset=test_case_dataset,
                             use_cache=True, 
@@ -270,13 +270,17 @@ test_case_dataset = run(max_workers=os.cpu_count(),
 logging.info(f"Updated dataset: {test_case_dataset}")
 for row in test_case_dataset:
     print(row)
-# save to cahce directory 
-test_case_dataset.save_to_disk(os.path.expanduser("~/.cache/semeval-2025-task-8-test-cases-competition"))
-test_case_dataset.push_to_hub("aakarsh-nair/semeval-2025-task-8-test-cases-competition")
+
+cache_path = os.path.expanduser("~/.cache")
+datset_name = "semeval-2025-task-8-test-cases-competition"
+user_repo = "aakarsh-nair"
+
+test_case_dataset.save_to_disk(f"{cache_path}/{datset_name}")
+test_case_dataset.push_to_hub(f"{user_repo}/{datset_name}")
 
 # create_all_test_prompts(split="train", regenerate=True)
 # create main funciton, which will run and push the test cases to hub.
 
-loaded_test_cases = load_from_disk(os.path.expanduser("~/.cache/semeval-2025-task-8-test-cases-competition"))
+loaded_test_cases = load_from_disk(f"{cache_path}/{datset_name}")
 
-embed()
+#embed()
