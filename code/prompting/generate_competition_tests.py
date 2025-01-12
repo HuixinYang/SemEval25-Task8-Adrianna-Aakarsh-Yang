@@ -127,6 +127,10 @@ def run(max_workers=24,
             use_cache=True):
    
     logging.info(f"Running test cases for phase: {phase}, split: {split}") 
+    
+    if isinstance(test_case_dataset, DatasetDict):
+        test_case_dataset = test_case_dataset[split]
+        
     # Parallel execution using ThreadPoolExecutor
     # Adjust max_workers based on your system 
     results = []
@@ -167,7 +171,12 @@ def run(max_workers=24,
             return row
     
     # Apply the update_or_create function to each row in the test_case_dataset
-    test_case_dataset = test_case_dataset.map(update_or_create)
+    # Ensure correct split handling during update
+    if isinstance(test_case_dataset, DatasetDict):
+        test_case_dataset[split] = test_case_dataset[split].map(update_or_create)
+    else:
+        test_case_dataset = test_case_dataset.map(update_or_create)
+
     
     # Add new rows for semeval_ids that are in updated_rows but not in test_case_dataset
     existing_ids = set(test_case_dataset['semeval_id'])
@@ -175,7 +184,9 @@ def run(max_workers=24,
     test_case_dataset = concatenate_datasets([test_case_dataset, new_rows])   
     logging.debug(f"Updated dataset return: {test_case_dataset}")
 
-    return test_case_dataset 
+    retval = test_case_dataset if not isinstance(test_case_dataset, DatasetDict) else DatasetDict({split: test_case_dataset[split]})
+
+    return retval 
 
 
 def create_test_prompt_file(idx, question_df=None,
@@ -249,7 +260,6 @@ def create_empty_huggingface_dataset(name, cache_dir="~/.cache"):
 
     return dataset_dict
 
-
 def select_based_on_predicted_type(dataset,  predicted_type):
     """
     Select the dataset based on the predicted type
@@ -257,20 +267,22 @@ def select_based_on_predicted_type(dataset,  predicted_type):
     return dataset.filter(lambda x: x['predicted_type'] == predicted_type)
 
 # Create the empty dataset
-empty_dataset = create_empty_huggingface_dataset("semeval-2025-task-8-test-cases-competition")
-empty_dataset = empty_dataset['dev']
+empty_dataset = \
+    create_empty_huggingface_dataset("semeval-2025-task-8-test-cases-competition")
+
+# empty_dataset = empty_dataset['dev']
 
 question_dataset, backing_dataset_map = test_case_load_dataset.load_phase_dataset(phase="competition", split="dev")
 
-test_case_dataset = empty_dataset #load_dataset("aakarsh-nair/semeval-2025-task-8-test-cases-competition", split='dev')
+test_case_dataset = load_dataset("aakarsh-nair/semeval-2025-task-8-test-cases-competition", split='dev')
 
 test_case_dataset = run(max_workers=os.cpu_count(), 
-                            question_dataset=select_based_on_predicted_type(question_dataset, "number"),
+                            question_dataset=select_based_on_predicted_type(question_dataset, "list[number]"),
                             backing_dataset_map=backing_dataset_map,
                             test_case_dataset=test_case_dataset,
                             use_cache=True, 
                             cache_dir="~/.cache", 
-                            regenerate=True, 
+                            regenerate=False, 
                             phase="competition", 
                             split="dev",
                             model="Qwen/Qwen2.5-Coder-32B-Instruct")
@@ -284,7 +296,8 @@ datset_name = "semeval-2025-task-8-test-cases-competition"
 user_repo = "aakarsh-nair"
 
 test_case_dataset.save_to_disk(f"{cache_path}/{datset_name}")
-test_case_dataset.push_to_hub(f"{user_repo}/{datset_name}")
+# split defaults to train!
+test_case_dataset.push_to_hub(f"{user_repo}/{datset_name}", split="dev")
 
 # create_all_test_prompts(split="train", regenerate=True)
 # create main funciton, which will run and push the test cases to hub.
