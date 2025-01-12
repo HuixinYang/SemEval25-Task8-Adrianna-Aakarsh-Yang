@@ -14,8 +14,11 @@ import logging
 from datasets import Dataset, DatasetDict
 from datasets import Dataset, DatasetDict, Features, Value
 from datasets import load_dataset
+from datasets import Dataset, concatenate_datasets, load_from_disk
 
 logging.basicConfig(level=logging.INFO)
+
+from IPython import embed
 
 def process_idx(idx, question_df=None,
                                 backing_dataset_map=None,
@@ -23,7 +26,7 @@ def process_idx(idx, question_df=None,
                                 cache_dir="~/.cache",
                                 phase="competition",
                                 use_cache=True,
-                                split="train",
+                                split=None,
                                 regenerate=False,
                                 filtered_datasets=['029_NYTimes']):
     """
@@ -128,27 +131,51 @@ def run(max_workers=24,
                                     split=split # TODO: No output directory specified.
                                     ), range(len(question_dataset)))
     
-    # update the dataset with test cases
-    updated_result_files =  list(filter(lambda x: x is not None, results))
+    # Update the dataset with test cases
+    updated_result_files = list(filter(lambda x: x is not None, results))
     logging.debug(f"Updated files: {updated_result_files} number of questions to update: {len(question_dataset)}")
-    updated_rows = pd.concat([pd.read_parquet(file) for file in updated_result_files])
-    updated_rows = updated_rows.reset_index(drop=True)
-   
-    # update the test case dataset for updated rows by matching semval_id
-    test_case_dataset = test_case_dataset.map(lambda x: x if x['semeval_id'] not in updated_rows['semeval_id'] else updated_rows[updated_rows['semeval_id'] == x['semeval_id']]) 
-   
+    
+    if not updated_result_files:
+        # No test cases generated, return the original dataset
+        return test_case_dataset 
+    
+    try:
+        updated_datasets = [Dataset.from_parquet(file) for file in updated_result_files]
+        updated_rows = concatenate_datasets(updated_datasets)
+        logging.debug(f"Updated rows: {updated_rows}")
+    except Exception as e:
+        logging.error(f"Error reading datasets: {e}")
+        return test_case_dataset
+    
+    
+    # Update or create rows in the test case dataset
+    def update_or_create(row):
+        matching_rows = updated_rows.filter(lambda x: x['semeval_id'] == row['semeval_id'])
+        if len(matching_rows) > 0:
+            return matching_rows[0]
+        else:
+            return row
+    
+    # Apply the update_or_create function to each row in the test_case_dataset
+    test_case_dataset = test_case_dataset.map(update_or_create)
+    
+    # Add new rows for semeval_ids that are in updated_rows but not in test_case_dataset
+    existing_ids = set(test_case_dataset['semeval_id'])
+    new_rows = updated_rows.filter(lambda x: x['semeval_id'] not in existing_ids)
+    test_case_dataset = concatenate_datasets([test_case_dataset, new_rows])   
+    logging.debug(f"Updated dataset return: {test_case_dataset}")
+
     return test_case_dataset 
 
 
 def create_test_prompt_file(idx, question_df=None,
                                     backing_dataset_map=None,
-                                    split="train",
+                                    split=None,
                                     regenerate=False,
                                     filtered_datasets=['029_NYTimes']):
     """
     Process a single index to generate test cases.
     """
-    print("-" * 20, idx, "-" * 20)
     found = False
     output_file = f"/content/drive/MyDrive/TUE-WINTER-2024/CHALLENGES-CL/test_cases/prompts/{split}/test_case_gen_prompt_{idx}.py"
     if (os.path.exists(output_file) and not regenerate) or question_df[idx]['dataset'] in set(filtered_datasets):
@@ -169,7 +196,7 @@ def create_test_prompt_file(idx, question_df=None,
         print("FAILED")
 
 
-def create_all_test_prompts(split="train", regenerate=False):
+def create_all_test_prompts(split=None, regenerate=False):
     questions_dataset, backing_datasets_map = test_case_load_dataset.load_phase_dataset(phase=None, split="train")
     for idx in range(len(questions_dataset)):
         create_test_prompt_file(idx, question_df=questions_dataset, 
@@ -207,10 +234,7 @@ def create_empty_huggingface_dataset(name, cache_dir="~/.cache"):
     }
     # Create an empty dataset
     empty_dataset = Dataset.from_dict(empty_data, features=features)
-    dataset_dict = DatasetDict({ "train": empty_dataset, 
-                                 "validation": empty_dataset, 
-                                 "test": empty_dataset, 
-                                 "dev": empty_dataset})
+    dataset_dict = DatasetDict({ "dev": empty_dataset})
 
     # Save the dataset locally
     dataset_dict.save_to_disk(f"{cache_dir}/{name}")
@@ -230,7 +254,8 @@ empty_dataset = empty_dataset['dev']
 
 question_dataset, backing_dataset_map = test_case_load_dataset.load_phase_dataset(phase="competition", split="dev")
 
-test_case_dataset = empty_dataset #load_dataset("aakarsh-nair/semeval-2025-task-8-test-cases-competition")
+test_case_dataset = empty_dataset #load_dataset("aakarsh-nair/semeval-2025-task-8-test-cases-competition", split='dev')
+
 test_case_dataset = run(max_workers=os.cpu_count(), 
                             question_dataset=select_based_on_predicted_type(question_dataset, "boolean"),
                             backing_dataset_map=backing_dataset_map,
@@ -243,9 +268,15 @@ test_case_dataset = run(max_workers=os.cpu_count(),
                             model="Qwen/Qwen2.5-Coder-32B-Instruct")
 
 logging.info(f"Updated dataset: {test_case_dataset}")
+for row in test_case_dataset:
+    print(row)
 # save to cahce directory 
-test_case_dataset.save_to_disk(os.path.expanduser("~/.cache/semval-2025-task-8-test-cases-competition"))
+test_case_dataset.save_to_disk(os.path.expanduser("~/.cache/semeval-2025-task-8-test-cases-competition"))
 test_case_dataset.push_to_hub("aakarsh-nair/semeval-2025-task-8-test-cases-competition")
 
 # create_all_test_prompts(split="train", regenerate=True)
 # create main funciton, which will run and push the test cases to hub.
+
+loaded_test_cases = load_from_disk(os.path.expanduser("~/.cache/semeval-2025-task-8-test-cases-competition"))
+
+embed()
