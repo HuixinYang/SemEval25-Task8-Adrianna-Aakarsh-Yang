@@ -62,7 +62,7 @@ def main():
 
     # Prepare datasets for multiple splits
     test_cases_train = find_test_cases(os.path.join(args.root_dir, "train"), "train")
-    test_cases_dev = find_test_cases(os.path.join(args.root_dir, "dev"), "dev")
+    test_cases_dev   = find_test_cases(os.path.join(args.root_dir, "dev"), "dev")
 
     all_test_cases = {
         "train": test_cases_train,
@@ -71,7 +71,8 @@ def main():
 
     # Create a DatasetDict with streaming datasets
     dataset_dict = DatasetDict({
-        split: Dataset.from_generator(lambda s=split: test_case_generator(all_test_cases[s]), features=features)
+        split: Dataset.from_generator(lambda s=split: 
+            test_case_generator(all_test_cases[s]), features=features)
         for split in all_test_cases
     })
 

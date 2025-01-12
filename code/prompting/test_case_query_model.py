@@ -8,7 +8,7 @@ def get_api_prompt_completion(prompt, model="Qwen/Qwen2.5-Coder-32B-Instruct", m
     """
     Get the completion from the API 
     """
-    if api_key is not None:
+    if api_key is None:
         api_key = os.getenv('DEEPINFRA_TOKEN')
         
     # Create an OpenAI client with your deepinfra token and endpoint
