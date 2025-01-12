@@ -13,6 +13,7 @@ import test_case_load_dataset
 import logging
 from datasets import Dataset, DatasetDict
 from datasets import Dataset, DatasetDict, Features, Value
+from datasets import load_dataset
 
 logging.basicConfig(level=logging.INFO)
 
@@ -32,12 +33,13 @@ def process_idx(idx, question_df=None,
     max_attempts = 10
     found = False
     
-    cache_dir = os.path.expanduser(os.path.join(cache_dir, f"{model}"))
+    cache_dir = os.path.expanduser(os.path.join(cache_dir, "test-case-generation", f"{model}"))
     if not os.path.exists(cache_dir) and use_cache:
         os.makedirs(cache_dir)
 
     current_timestamp = pd.Timestamp.now().strftime("%Y%m%d%H%M%S")
-    output_file = f"{cache_dir}/split-{split}-phase-{phase}-test_case_{idx}.parquet"
+    semeval_id = question_df[idx]['semeval_id']
+    output_file = f"{cache_dir}/split-{split}-phase-{phase}-test_case_{semeval_id}.parquet"
     logging.debug(f"CACHE_DIR: {cache_dir} OUTPUT_FILE: {output_file}")
 
     skip_condition = (os.path.exists(output_file) and not regenerate and use_cache)  \
@@ -78,7 +80,7 @@ def process_idx(idx, question_df=None,
                 # Save the test case to a file
                 code_to_run = test_case_runner.code_from_imports_function_map(imports, response_function_map)
                 df = pd.DataFrame([{
-                                    'semeval_id': int(idx),
+                                    'semeval_id': question_df[idx]['semeval_id'],
                                     'split': split,
                                     'phase': phase,
                                     'question': question_df[idx]['question'],
@@ -133,7 +135,7 @@ def run(max_workers=24,
     updated_rows = updated_rows.reset_index(drop=True)
    
     # update the test case dataset for updated rows by matching semval_id
-    test_case_dataset[split] = test_case_dataset[split].map(lambda x: x if x['semeval_id'] not in updated_rows['semeval_id'] else updated_rows[updated_rows['semeval_id'] == x['semeval_id']]) 
+    test_case_dataset = test_case_dataset.map(lambda x: x if x['semeval_id'] not in updated_rows['semeval_id'] else updated_rows[updated_rows['semeval_id'] == x['semeval_id']]) 
    
     return test_case_dataset 
 
@@ -223,26 +225,27 @@ def select_based_on_predicted_type(dataset,  predicted_type):
     return dataset.filter(lambda x: x['predicted_type'] == predicted_type)
 
 # Create the empty dataset
-empty_dataset = create_empty_huggingface_dataset("semval-2025-task-8-test-cases-competition")
+empty_dataset = create_empty_huggingface_dataset("semeval-2025-task-8-test-cases-competition")
 empty_dataset = empty_dataset['dev']
 
 question_dataset, backing_dataset_map = test_case_load_dataset.load_phase_dataset(phase="competition", split="dev")
 
+test_case_dataset = empty_dataset #load_dataset("aakarsh-nair/semeval-2025-task-8-test-cases-competition")
 test_case_dataset = run(max_workers=os.cpu_count(), 
-        question_dataset=select_based_on_predicted_type(question_dataset, "number"),
-        backing_dataset_map=backing_dataset_map,
-        test_case_dataset=empty_dataset,
-        use_cache=True, 
-        cache_dir="~/.cache", 
-        regenerate=False, 
-        phase="competition", 
-        split="dev",
-        model="Qwen/Qwen2.5-Coder-32B-Instruct")
+                            question_dataset=select_based_on_predicted_type(question_dataset, "boolean"),
+                            backing_dataset_map=backing_dataset_map,
+                            test_case_dataset=test_case_dataset,
+                            use_cache=True, 
+                            cache_dir="~/.cache", 
+                            regenerate=False, 
+                            phase="competition", 
+                            split="dev",
+                            model="Qwen/Qwen2.5-Coder-32B-Instruct")
 
 logging.info(f"Updated dataset: {test_case_dataset}")
 # save to cahce directory 
 test_case_dataset.save_to_disk(os.path.expanduser("~/.cache/semval-2025-task-8-test-cases-competition"))
-test_case_dataset.push_to_hub("aakarsh-nair/semval-2025-task-8-test-cases-competition")
+test_case_dataset.push_to_hub("aakarsh-nair/semeval-2025-task-8-test-cases-competition")
 
 # create_all_test_prompts(split="train", regenerate=True)
 # create main funciton, which will run and push the test cases to hub.

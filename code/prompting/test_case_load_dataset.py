@@ -36,6 +36,7 @@ def load_phase_dataset(phase="competition", split="dev", limit=None):
         # Load the competition dataset
         file_path = os.path.join(os.path.dirname(__file__), '..', '..', 'datasets', 'competition', 'test_qa_enhanced.csv')
         questions_dataset =  Dataset.from_pandas(pd.read_csv(file_path))
+        questions_dataset = questions_dataset.map(lambda example, idx: {"semeval_id": idx}, with_indices=True)
         if limit:
             questions_dataset = questions_dataset.select(range(limit))
         datasets_map = fetch_all_dataframes(questions_dataset, phase=phase)
