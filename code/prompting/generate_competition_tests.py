@@ -75,6 +75,16 @@ def process_idx(idx, question_df=None,
             imports, response_function_map = \
                 test_case_query_model.extract_functions_and_imports(parsed_code)
 
+
+            # Type check answer
+            predicted_type = question_df[idx]['predicted_type']
+            if predicted_type:
+                found = test_case_runner.assert_answer_predicted_type(predicted_type, 
+                                    imports, response_function_map, random_seed=42)
+                if not found:
+                    logging.error(f"Predicted type: {predicted_type} does not match the answer")
+                    break 
+
             # Run the test
             found = test_case_runner.test_run_code(imports, response_function_map, random_seed=42)
 
@@ -204,8 +214,6 @@ def create_all_test_prompts(split=None, regenerate=False):
                                         regenerate=regenerate,
                                         split=split)
 
-# empty huggingface dataset
-
 def create_empty_huggingface_dataset(name, cache_dir="~/.cache"):
     # Define the schema using Features and Value
     features = Features({
@@ -262,7 +270,7 @@ test_case_dataset = run(max_workers=os.cpu_count(),
                             test_case_dataset=test_case_dataset,
                             use_cache=True, 
                             cache_dir="~/.cache", 
-                            regenerate=False, 
+                            regenerate=True, 
                             phase="competition", 
                             split="dev",
                             model="Qwen/Qwen2.5-Coder-32B-Instruct")

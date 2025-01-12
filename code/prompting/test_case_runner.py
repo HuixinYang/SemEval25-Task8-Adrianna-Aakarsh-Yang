@@ -78,7 +78,6 @@ def assert_answer_predicted_type(predicted_type,
     else:
       return False
   except Exception as e:
-    #print(f"Error in assert_answer_predicted_type: {e}")
     logging.error(f"Error in assert_answer_predicted_type: {e}", exc_info=True)
     return False
   return False
