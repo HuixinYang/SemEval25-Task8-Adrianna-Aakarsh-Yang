@@ -22,11 +22,11 @@ logging.basicConfig(level=logging.INFO)
 We predict the question category based on question test. 
 
 The question categories are:
-    - Boolean: Valid answers include True/False, Y/N, Yes/No (all case insensitive).
-    - Category: A value from a cell (or a substring of a cell) in the dataset.
-    - Number: A numerical value from a cell in the dataset, which may represent a computed statistic (e.g., average, maximum, minimum).
-    - List[category]: A list containing a fixed number of categories. The expected format is: "['cat', 'dog']". Pay attention to the wording of the question to determine if uniqueness is required or if repeated values are allowed.
-    - List[number]: Similar to List[category], but with numbers as its elements.
+    - boolean: Valid answers include True/False, Y/N, Yes/No (all case insensitive).
+    - category: A value from a cell (or a substring of a cell) in the dataset.
+    - number: A numerical value from a cell in the dataset, which may represent a computed statistic (e.g., average, maximum, minimum).
+    - list[category]: A list containing a fixed number of categories. The expected format is: "['cat', 'dog']". Pay attention to the wording of the question to determine if uniqueness is required or if repeated values are allowed.
+    - list[number]: Similar to list[category], but with numbers as its elements.
 """
 
 DEEPINFRA_TOKEN=os.getenv('DEEPINFRA_TOKEN')
