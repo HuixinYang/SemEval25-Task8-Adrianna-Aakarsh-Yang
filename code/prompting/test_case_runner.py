@@ -4,6 +4,7 @@ import os
 import logging
 
 from datasets import DatasetDict, Dataset
+import numpy as np
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -35,3 +36,49 @@ def test_run_code(imports, response_function_map, custom_answer=None,random_seed
     print(f"Error in test_answer: {e}")
     return False
   return True
+
+
+def assert_answer_predicted_type(predicted_type, 
+                                 imports, 
+                                 response_function_map, 
+                                 custom_answer=None,
+                                 random_seed=42):
+  '''
+  Asserts that the answer function returns the correct type
+  '''
+  local_namespace = {}
+  code_to_run= code_from_imports_function_map(imports, response_function_map) \
+    if not custom_answer else code_from_imports_function_map(imports, response_function_map, custom_answer=custom_answer)
+  # Execute the code in the isolated namespace
+  logging.debug(f"Code to run:\n{code_to_run}")
+  exec(code_to_run, {}, local_namespace)
+  # Update each function's globals to include the local_namespace
+  for key, value in local_namespace.items():
+      if callable(value):  # Check if the item is a function
+          value.__globals__.update(local_namespace)
+  try:
+    answer = local_namespace["answer"]
+    dummy_data = local_namespace['dummy_data']
+    
+    data_frame = dummy_data(random_seed)
+    result = answer(data_frame)
+ 
+    if predicted_type == 'number':
+      assert isinstance(result, (int, float, np.integer, np.floating)), f"Expected number, got {type(result)}"
+      return True
+    elif predicted_type == 'category':
+      pass
+    elif predicted_type == 'boolean':
+      assert isinstance(result, bool), f"Expected boolean, got {type(result)}" 
+    elif predicted_type == 'list[category]':
+      pass
+    elif predicted_type == 'list[number]':
+      assert isinstance(result, list), f"Expected list, got {type(result)}"
+      return True
+    else:
+      return False
+  except Exception as e:
+    #print(f"Error in assert_answer_predicted_type: {e}")
+    logging.error(f"Error in assert_answer_predicted_type: {e}", exc_info=True)
+    return False
+  return False

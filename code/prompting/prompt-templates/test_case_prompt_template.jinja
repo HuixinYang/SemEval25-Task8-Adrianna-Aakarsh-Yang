@@ -11,11 +11,21 @@ df_description = {{ description }}
 # Random sample of 10 rows from the dataframe.
 df_random_sample = {{ random_sample }}
 
+'''
+The question categories are:
+    - boolean: Valid answers include True/False, Y/N, Yes/No (all case insensitive).
+    - category: A value from a cell (or a substring of a cell) in the dataset.
+    - number: A numerical value from a cell in the dataset, which may represent a computed statistic (e.g., average, maximum, minimum).
+    - list[category]: A list containing a fixed number of categories. The expected format is: "['cat', 'dog']". Pay attention to the wording of the question to determine if uniqueness is required or if repeated values are allowed.
+    - list[number]: Similar to list[category], but with numbers as its elements.
+'''
+
 # It should give the answer to: {question}
 # The answer should only contain python code, you are not allowed leave any TODO undone.
 def answer(df: pd.DataFrame):
     # Use df to answer: {{ question }}
     df.columns = {{ columns }}
+    # Expected output type: is {{ predicted_type }}, this will be checked.
 
 # Create a dummy data in the same format as actual data. so we can
 # answer unit test answer to: {{ question }}.
