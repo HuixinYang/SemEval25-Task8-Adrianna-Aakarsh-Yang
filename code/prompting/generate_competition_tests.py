@@ -19,10 +19,9 @@ import test_case_load_dataset
 from datasets import Dataset, DatasetDict
 from datasets import Dataset, DatasetDict, Features, Value
 from datasets import load_dataset
-from datasets import Dataset, concatenate_datasets, load_from_disk
+from datasets import Dataset, concatenate_datasets
 
 logging.basicConfig(level=logging.INFO)
-from IPython import embed
 
 def process_idx(idx, question_df=None,
                                 backing_dataset_map=None,
@@ -236,113 +235,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
-    
-'''
-# Create the empty dataset
-empty_dataset = \
-    create_empty_huggingface_dataset("semeval-2025-task-8-test-cases-competition")
-
-# empty_dataset = empty_dataset['dev']
-
-question_dataset, backing_dataset_map = test_case_load_dataset.load_phase_dataset(phase="competition", split="dev")
-
-test_case_dataset = load_dataset("aakarsh-nair/semeval-2025-task-8-test-cases-competition", split='dev')
-test_case_dataset = run(max_workers=os.cpu_count(), 
-                            question_dataset=select_based_on_predicted_type(question_dataset, "category"),
-                            backing_dataset_map=backing_dataset_map,
-                            test_case_dataset=test_case_dataset,
-                            use_cache=True, 
-                            cache_dir="~/.cache", 
-                            regenerate=False, 
-                            phase="competition", 
-                            split="dev",
-                            model="Qwen/Qwen2.5-Coder-32B-Instruct")
-
-logging.info(f"Updated dataset: {test_case_dataset}")
-for row in test_case_dataset:
-    print(row)
-
-cache_path = os.path.expanduser("~/.cache")
-datset_name = "semeval-2025-task-8-test-cases-competition"
-user_repo = "aakarsh-nair"
-
-test_case_dataset.save_to_disk(f"{cache_path}/{datset_name}")
-# split defaults to train!
-test_case_dataset.push_to_hub(f"{user_repo}/{datset_name}", split="dev")
-'''
-
-'''
-
-def create_test_prompt_file(idx, question_df=None,
-                                    backing_dataset_map=None,
-                                    split=None,
-                                    regenerate=False,
-                                    filtered_datasets=['029_NYTimes']):
-    """
-    Process a single index to generate test cases.
-    """
-    found = False
-    output_file = f"/content/drive/MyDrive/TUE-WINTER-2024/CHALLENGES-CL/test_cases/prompts/{split}/test_case_gen_prompt_{idx}.py"
-    if (os.path.exists(output_file) and not regenerate) or question_df[idx]['dataset'] in set(filtered_datasets):
-        print(f"SKIPPING: {idx}")
-        return
-
-    try:
-        # Generate test prompt
-        dataset_id = question_df[idx]['dataset']
-        backing_dataset_df = backing_dataset_map[dataset_id]
-        test_prompt = test_case_prompt_builder.build_prompt(question_df[idx], backing_dataset_df, skip_description=filtered_datasets)
-        
-        # TODO: Directly create a hugging face repository with the updated prompt. 
-        with open(output_file, "w") as f:
-            f.write(test_prompt)
-    except Exception as e:
-        print(f"Error in test_answer: {e}")
-        print("FAILED")
-
-
-def create_all_test_prompts(split=None, regenerate=False):
-    questions_dataset, backing_datasets_map = test_case_load_dataset.load_phase_dataset(phase=None, split="train")
-    for idx in range(len(questions_dataset)):
-        create_test_prompt_file(idx, question_df=questions_dataset, 
-                                        backing_dataset_map = backing_datasets_map, 
-                                        regenerate=regenerate,
-                                        split=split)
-
-def create_empty_huggingface_dataset(name, cache_dir="~/.cache"):
-    # Define the schema using Features and Value
-    features = Features({
-        'semeval_id': Value('int32'),
-        'split': Value('string'),
-        'phase': Value('string'),
-        'question': Value('string'),
-        'dataset': Value('string'),
-        'predicted_type': Value('string'),
-        'model': Value('string'),
-        'content': Value('string'),
-        'update_timestamp': Value('string')
-    })
-
-    # Create an empty dataset with the correct features
-    empty_data = {
-        'semeval_id': [],
-        'split': [],
-        'phase': [],
-        'question': [],
-        'dataset': [],
-        'predicted_type': [],
-        'model': [],
-        'content': [],
-        'update_timestamp': []
-    }
-    # Create an empty dataset
-    empty_dataset = Dataset.from_dict(empty_data, features=features)
-    dataset_dict = DatasetDict({ "dev": empty_dataset})
-
-    # Save the dataset locally
-    dataset_dict.save_to_disk(f"{cache_dir}/{name}")
-
-    return dataset_dict
-'''
-
