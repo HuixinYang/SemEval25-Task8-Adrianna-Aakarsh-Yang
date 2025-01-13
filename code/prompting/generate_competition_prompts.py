@@ -13,7 +13,7 @@ logging.basicConfig(level=logging.INFO)
 
 # Hugging Face Schema Definition - prompts
 features = Features({
-    "semeval_id": Value("string"),
+    "semeval_id": Value("int32"),
     "question": Value("string"),
     "dataset": Value("string"),
     "split": Value("string"),
@@ -34,6 +34,7 @@ def prompt_generator(question_dataset, dataset_map, split='dev', phase='competit
     row = question_dataset[row_idx]
     dataset = row['dataset']
     prompt =  build_inference_prompt(row, dataset_map[dataset])
+    current_timestamp = pd.Timestamp.now().strftime("%Y%m%d%H%M%S")
 
     yield {
         'semeval_id': row['semeval_id'],
@@ -41,7 +42,8 @@ def prompt_generator(question_dataset, dataset_map, split='dev', phase='competit
         'phase': phase,
         'predicted_type': row['predicted_type'] if 'predicted_type' in row else None, 
         'question': row['question'],
-        'content': prompt
+        'content': prompt,
+        'update_timestamp': current_timestamp 
     }
 
 def generate_all_prompts(phase="competition", split="dev", prompt_dataset=None):
