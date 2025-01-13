@@ -1,6 +1,7 @@
 from jinja2 import Template
 import json
 import pandas as pd
+import logging
 
 def generate_dataframe_schma_json(df):
   schema = {
@@ -24,6 +25,7 @@ def build_prompt(row, df, skip_description=["029_NYTimes"]):
     Takes a dataset row expects coluums: question, dataset, type or predicted_type
     """
     question = row['question']
+    logging.info(f"Building prompt for question: {question}")
     df_random_sample = '{}'
     if not row['dataset'] in skip_description:
        df_random_sample = generate_dataframe_description_json(df) 
