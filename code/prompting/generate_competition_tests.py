@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# coding: utf-8
+
 from concurrent.futures import ThreadPoolExecutor
 from functools import partial
 
@@ -5,19 +8,20 @@ import ast
 import os
 import numpy as np
 import pandas as pd
+import argparse
+import logging
 
 import test_case_prompt_builder
 import test_case_runner
 import test_case_query_model
 import test_case_load_dataset
-import logging
+
 from datasets import Dataset, DatasetDict
 from datasets import Dataset, DatasetDict, Features, Value
 from datasets import load_dataset
 from datasets import Dataset, concatenate_datasets, load_from_disk
 
 logging.basicConfig(level=logging.INFO)
-
 from IPython import embed
 
 def process_idx(idx, question_df=None,
@@ -187,6 +191,88 @@ def run(max_workers=24,
 
     return retval 
 
+def select_based_on_predicted_type(dataset,  predicted_type):
+    """
+    Select the dataset based on the predicted type
+    """
+    return dataset.filter(lambda x: x['predicted_type'] == predicted_type)
+
+def main():
+    parser = argparse.ArgumentParser(description="Generate test cases with parallel processing.")
+    parser.add_argument("--phase", type=str, default="competition", help="Phase of the competition.")
+    parser.add_argument("--split", type=str, default="dev", help="Dataset split (train/dev/test).")
+    parser.add_argument("--model", type=str, default="nvidia/Llama-3.1-Nemotron-70B-Instruct", help="Model to use.")
+    parser.add_argument("--cache-dir", type=str, default="~/.cache", help="Cache directory path.")
+    parser.add_argument("--max-workers", type=int, default=os.cpu_count(), help="Number of workers for parallel processing.")
+    parser.add_argument("--regenerate", action="store_true", help="Regenerate test cases even if cached.")
+    parser.add_argument("--use-cache", action="store_true", help="Use cached test cases if available.")
+
+    args = parser.parse_args()
+
+    cache_dir = os.path.expanduser(args.cache_dir)
+    repository_name = "semeval-2025-task-8-test-cases-competition"
+    user_repo = "aakarsh-nair"
+    # Load datasets
+    question_dataset, backing_dataset_map = test_case_load_dataset.load_phase_dataset(phase=args.phase, split=args.split)
+    test_case_dataset = load_dataset(f"{user_repo}/{repository_name}", split=args.split)
+
+    # Run the test case generation
+    test_case_dataset = run(
+        max_workers=args.max_workers, 
+        test_case_dataset=test_case_dataset, 
+        question_dataset=question_dataset, 
+        backing_dataset_map=backing_dataset_map, 
+        phase=args.phase, 
+        split=args.split, 
+        regenerate=args.regenerate, 
+        model=args.model, 
+        cache_dir=args.cache_dir, 
+        use_cache=args.use_cache
+    )
+
+    # Save results
+    test_case_dataset.save_to_disk((f"{cache_dir}/{repository_name}"))
+    test_case_dataset.push_to_hub(f"{user_repo}/{repository_name}", split=args.split)
+
+if __name__ == "__main__":
+    main()
+    
+    
+'''
+# Create the empty dataset
+empty_dataset = \
+    create_empty_huggingface_dataset("semeval-2025-task-8-test-cases-competition")
+
+# empty_dataset = empty_dataset['dev']
+
+question_dataset, backing_dataset_map = test_case_load_dataset.load_phase_dataset(phase="competition", split="dev")
+
+test_case_dataset = load_dataset("aakarsh-nair/semeval-2025-task-8-test-cases-competition", split='dev')
+test_case_dataset = run(max_workers=os.cpu_count(), 
+                            question_dataset=select_based_on_predicted_type(question_dataset, "category"),
+                            backing_dataset_map=backing_dataset_map,
+                            test_case_dataset=test_case_dataset,
+                            use_cache=True, 
+                            cache_dir="~/.cache", 
+                            regenerate=False, 
+                            phase="competition", 
+                            split="dev",
+                            model="Qwen/Qwen2.5-Coder-32B-Instruct")
+
+logging.info(f"Updated dataset: {test_case_dataset}")
+for row in test_case_dataset:
+    print(row)
+
+cache_path = os.path.expanduser("~/.cache")
+datset_name = "semeval-2025-task-8-test-cases-competition"
+user_repo = "aakarsh-nair"
+
+test_case_dataset.save_to_disk(f"{cache_path}/{datset_name}")
+# split defaults to train!
+test_case_dataset.push_to_hub(f"{user_repo}/{datset_name}", split="dev")
+'''
+
+'''
 
 def create_test_prompt_file(idx, question_df=None,
                                     backing_dataset_map=None,
@@ -258,48 +344,5 @@ def create_empty_huggingface_dataset(name, cache_dir="~/.cache"):
     dataset_dict.save_to_disk(f"{cache_dir}/{name}")
 
     return dataset_dict
+'''
 
-def select_based_on_predicted_type(dataset,  predicted_type):
-    """
-    Select the dataset based on the predicted type
-    """
-    return dataset.filter(lambda x: x['predicted_type'] == predicted_type)
-
-# Create the empty dataset
-empty_dataset = \
-    create_empty_huggingface_dataset("semeval-2025-task-8-test-cases-competition")
-
-# empty_dataset = empty_dataset['dev']
-
-question_dataset, backing_dataset_map = test_case_load_dataset.load_phase_dataset(phase="competition", split="dev")
-
-test_case_dataset = load_dataset("aakarsh-nair/semeval-2025-task-8-test-cases-competition", split='dev')
-test_case_dataset = run(max_workers=os.cpu_count(), 
-                            question_dataset=select_based_on_predicted_type(question_dataset, "category"),
-                            backing_dataset_map=backing_dataset_map,
-                            test_case_dataset=test_case_dataset,
-                            use_cache=True, 
-                            cache_dir="~/.cache", 
-                            regenerate=False, 
-                            phase="competition", 
-                            split="dev",
-                            model="Qwen/Qwen2.5-Coder-32B-Instruct")
-
-logging.info(f"Updated dataset: {test_case_dataset}")
-for row in test_case_dataset:
-    print(row)
-
-cache_path = os.path.expanduser("~/.cache")
-datset_name = "semeval-2025-task-8-test-cases-competition"
-user_repo = "aakarsh-nair"
-
-test_case_dataset.save_to_disk(f"{cache_path}/{datset_name}")
-# split defaults to train!
-test_case_dataset.push_to_hub(f"{user_repo}/{datset_name}", split="dev")
-
-# create_all_test_prompts(split="train", regenerate=True)
-# create main funciton, which will run and push the test cases to hub.
-
-loaded_test_cases = load_from_disk(f"{cache_path}/{datset_name}")
-
-#embed()
