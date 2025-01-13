@@ -43,3 +43,28 @@ def build_prompt(row, df, skip_description=["029_NYTimes"]):
         columns=list(df.columns)
     )
     return prompt
+
+
+def build_inference_prompt(row, df, skip_description=["029_NYTimes"]):
+    question = row['question']
+    df_random_sample = '{}'
+    if not row['dataset'] in skip_description:
+       df_random_sample = generate_dataframe_description_json(df) 
+
+    with open("prompt-templates/prompt_template.jinja") as file:
+        testcase_template = Template(file.read())
+
+    type_hint = row['type'] if 'type' in row else None       
+    type_hint = row['predicted_type'] if 'predicted_type' in row else type_hint 
+    
+    prompt = testcase_template.render(
+        predicted_type=type_hint,
+        schema=generate_dataframe_schma_json(df),
+        description=generate_dataframe_description_json(df),
+        random_sample=df_random_sample,
+        question=question,
+        columns=list(df.columns)
+    )
+    return prompt
+
+ 
