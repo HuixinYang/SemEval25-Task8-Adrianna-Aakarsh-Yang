@@ -69,7 +69,7 @@ def assert_answer_predicted_type(predicted_type,
       assert isinstance(result, (str, int, float, np.integer, np.floating)), f"Expected category (string or number), got {type(result)}"
       return True
     elif predicted_type == 'boolean':
-      assert isinstance(result, bool), f"Expected boolean, got {type(result)}" 
+      assert isinstance(result, (bool, np.bool, np.bool_)), f"Expected boolean, got {type(result)}" 
     elif predicted_type == 'list[category]':
       assert isinstance(result, (list, tuple, set)), f"Expected list, tuple, or set, got {type(result)}"
       assert all(isinstance(item, (str, int, float, np.integer, np.floating)) for item in result), "Not all elements in the list are strings or numbers"
