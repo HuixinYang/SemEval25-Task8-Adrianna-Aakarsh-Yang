@@ -61,23 +61,22 @@ def main():
   parser = argparse.ArgumentParser(description="Generate competition prompts")
   parser.add_argument("--phase", type=str, default="competition", required=True, help="Phase of the competition")
   parser.add_argument("--split", type=str, default="dev", required=True, help="Dataset split")
-  parser.add_argument("--user_name", default="aakarsh-nair", type=str, help="User name for Hugging Face Hub")
-  parser.add_argument("--repo_name", default="semeval-2025-task-8-prompts-competition", type=str, required=True, help="Repository name for Hugging Face Hub")
-  parser.add_argument("--cache_dir_path", type=str, default="~/.cache/", help="Cache directory path")
-  parser.add_argument("--push_to_hub", default=False, action="store_true", help="Flag to push dataset to Hugging Face Hub")
+  parser.add_argument("--user", default="aakarsh-nair", type=str, help="User name for Hugging Face Hub")
+  parser.add_argument("--repo-name", default="semeval-2025-task-8-prompts-competition", type=str,  help="Repository name for Hugging Face Hub")
+  parser.add_argument("--cache-dir", type=str, default="~/.cache/", help="Cache directory path")
+  parser.add_argument("--push-to-hub", default=False, action="store_true", help="Flag to push dataset to Hugging Face Hub")
 
   args = parser.parse_args()
 
   logging.info(f"Generating prompts for phase: {args.phase} and split: {args.split}")
   prompt_dataset = generate_all_prompts(phase=args.phase, split=args.split)
-  cache_dir = os.path.expanduser(args.cache_dir_path)
+  cache_dir = os.path.expanduser(args.cache_dir)
   prompt_dataset.save_to_disk(f"{cache_dir}/{args.repo_name}")
 
   if args.push_to_hub:
     logging.info(f"Pushing dataset to Hugging Face Hub")
     prompt_dataset = DatasetDict.load_from_disk(f"{cache_dir}/{args.repo_name}")
-    prompt_dataset.push_to_hub(f"{args.user_name}/{args.repo_name}", use_temp_dir=True)
-
+    prompt_dataset.push_to_hub(f"{args.user}/{args.repo_name}")
 
 if __name__ == "__main__":
   main()
