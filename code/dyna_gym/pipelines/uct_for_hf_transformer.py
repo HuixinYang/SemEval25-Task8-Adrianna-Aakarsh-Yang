@@ -75,7 +75,6 @@ def uct_for_hf_transformer_pipeline(
         assert (input_ids is None) != (input_str is None), "Only provide one of input_ids and input_str"
 
         if input_str is not None:
-            print(f"WHY ERROR???: input_str: {input_str}")
             input_ids = tokenizer.encode(input_str)
             input_ids = torch.tensor(input_ids).to(model.device)
 
