@@ -410,51 +410,34 @@ def parse_arguments():
             - rollouts (int): Number of rollouts (default: 100).
     """
     parser = argparse.ArgumentParser(description="Run QA pipeline in parallel")
-    parser.add_argument('--base-model', type=str, default='codellama/CodeLlama-13b-Python-hf', help='Base model used run tree search')
+    parser.add_argument('--prompt-dataset', type=str, default='aakarsh-nair/semeval-2025-task-8-prompts-competition', help='Prompt dataset')
+    parser.add_argument('--test-dataset', type=str, default='aakarsh-nair/semeval-2025-task-8-test-cases-competition', help='Test dataset')
+    parser.add_argument('--base-model', type=str, default='codellama/CodeLlama-34b-Python-hf', help='Base model used run tree search')
+    
     parser.add_argument('--cache-dir', type=str, default=os.path.expanduser("~/.cache"), help='Output directory')
     parser.add_argument('--horizon', type=int, default=32, help='Horizon')
     parser.add_argument('--num_threads', type=int, default=2, help='Number of parallel threads')
     parser.add_argument('--start-idx', type=int, default=None, help='Start Index')
     parser.add_argument('--end-idx', type=int, default=None, help='End Index')
     parser.add_argument('--rollouts', type=int, default=100, help='Number of rollouts')
+    parser.add_argument('--enable-cache-regenrations', action='store_true', help='Enable cache regenerations')
     return parser.parse_args()
 
 def main(args):
-    prompt_dataset = load_dataset('aakarsh-nair/semeval-2025-task-8-prompts-competition', split='dev')
-    test_dataset = load_dataset('aakarsh-nair/semeval-2025-task-8-test-cases-competition', split='dev')
+    prompt_dataset = load_dataset(args.prompt_dataset, split='dev')
+    test_dataset = load_dataset(args.test_dataset, split='dev')
     questions_dataset, dataset_map = load_phase_dataset(phase="competition", split="dev")
     logging.info(f"Loaded {len(prompt_dataset)} prompts and {len(test_dataset)} test cases") 
-    model, tokenizer = model_and_tokenzier("codellama/CodeLlama-70b-Python-hf") 
- 
-    run_pipeline_on_qa_single(2, questions_dataset[2], 
-                              dataset_map, 
-                              test_dataset, 
-                              prompt_dataset, 
-                              model, tokenizer, 
-                              cache_dir=os.path.expanduser('~/.cache'),
-                              regenerate=False)
+    model, tokenizer = model_and_tokenzier(args.base_model) 
+
+    run_pipeline_on_qa_parallel(questions_dataset, dataset_map, prompt_dataset, test_dataset, 
+                                model, tokenizer, 
+                                regenerate=args.enable_cache_regenrations,
+                                start_idx=args.start_idx, end_idx=args.end_idx)
+    
     
 if __name__ == "__main__":
     args = parse_arguments()
     print(args)
     main(args)
  
-    '''
-    run_pipeline_on_qa_parallel(questions_dataset, dataset_map, prompt_dataset, test_dataset, 
-                                model, tokenizer, 
-                                regenerate=True,
-                                start_idx=args.start_idx, end_idx=args.end_idx)
-    '''
-    '''
-    semeval_dev_qa = load_dataset("cardiffnlp/databench", name="semeval", split="dev")
-    dataset_map = fetch_all_dataframes(semeval_dev_qa)
-    model, tokenizer = model_and_tokenzier()
-    vocab_size = tokenizer.vocab_size
-
-    logging.info("Torch version: %s", torch.__version__)
-    logging.info("Transformers version: %s", transformers.__version__)
-
-
-    # python run_with_test_cases_parallel.py --output-dir "../output" --test-root "../output/test_cases" --horizon 64 --num_threads 5 --start-idx 0 --end-idx 319--rollouts 20 
-    run_pipeline_on_qa_parallel(semeval_dev_qa, dataset_map, start_idx=args.start_idx, end_idx=args.end_idx)
-    '''
