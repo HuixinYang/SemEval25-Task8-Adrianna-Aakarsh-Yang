@@ -77,10 +77,24 @@ def extract_functions_and_imports(code):
     return imports, functions_map
 
 def code_from_imports_function_map(imports, response_function_map, custom_answer=None):
-  answer = response_function_map['answer'] if custom_answer is None else custom_answer
-  preamble_template="\n".join(imports)
-  code_to_run=preamble_template+"\n"+response_function_map['dummy_data']+"\n"+answer+"\n"+response_function_map['test_answer']+"\n"
-  return code_to_run
+    """
+    Generates a code string by combining provided imports, dummy data, and answer functions.
+
+    Args:
+        imports (list of str): A list of import statements to be included in the code.
+        response_function_map (dict): A dictionary containing keys 'dummy_data', 'answer', and 'test_answer' 
+                                    with corresponding code snippets as values.
+        custom_answer (str, optional): A custom answer function to replace the default 'answer' from 
+                                    response_function_map. Defaults to None.
+
+    Returns:
+        str: A string representing the complete code to be executed, including imports, dummy data, 
+            the answer function, and the test answer function.
+    """
+    answer = response_function_map['answer'] if custom_answer is None else custom_answer
+    preamble_template="\n".join(imports)
+    code_to_run=preamble_template+"\n"+response_function_map['dummy_data']+"\n"+answer+"\n"+response_function_map['test_answer']+"\n"
+    return code_to_run
 
 def generate_method_template(return_statement):
     """
@@ -171,7 +185,8 @@ def error_detecting_reward_fn(question_idx, backing_df, prompt, tests):
         Assign a reward based on the correctness of generated code.
         """
         pass_count = run_all_tests_for_answer(question_idx, code, prompt, tests=tests) 
-        result = post_process(code, backing_df)
+        answer_method = extract_return_statement(prompt, code)
+        result = post_process(answer_method, backing_df)
         # TODO: ADD A PENALTY FOR EXCESS TOKENS AFTER NEWLINE
         # TODO: Check Type of result.
         if "CODE_ERROR" in str(result):
@@ -365,7 +380,7 @@ def model_and_tokenzier(model_name="codellama/CodeLlama-7b-Python-hf"):
             load_in_8bit=True,  
             device_map="auto",  
             trust_remote_code=True,  
-            torch_dtype=torch.float16)
+            torch_dtype=torch.bfloat16)
         logging.info("Quantization config: %s", quantization_config)
         # Load the tokenizer and model with quantization
         tokenizer = AutoTokenizer.from_pretrained(model_name)
@@ -374,13 +389,26 @@ def model_and_tokenzier(model_name="codellama/CodeLlama-7b-Python-hf"):
             quantization_config=quantization_config,
             device_map="auto",
             trust_remote_code=True,
-            torch_dtype=torch.float16)
+            torch_dtype=torch.bfloat16)
     else:
         tokenizer = AutoTokenizer.from_pretrained(model_name)
         model = AutoModelForCausalLM.from_pretrained(model_name)
     return model, tokenizer
 
 def parse_arguments():
+    """
+    Parses command-line arguments for running the QA pipeline in parallel.
+
+    Returns:
+        argparse.Namespace: Parsed command-line arguments with the following attributes:
+            - base_model (str): Base model used to run tree search (default: 'codellama/CodeLlama-13b-Python-hf').
+            - cache_dir (str): Output directory for cache (default: '~/.cache').
+            - horizon (int): Horizon value (default: 32).
+            - num_threads (int): Number of parallel threads (default: 2).
+            - start_idx (int, optional): Start index (default: None).
+            - end_idx (int, optional): End index (default: None).
+            - rollouts (int): Number of rollouts (default: 100).
+    """
     parser = argparse.ArgumentParser(description="Run QA pipeline in parallel")
     parser.add_argument('--base-model', type=str, default='codellama/CodeLlama-13b-Python-hf', help='Base model used run tree search')
     parser.add_argument('--cache-dir', type=str, default=os.path.expanduser("~/.cache"), help='Output directory')
@@ -390,7 +418,6 @@ def parse_arguments():
     parser.add_argument('--end-idx', type=int, default=None, help='End Index')
     parser.add_argument('--rollouts', type=int, default=100, help='Number of rollouts')
     return parser.parse_args()
-
 
 def main(args):
     prompt_dataset = load_dataset('aakarsh-nair/semeval-2025-task-8-prompts-competition', split='dev')
