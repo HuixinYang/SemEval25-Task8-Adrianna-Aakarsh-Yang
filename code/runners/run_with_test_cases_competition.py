@@ -179,7 +179,18 @@ def run_all_tests_for_answer(question_idx, code, prompt, random_seed=42, tests=N
     return pass_count
 
 def error_detecting_reward_fn(question_idx, backing_df, prompt, tests):
+    """
+    Creates an error checking function that assigns a reward based on the correctness of generated code.
 
+    Parameters:
+    question_idx (int): The index of the question being evaluated.
+    backing_df (DataFrame): A DataFrame containing the backing data for post-processing.
+    prompt (str): The prompt used to generate the code.
+    tests (list): A list of test cases to run against the generated code.
+
+    Returns:
+    function: A function that takes generated code as input and returns a reward based on its correctness.
+    """
     def error_check(code):
         """
         Assign a reward based on the correctness of generated code.
@@ -188,7 +199,7 @@ def error_detecting_reward_fn(question_idx, backing_df, prompt, tests):
         answer_method = extract_return_statement(prompt, code)
         result = post_process(answer_method, backing_df)
         # TODO: ADD A PENALTY FOR EXCESS TOKENS AFTER NEWLINE
-        # TODO: Check Type of result.
+        # TODO: ADD A PENALTY FOR TYPE MISMATCH 
         if "CODE_ERROR" in str(result):
             logging.info("CODE ERROR DETECTED")
             return -1
@@ -377,7 +388,7 @@ def model_and_tokenzier(model_name="codellama/CodeLlama-7b-Python-hf"):
         from transformers import  BitsAndBytesConfig
         # Configure 8-bit quantization
         quantization_config = BitsAndBytesConfig(
-            load_in_8bit=True,  
+            load_in_4bit=True,  
             device_map="auto",  
             trust_remote_code=True,  
             torch_dtype=torch.bfloat16)
@@ -412,8 +423,7 @@ def parse_arguments():
     parser = argparse.ArgumentParser(description="Run QA pipeline in parallel")
     parser.add_argument('--prompt-dataset', type=str, default='aakarsh-nair/semeval-2025-task-8-prompts-competition', help='Prompt dataset')
     parser.add_argument('--test-dataset', type=str, default='aakarsh-nair/semeval-2025-task-8-test-cases-competition', help='Test dataset')
-    parser.add_argument('--base-model', type=str, default='codellama/CodeLlama-34b-Python-hf', help='Base model used run tree search')
-    
+    parser.add_argument('--base-model', type=str, default='codellama/CodeLlama-13b-Python-hf', help='Base model used run tree search')
     parser.add_argument('--cache-dir', type=str, default=os.path.expanduser("~/.cache"), help='Output directory')
     parser.add_argument('--horizon', type=int, default=32, help='Horizon')
     parser.add_argument('--num_threads', type=int, default=2, help='Number of parallel threads')
