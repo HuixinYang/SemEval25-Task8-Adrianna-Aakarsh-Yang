@@ -272,14 +272,10 @@ def fetch_all_dataframes(dataset):
   retval = { ds_id: get_dataframe_by_id(ds_id) for ds_id in dataset_ids }
   return retval
 
-def run_pipeline_on_qa_parallel(qa, dataset_map, 
-                                                test_root=DEFAULT_TESTROOT, 
-                                                output_dir=None,
-                                                horizon=DEFAULT_HORIZON, 
-                                                rollouts=100,
-                                                num_threads=2, 
-                                                start_idx=None, 
-                                                end_idx=None):
+def run_pipeline_on_qa_parallel(qa, dataset_map, test_root=DEFAULT_TESTROOT, 
+                                    output_dir=None, horizon=DEFAULT_HORIZON, 
+                                    rollouts=100, num_threads=2, 
+                                    start_idx=None, end_idx=None):
     start_idx = start_idx if start_idx is not None else 0
     end_idx = end_idx if end_idx is not None else len(qa)
 
@@ -329,7 +325,7 @@ def run_pipeline_on_qa_single(idx, qa_item, dataset_map,
         )
         outputs = pipeline(input_str=prompt)
         result = {'texts': outputs['texts'], 'rewards': outputs['rewards'] }
-
+        # Add post processing step which converts list to actual type.
         with open(f'{output_dir}/parallel-output_list-{idx}-06-01-2025.pkl', 'wb') as f:
             pickle.dump(result, f)
         return result
@@ -381,7 +377,7 @@ if __name__ == "__main__":
     logging.info("Transformers version: %s", transformers.__version__)
 
 
-    # python run_with_test_cases_parallel.py --output-dir "../output" --test-root "../output/test_cases" --horizon 64 --num_threads 5 --start-idx 0 --end-idx 319--rollouts 20 
+    # python run_with_test_cases_parallel.py --output-dir "../output" --test-root "../output/test_cases" --horizon 64 --num_threads 5 --start-idx 0 --end-idx 319 --rollouts 20 
     run_pipeline_on_qa_parallel(semeval_dev_qa, dataset_map, 
                                                     test_root=args.test_root, 
                                                     output_dir=args.output_dir, 

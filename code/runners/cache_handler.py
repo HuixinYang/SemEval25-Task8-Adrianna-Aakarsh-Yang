@@ -6,22 +6,9 @@ import logging
 import traceback
 import pandas as pd
 
-def construct_cache_key(args, kwargs):
-    # Extract necessary arguments for cache key
-    qa_item = kwargs.get('qa_item') if 'qa_item' in kwargs else args[1]
-    idx = kwargs.get('idx') if 'idx' in kwargs else args[0]
-    model = kwargs.get('model') if 'model' in kwargs else args[5]
-    
-    # Construct cache file path
-    model_name = model.name_or_path if hasattr(model, 'name_or_path') else str(model)
-    cache_file_path = f"pipeline-runs/{model_name}/mct-result-semeval_id-{qa_item['semeval_id']}.parquet"
-    
-    return cache_file_path, idx
-
-def cache_handler(cache_dir: str = "~/.cache", 
-                  use_cache: bool = True, 
-                  regenerate: bool = False, 
-                  to_parquet_func: Optional[Callable[[Any], pd.DataFrame]] = None):
+def cache_handler(
+    construct_cache_key: Optional[Callable[[tuple, dict], str]] = None,
+    to_parquet_func: Optional[Callable[[Any], pd.DataFrame]] = None):
     """
     Decorator to handle caching of function results.
     
@@ -35,8 +22,14 @@ def cache_handler(cache_dir: str = "~/.cache",
         Callable: Wrapped function with caching capability.
     """
     def decorator(func: Callable[..., Any]) -> Callable[..., Optional[Any]]:
+
         @wraps(func)
         def wrapper(*args, **kwargs) -> Optional[Any]:
+            # Get use_cache and cache_dir from kwargs if available
+            use_cache = kwargs.get('use_cache', True)
+            cache_dir = kwargs.get('cache_dir', '~/.cachee')
+            regenerate = kwargs.get('regenerate', False)
+
             cache_file_path, idx = construct_cache_key(args, kwargs)
             output_dir = os.path.expanduser(f"{cache_dir}/{os.path.dirname(cache_file_path)}")
             cache_file_path = os.path.expanduser(f"{cache_dir}/{cache_file_path}")
