@@ -420,7 +420,7 @@ def parse_arguments():
     parser.add_argument('--start-idx', type=int, default=None, help='Start Index')
     parser.add_argument('--end-idx', type=int, default=None, help='End Index')
     parser.add_argument('--rollouts', type=int, default=100, help='Number of rollouts')
-    parser.add_argument('--enable-cache-regenrations', action='store_true', help='Enable cache regenerations')
+    parser.add_argument('--enable-cache-regenrations', action='store_false', help='Enable cache regenerations')
     return parser.parse_args()
 
 def main(args):
