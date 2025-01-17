@@ -84,3 +84,17 @@ def assert_answer_predicted_type(predicted_type,
     logging.error(f"Error in assert_answer_predicted_type: {e}", exc_info=True)
     return False
   return False
+
+def is_predicted_type(result, predicted_type):
+  if predicted_type == 'number':
+    return isinstance(result, (int, float, np.integer, np.floating))
+  elif predicted_type == 'category':
+    return isinstance(result, (str, int, float, np.integer, np.floating))
+  elif predicted_type == 'boolean':
+    return isinstance(result, (bool, np.bool, np.bool_))
+  elif predicted_type == 'list[category]':
+    return isinstance(result, (list, tuple, set)) and all(isinstance(item, (str, int, float, np.integer, np.floating)) for item in result)
+  elif predicted_type == 'list[number]':
+    return isinstance(result, (list, tuple, set)) and all(isinstance(item, (int, float, np.integer, np.floating)) for item in result)
+  else:
+    return False

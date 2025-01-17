@@ -21,7 +21,7 @@ import pyarrow.parquet as pq
 from cache_handler import cache_handler
  
 from prompting.test_case_load_dataset import load_phase_dataset
- 
+from prompting.test_case_runner import is_predicted_type 
 logging.basicConfig(level=logging.INFO)
 
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
@@ -40,13 +40,13 @@ def answer(df):
         exec(
             "global ans\n"
             + lead
-            + response.split("return")[2].split("\n")[0].strip().replace("[end of text]", "")
+            + response.split("return")[1].split("\n")[0].strip().replace("[end of text]", "")
             + f"\nans = answer(df)"
         )
         return ans.split("\n")[0] if "\n" in str(ans) else ans
     except Exception as e:
         traceback.print_exc()
-        return f"__CODE_ERROR__: {e}"
+        return f"__CODE_ERROR__: {e} Code:\n{response}"
 
 def extract_functions_and_imports(code):
     """
@@ -180,7 +180,7 @@ def run_all_tests_for_answer(question_idx, code, prompt, random_seed=42, tests=N
                 print(f"Runtime error: {e}")
     return pass_count
 
-def error_detecting_reward_fn(question_idx, backing_df, prompt, tests):
+def error_detecting_reward_fn(question_idx, prompt_item, backing_df, prompt, tests):
     """
     Creates an error checking function that assigns a reward based on the correctness of generated code.
 
@@ -198,12 +198,25 @@ def error_detecting_reward_fn(question_idx, backing_df, prompt, tests):
         Assign a reward based on the correctness of generated code.
         """
         pass_count = run_all_tests_for_answer(question_idx, code, prompt, tests=tests) 
-        answer_method = extract_return_statement(prompt, code)
+        logging.debug(f'ERROR CHECK: {pass_count} tests passed')
+        logging.debug(f"ERROR_CHECK-Code: {code}")
+        return_statement = extract_return_statement(code, prompt)
+        answer_method = generate_method_template(return_statement)
+        logging.debug(f"ERROR_CHECK:Extracted return statement: {answer_method}")
         result = post_process(answer_method, backing_df)
         logging.info(f"Post Process resutl: {result}")
+        predicted_type = prompt_item['predicted_type']
+        correct_type = is_predicted_type(result, predicted_type) 
+        
+        if correct_type and pass_count > 0:
+            logging.info(f"PASSED A TEST! ({pass_count} times) and Correct Type")
+            
+        if not correct_type: 
+            logging.info(f"Type mismatch detected: {predicted_type} vs {type(result)}")
+            return -1
         # TODO: ADD A PENALTY FOR EXCESS TOKENS AFTER NEWLINE
         # TODO: ADD A PENALTY FOR TYPE MISMATCH 
-        if "CODE_ERROR" in str(result):
+        elif "CODE_ERROR" in str(result):
             logging.info("CODE ERROR DETECTED")
             logging.info(f"Error: {result} Code:\n{answer_method}")
             return -1
@@ -375,7 +388,7 @@ def run_pipeline_on_qa_single(idx: int,
             model=model,
             tokenizer=tokenizer,
             horizon=horizon,
-            reward_func=error_detecting_reward_fn(idx, backing_df, prompt_content, tests=tests_for_questions),
+            reward_func=error_detecting_reward_fn(idx, prompt, backing_df, prompt_content, tests=tests_for_questions),
             uct_args=dict(rollouts=rollouts, gamma=1, width=5, alg='p_uct'),
             model_generation_args=model_generation_args,
             should_plot_tree=False)
@@ -430,7 +443,7 @@ def parse_arguments():
     parser.add_argument('--test-dataset', type=str, default='aakarsh-nair/semeval-2025-task-8-test-cases-competition', help='Test dataset')
     parser.add_argument('--base-model', type=str, default='codellama/CodeLlama-7b-Python-hf', help='Base model used run tree search')
     parser.add_argument('--cache-dir', type=str, default=os.path.expanduser("~/.cache"), help='Output directory')
-    parser.add_argument('--horizon', type=int, default=32, help='Horizon')
+    parser.add_argument('--horizon', type=int, default=42, help='Horizon')
     parser.add_argument('--num-threads', type=int, default=1, help='Number of parallel threads')
     parser.add_argument('--start-idx', type=int, default=None, help='Start Index')
     parser.add_argument('--end-idx', type=int, default=None, help='End Index')
