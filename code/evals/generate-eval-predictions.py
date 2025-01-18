@@ -222,7 +222,6 @@ for idx in range(len(output_list)):
       for response in responses:
           f.write(str(response) + "\n")
           
-          
 evaluator = Evaluator(qa=qa)
 
 # Run the evaluator
