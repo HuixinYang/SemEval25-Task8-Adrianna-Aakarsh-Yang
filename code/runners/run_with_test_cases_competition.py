@@ -261,8 +261,8 @@ def run_pipeline_on_qa_parallel(qa, dataset_map, prompt_dataset,test_dataset,
                             model, 
                             tokenizer,
                             use_cache=use_cache,
-                            regenerate=regenerate,
                             cache_dir=cache_dir,
+                            regenerate=regenerate,
                             horizon=horizon, 
                             rollouts=rollouts): idx
             for idx in process_indices 
@@ -394,12 +394,12 @@ def run_pipeline_on_qa_single(idx: int,
             should_plot_tree=False)
 
         return pipeline(input_str=prompt_content)
+    
     except Exception as e:
         traceback.print_exc()
         print(e)
         return {"error": str(e), 'texts': [], 'rewards': []} 
 
-#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 def model_and_tokenzier(model_name="codellama/CodeLlama-7b-Python-hf"):
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
@@ -413,7 +413,7 @@ def model_and_tokenzier(model_name="codellama/CodeLlama-7b-Python-hf"):
         logging.info("Quantization config: %s", quantization_config)
         # Load the tokenizer and model with quantization
         tokenizer = AutoTokenizer.from_pretrained(model_name)
-        model = AutoModelForCausalLM.from_pretrained(
+        model     = AutoModelForCausalLM.from_pretrained(
             model_name,
             quantization_config=quantization_config,
             device_map="auto",
@@ -460,6 +460,7 @@ def main(args):
 
     run_pipeline_on_qa_parallel(questions_dataset, dataset_map, prompt_dataset, test_dataset, 
                                 model, tokenizer, 
+                                cache_dir=args.cache_dir,
                                 num_threads=args.num_threads,
                                 regenerate=args.enable_cache_regenrations,
                                 start_idx=args.start_idx, end_idx=args.end_idx)
