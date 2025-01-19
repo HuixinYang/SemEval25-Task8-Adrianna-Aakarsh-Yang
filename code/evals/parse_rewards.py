@@ -81,19 +81,32 @@ def reshape_and_enrich_data(parsed_rewards, questions_dataset, datasets_map):
     return parsed_rewards
 
 
-def process_semeval_id(semeval_id, parsed_rewards, question_dataset, datasets_map, datasets_map_lite):
+def process_semeval_id(semeval_id, shared_parsed_rewards, question_dataset, datasets_map, datasets_map_lite):
     """
     Process a single semeval_id for parallelization.
     """
-    parsed_reward = parsed_rewards[semeval_id]
-    for idx, rollout in enumerate(parsed_reward['parsed_rewards']):
+    logging.debug(f"Processing semeval_id: {semeval_id}")
+    parsed_rewards = shared_parsed_rewards[semeval_id]
+    rollout_rewards = parsed_rewards['parsed_rewards']
+
+    for idx, rollout in enumerate(rollout_rewards):
         return_statement = rollout['return']
+        reward_received = rollout['reward'] 
         eval_result = evaluate_return_statement(return_statement, datasets_map[question_dataset[semeval_id]['dataset']])
-        parsed_rewards[semeval_id]['parsed_rewards'][idx]['eval_result'] = eval_result
-        eval_result_lite = evaluate_return_statement(return_statement, datasets_map_lite[question_dataset[semeval_id]['dataset']])
-        parsed_rewards[semeval_id]['parsed_rewards'][idx]['eval_result_lite'] = eval_result_lite
-        logging.debug(f"Eval result {semeval_id}-{idx}: all:{eval_result} lite:{eval_result_lite}")
-    return semeval_id, parsed_rewards[semeval_id]
+        rollout['eval_result'] = \
+            str(eval_result)
+        eval_result_lite = \
+            evaluate_return_statement(return_statement, datasets_map_lite[question_dataset[semeval_id]['dataset']])
+        rollout['eval_result_lite'] = str(eval_result_lite)
+
+        logging.debug(f"eval-result: {semeval_id}-{idx}: all:{eval_result} lite:{eval_result_lite}")
+        logging.debug(f"Enriched parsed_rewards: {json.dumps(rollout, indent=4)}")
+
+    # DO-NOT REMOVE: REQUIRED BECAUSE OF THE SHARED MEMORY SYNCHRONIZATION
+    shared_parsed_rewards[semeval_id] = parsed_rewards
+    
+    logging.debug(f" ENRICHED_DATA: {json.dumps(shared_parsed_rewards[semeval_id], indent=4)}")
+    return semeval_id, shared_parsed_rewards[semeval_id]
 
 
 def enrich_with_executions_results(parsed_rewards, question_dataset, datasets_map, datasets_map_lite):
@@ -101,17 +114,39 @@ def enrich_with_executions_results(parsed_rewards, question_dataset, datasets_ma
     Enrich the data with the results of the executions.
     """
     semeval_id_list = sorted(map(int, parsed_rewards.keys()))
+    # map all parsed rewards keys so they are integers not strings
+    #parsed_rewards = { int(k): v for k, v in parsed_rewards.items() }
     with Manager() as manager:
         shared_parsed_rewards = manager.dict(parsed_rewards)
+        logging.debug(f"Shared parsed rewards keys: {shared_parsed_rewards.keys()}")
         with Pool(cpu_count()) as pool:
             results = pool.starmap(
                 process_semeval_id, 
-                [(semeval_id, shared_parsed_rewards, question_dataset, datasets_map, datasets_map_lite) for semeval_id in semeval_id_list]
+                [(semeval_id, shared_parsed_rewards, question_dataset, datasets_map, datasets_map_lite) 
+                 for semeval_id in semeval_id_list]
             )
         for semeval_id, enriched_data in results:
             parsed_rewards[semeval_id] = enriched_data
     return parsed_rewards
 
+def generate_predictions_files(parsed_rewards, output_dir):
+    """
+    Generate the predictions by simply predicting the 
+    most frequent response for all runs for eval and lite eval, 
+    more sophisticated methods can be used to generate predictions.
+    Which take into account semantic similarity and max rewards.
+    """
+    predictions = {}
+    for semeval_id in parsed_rewards:
+        semeval_id = int(semeval_id)
+        eval_results = [ r['eval_result'] for r in parsed_rewards[semeval_id]['parsed_rewards'] ]
+        eval_results_lite = [ r['eval_result_lite'] for r in parsed_rewards[semeval_id]['parsed_rewards'] ]
+        predictions[semeval_id] = {
+            'eval': max(set(eval_results), key=eval_results.count),
+            'eval_lite': max(set(eval_results_lite), key=eval_results_lite.count)
+        }
+    return predictions
+            
 if __name__ == "__main__":
     root_dir = os.path.expanduser("~/.cache/pipeline-runs")
     parser = argparse.ArgumentParser(description="Parse rewards from the output of the reward function.")
@@ -127,15 +162,16 @@ if __name__ == "__main__":
     reward_data = read_reward_files(args.root_dir, args.base_model)
 
     parsed_rewards = parse_reward_data(reward_data)
-    parsed_rewards = reshape_and_enrich_data(parsed_rewards, questions_dataset, datasets_map)
+    parsed_rewards = reshape_and_enrich_data(parsed_rewards, 
+                                             questions_dataset, 
+                                             datasets_map)
 
-    parsed_rewards = enrich_with_executions_results(parsed_rewards, questions_dataset, datasets_map, lite_datasets_map)
+    parsed_rewards = \
+        enrich_with_executions_results(parsed_rewards, questions_dataset, datasets_map, lite_datasets_map)
 
     with open("parsed_rewards.json", "w") as f:
         f.write(json.dumps(parsed_rewards, indent=4))
 
-
-    # print(json.dumps(parsed_rewards, indent=4))
     # Evaluate the return statements
 
     """
