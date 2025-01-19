@@ -23,10 +23,11 @@ def load_table(name, shared_datasets):
 def default_compare(value, truth, semantic):
   STRIP_CHARS = "[]'\" "
   semantic = semantic.strip()
-  valid_null_set = [None, "nan", "", " ", np.nan, "np.nan", "None"]
+  valid_null_set = [ None, "nan", "", " ", np.nan, "np.nan", "None" ]
 
   if str(value).strip(STRIP_CHARS) in valid_null_set and str(truth).strip(STRIP_CHARS) in valid_null_set:
       return True
+
   if str(value).strip(STRIP_CHARS) in valid_null_set or str(truth).strip(STRIP_CHARS) in valid_null_set:
       return False
 
@@ -41,7 +42,6 @@ def default_compare(value, truth, semantic):
       truth_str = str(truth).strip(STRIP_CHARS)
       if value_str == truth_str:
           return True
-
       try:
           value_date = pd.to_datetime(value_str).date()
           truth_date = pd.to_datetime(truth_str).date()
@@ -70,7 +70,6 @@ def default_compare(value, truth, semantic):
           ]
           if len(value_list) != len(truth_list):
               return False
-
           # Attempt to parse each item as a date
           try:
               value_dates = [pd.to_datetime(item).date() for item in value_list]
@@ -91,13 +90,11 @@ def default_compare(value, truth, semantic):
 
           if len(value_list) != len(truth_list):
               return False
-          
           return set(value_list) == set(truth_list)
       except Exception as exc:
           return False
   else:
       raise Exception(f"Semantic not supported: {semantic}")
-    
           
 def process_question(index, shared_data, shared_datasets):
     """Process a single question for parallelization."""
@@ -106,9 +103,11 @@ def process_question(index, shared_data, shared_datasets):
     df = load_table(row["dataset"], shared_datasets)
     completion = row["completion"]
     value = post_process(completion, df)
+    
     truth = row["answer"] 
     semantic = row["type"]
-    correct =  default_compare(value, truth, semantic)
+    
+    correct = default_compare(value, truth, semantic)
     correct_str = "CORRECT" if correct else "INCORRECT"
     correct_value =value
 
@@ -166,7 +165,6 @@ else:
     updated_rows = generate_responses(dataset_df)
     print("Done processing questions.")
     # Persist the updated rows to disk
-
     schema = pa.schema([
                     ('semeval_id', pa.string()),
                     ('split', pa.string()),
@@ -190,7 +188,6 @@ else:
     if push_to_hub:
         dataset_df['dev'] = updated_rows
         dataset_df.push_to_hub("aakarsh-nair/semeval-2025-task-8-finetune")
-
 
 """
 for idx in range(len(output_list)):

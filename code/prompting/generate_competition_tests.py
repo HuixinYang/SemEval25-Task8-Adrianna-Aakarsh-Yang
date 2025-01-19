@@ -12,9 +12,9 @@ import argparse
 import logging
 
 import test_case_prompt_builder
-import test_case_runner
+import py_evaluator.test_case_runner as test_case_runner
 import test_case_query_model
-import test_case_load_dataset
+import dataloading.semeval_load_dataset as semeval_load_dataset
 
 from datasets import Dataset, DatasetDict
 from datasets import Dataset, DatasetDict, Features, Value
@@ -212,7 +212,7 @@ def main():
     repository_name = "semeval-2025-task-8-test-cases-competition"
     user_repo = "aakarsh-nair"
     # Load datasets
-    question_dataset, backing_dataset_map = test_case_load_dataset.load_phase_dataset(phase=args.phase, split=args.split)
+    question_dataset, backing_dataset_map = semeval_load_dataset.load_phase_dataset(phase=args.phase, split=args.split)
     test_case_dataset = load_dataset(f"{user_repo}/{repository_name}", split=args.split)
 
     # Run the test case generation

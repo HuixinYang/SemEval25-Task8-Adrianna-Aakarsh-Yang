@@ -17,7 +17,6 @@ def answer(df: pd.DataFrame):
 """
     return method_template
 
-
 #TODO: Remove this hacky crap.
 def post_process(response: str, dataset, dummy_df=None, use_dummy=False):
     """
@@ -40,18 +39,6 @@ def answer(df):
         traceback.print_exc()
         return f"__CODE_ERROR__: {e} Code:\n{response}"
 
-def extract_return_statement(sentence, prompt):
-    """
-    Extracts the return statement from a given sentence based on a provided prompt.
-    Args:
-        sentence (str): The complete sentence from which the return statement needs to be extracted.
-        prompt (str): The initial part of the sentence that precedes the return statement.
-    Returns:
-        str: The extracted return statement from the sentence.
-    """
-    completion = sentence[len(prompt):]
-    return_statement = completion.split("\n")[0]
-    return return_statement
 
 def extract_functions_and_imports(code):
     """
@@ -102,6 +89,36 @@ def code_from_imports_function_map(imports, response_function_map, custom_answer
     preamble_template="\n".join(imports)
     code_to_run=preamble_template+"\n"+response_function_map['dummy_data']+"\n"+answer+"\n"+response_function_map['test_answer']+"\n"
     return code_to_run
+
+def evaluate_return_statement(return_statement, df):
+    """
+    Evaluates a return statement using the provided pandas DataFrame.
+    Args:
+        return_statement (str): The return statement to be evaluated.
+        df (pd.DataFrame): The pandas DataFrame to be used in the evaluation.
+    Returns:
+        Any: The result of evaluating the return statement.
+    """
+    try:
+        answer_method = generate_method_template(return_statement) 
+        answer = post_process(answer_method, df)
+        return answer
+    except Exception as e:
+        traceback.print_exc()
+        return f"__RUNTIME_ERROR__: {e}"
+    
+def extract_return_statement(sentence, prompt):
+    """
+    Extracts the return statement from a given sentence based on a provided prompt.
+    Args:
+        sentence (str): The complete sentence from which the return statement needs to be extracted.
+        prompt (str): The initial part of the sentence that precedes the return statement.
+    Returns:
+        str: The extracted return statement from the sentence.
+    """
+    completion = sentence[len(prompt):]
+    return_statement = completion.split("\n")[0]
+    return return_statement
 
 def run_tests_for_answer(question_idx, sentence, prompt, random_seed=42, test=None):
     """
