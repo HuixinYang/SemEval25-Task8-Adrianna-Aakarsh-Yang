@@ -4,6 +4,7 @@ import logging
 import os
 import pandas as pd
 
+from multiprocessing import Pool, Manager, cpu_count
 from utils.dir_utils import (find_all_output_files, 
                              collect_all_results,
                              extract_id_from_path)
@@ -79,28 +80,37 @@ def reshape_and_enrich_data(parsed_rewards, questions_dataset, datasets_map):
         }
     return parsed_rewards
 
-def enrich_with_executions_results(parsed_rewards, 
-                                   question_dataset, 
-                                   datasets_map):
+
+def process_semeval_id(semeval_id, parsed_rewards, question_dataset, datasets_map, datasets_map_lite):
+    """
+    Process a single semeval_id for parallelization.
+    """
+    parsed_reward = parsed_rewards[semeval_id]
+    for idx, rollout in enumerate(parsed_reward['parsed_rewards']):
+        return_statement = rollout['return']
+        eval_result = evaluate_return_statement(return_statement, datasets_map[question_dataset[semeval_id]['dataset']])
+        parsed_rewards[semeval_id]['parsed_rewards'][idx]['eval_result'] = eval_result
+        eval_result_lite = evaluate_return_statement(return_statement, datasets_map_lite[question_dataset[semeval_id]['dataset']])
+        parsed_rewards[semeval_id]['parsed_rewards'][idx]['eval_result_lite'] = eval_result_lite
+        logging.debug(f"Eval result {semeval_id}-{idx}: all:{eval_result} lite:{eval_result_lite}")
+    return semeval_id, parsed_rewards[semeval_id]
+
+
+def enrich_with_executions_results(parsed_rewards, question_dataset, datasets_map, datasets_map_lite):
     """
     Enrich the data with the results of the executions.
     """
     semeval_id_list = sorted(map(int, parsed_rewards.keys()))
-    parsed_rewards_list = [ parsed_rewards[str(semeval_id)] for semeval_id in semeval_id_list]
-    for semeval_id in semeval_id_list:
-        print(f"Processing semeval_id: {semeval_id}")
-        parsed_reward = parsed_rewards_list[semeval_id]
-        
-        for idx, rollout in enumerate(parsed_reward):
-            print(f"Processing rollout: {rollout}")
-            return_statement = rollout['return']
-            eval_result = \
-                evaluate_return_statement(return_statement, 
-                            datasets_map[question_dataset[semeval_id]['dataset']]) 
-            parsed_rewards_list[semeval_id]['parsed_rewards'][idx]['eval_result'] = eval_result
-        
-    return parsed_rewards        
-
+    with Manager() as manager:
+        shared_parsed_rewards = manager.dict(parsed_rewards)
+        with Pool(cpu_count()) as pool:
+            results = pool.starmap(
+                process_semeval_id, 
+                [(semeval_id, shared_parsed_rewards, question_dataset, datasets_map, datasets_map_lite) for semeval_id in semeval_id_list]
+            )
+        for semeval_id, enriched_data in results:
+            parsed_rewards[semeval_id] = enriched_data
+    return parsed_rewards
 
 if __name__ == "__main__":
     root_dir = os.path.expanduser("~/.cache/pipeline-runs")
@@ -113,15 +123,19 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     questions_dataset, datasets_map = load_phase_dataset(phase=args.phase, split=args.split)
+    _, lite_datasets_map = load_phase_dataset(phase=args.phase, split=args.split, lite=True)
     reward_data = read_reward_files(args.root_dir, args.base_model)
 
     parsed_rewards = parse_reward_data(reward_data)
     parsed_rewards = reshape_and_enrich_data(parsed_rewards, questions_dataset, datasets_map)
 
+    parsed_rewards = enrich_with_executions_results(parsed_rewards, questions_dataset, datasets_map, lite_datasets_map)
+
     with open("parsed_rewards.json", "w") as f:
         f.write(json.dumps(parsed_rewards, indent=4))
-    parsed_rewards = enrich_with_executions_results(parsed_rewards, questions_dataset, datasets_map)
-   # print(json.dumps(parsed_rewards, indent=4))
+
+
+    # print(json.dumps(parsed_rewards, indent=4))
     # Evaluate the return statements
 
     """
@@ -130,4 +144,3 @@ if __name__ == "__main__":
                                                 dataset_name=args.repo_name, 
                                                 save_to_disk=True)
     """ 
-    

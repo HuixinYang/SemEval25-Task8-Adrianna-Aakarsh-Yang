@@ -31,7 +31,7 @@ def fetch_all_dataframes(dataset, phase = None, lite = False):
     }
     return retval
 
-def load_phase_dataset(phase="competition", split="dev", limit=None):
+def load_phase_dataset(phase="competition", split="dev", limit=None, lite=False):
     if phase == "competition":
         # Load the competition dataset
         file_path = os.path.join(os.path.dirname(__file__), '..', '..', 'datasets', 'competition', 'test_qa_enhanced.csv')
@@ -39,7 +39,7 @@ def load_phase_dataset(phase="competition", split="dev", limit=None):
         questions_dataset = questions_dataset.map(lambda example, idx: {"semeval_id": idx}, with_indices=True)
         if limit:
             questions_dataset = questions_dataset.select(range(limit))
-        datasets_map = fetch_all_dataframes(questions_dataset, phase=phase)
+        datasets_map = fetch_all_dataframes(questions_dataset, phase=phase, lite=lite)
     else:
         # Questions Dataset 
         questions_dataset = load_dataset("cardiffnlp/databench", name="semeval", split=split)
