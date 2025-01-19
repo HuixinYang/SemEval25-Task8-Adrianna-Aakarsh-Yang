@@ -1,0 +1,518 @@
+True
+False
+True
+False
+True
+True
+True
+True
+True
+MISSING_SUBMISSION
+Sales
+Divorced
+Life Sciences
+Travel_Rarely
+Male
+3
+Human Resources
+36.923809523809524
+9
+MISSING_SUBMISSION
+4919.0
+13513
+11.105381165919283
+446
+15
+15
+[3, 4]
+[1009, 1051, 1052, 1081, 1091]
+[2, 1, 4, 3, 5]
+MISSING_SUBMISSION
+[35, 34, 36, 31, 29]
+['Sales Executive', 'Research Scientist', 'Laboratory Technician']
+['Research & Development', 'Sales']
+['Single', 'Married', 'Divorced']
+['Life Sciences', 'Other', 'Medical', 'Marketing', 'Technical Degree', 'Human Resources']
+['Travel_Rarely', 'Travel_Frequently', 'Non-Travel']
+['Yes', 'No']
+[1, 2, 3, 4]
+[1, 2, 3]
+MISSING_SUBMISSION
+True
+False
+20000
+True
+False
+False
+False
+False
+False
+MISSING_SUBMISSION
+nan
+{'service': 5.0, 'cleanliness': 5.0, 'overall': 5.0, 'value': 5.0, 'location': 5.0, 'sleep_quality': 5.0, 'rooms': 5.0}
+0
+{'username': 'charlietrisj', 'num_cities': 9, 'num_helpful_votes': 2, 'num_reviews': 18, 'num_type_reviews': 7, 'id': 'E9E6CF57EF6DEFB14DBE13D71943545C', 'location': 'chatham, massachusetts'}
+806.7501
+20000
+66
+1.151
+12592
+MISSING_SUBMISSION
+0
+23020
+[2012, 2011, 2010, 2009]
+[66, 52, 47, 44, 43]
+["{'username': '', 'id': '', 'location': ''}", "{'username': 'Manny S', 'num_cities': 87, 'num_helpful_votes': 124, 'num_reviews': 136, 'num_type_reviews': 103, 'id': '515729851A55A42973EC60DB29771431', 'location': 'Fort Worth, Texas'}", "{'username': 'palmsprings0', 'num_cities': 54, 'num_helpful_votes': 84, 'num_reviews': 103, 'num_type_reviews': 32, 'id': '16267B510377A3C8214D09A29F96AAC2', 'location': 'Atlanta'}", "{'username': 'ZP83', 'num_cities': 29, 'num_helpful_votes': 18, 'num_reviews': 49, 'num_type_reviews': 49, 'id': '95BE8B0378C9B4066D4AAF00F0EB4708', 'location': 'ZP83'}"]
+[]
+[3523356, 3236579, 3235844, 3235844, 3235844]
+[2016, 2017, 2018, 2019]
+True
+MISSING_SUBMISSION
+True
+True
+False
+True
+True
+Request for Quotations
+SOUTH ASIA
+80.0
+Civil Works
+MISSING_SUBMISSION
+India
+Energy and Extractives;Agriculture, Fishing and Forestry;Industry, Trade and Services
+812960107.83
+9
+239461
+530724.5038668092
+427.0
+5652503.363732076
+27051
+MISSING_SUBMISSION
+True
+[427.0, 832.0, 1418.0, 2530.0, 3058.0]
+[2021, 2022, 2023]
+[15925264883.9, 13321977331.02, 13505690141.88]
+__CODE_ERROR__: '(' was never closed (<string>, line 4) Code:  def answer(df: pd.DataFrame):     return df[(df['Supplier Contract Amount (USD)'] > 100000) & (df['Supplier Contract Amount (USD)'] < 
+[812960107.83, 616609217.47, 577047623.48, 577047623.48]
+['India', 'Western and Central Africa', 'Ethiopia', 'Madagascar', 'Bolivia']
+['SOUTH ASIA', 'Western and Central Africa', 'Eastern and Southern Africa', 'LATIN AMERICA AND CARIBBEAN']
+['Request for Quotations', 'Individual Consultant Selection', 'Request for Bids', 'Direct Selection']
+MISSING_SUBMISSION
+['Post', 'Prior']
+['Post', 'Prior']
+True
+True
+False
+False
+True
+True
+True
+MISSING_SUBMISSION
+Business and Finance
+Business and Finance
+Sports
+Sports
+483
+Commercial Trucks
+150
+703
+34
+MISSING_SUBMISSION
+376
+40
+40
+8
+True
+703
+['483', '90', 'SPSHQ5']
+[]
+[1, 2]
+MISSING_SUBMISSION
+['Angel Investment', 'Bankruptcy', "Women's Casual Wear"]
+['Attractions', 'Automotive']
+['Industries', 'Computing', 'Diseases and Conditions', 'Business']
+[nan]
+['Attractions', 'Attractions', 'Attractions', 'Attractions']
+['483', '90', 'SPSHQ5', '338']
+['150', nan, '1']
+True
+False
+MISSING_SUBMISSION
+True
+True
+False
+False
+True
+[Hacendado]
+[Spain]
+[]
+265
+MISSING_SUBMISSION
+kiliweb
+8338
+48
+5423
+0
+9483
+9483
+0
+[]
+MISSING_SUBMISSION
+['[]', '[No gluten]']
+['[]', '[No gluten]', '[Green Dot]', '[No gluten, Green Dot]', '[No lactose]']
+['[Hacendado]', '[]']
+[3169, 2843]
+['[Spain]', '[Portugal, Spain]', '[Ireland]']
+[8891, 108, 83]
+True
+True
+True
+MISSING_SUBMISSION
+True
+True
+True
+True
+Switzerland
+Pakistan
+Pakistan
+Switzerland
+Hong Kong (China)
+MISSING_SUBMISSION
+Barbados
+101.1
+46.5
+121
+44.22892561983471
+84.2
+76.7
+110.91
+3
+MISSING_SUBMISSION
+[101.1, 85.0, 83.0, 76.7, 76.6]
+[158.7, 54.6, 120.3, 111.1, 43.5]
+[1, 3, 8]
+[121, 120, 119, 118, 117]
+[]
+[19, 51, 36, 0, 8]
+['Switzerland', 'Bahamas', 'Iceland', 'Singapore', 'Barbados']
+['Switzerland', 'Iceland', 'Hong Kong (China)']
+['Pakistan', 'Egypt', 'Libya']
+MISSING_SUBMISSION
+['Luxembourg', 'Kuwait', 'Qatar', 'Switzerland', 'United States']
+['Bangladesh', 'Pakistan', 'Indonesia']
+True
+True
+True
+True
+True
+True
+True
+MISSING_SUBMISSION
+4
+4
+0.71
+298
+2
+5
+3
+True
+340
+MISSING_SUBMISSION
+162
+9.7
+312
+0.6048128003332054
+52802
+108
+[340, 340, 340, 340, 340]
+9
+42
+MISSING_SUBMISSION
+[6.8, 7.2, 7.21, 7.23, 7.25]
+[0.97, 0.97, 0.97, 0.97, 0.96]
+[0.97, 0.97, 0.97, 0.97, 0.96]
+[340, 340, 340, 340, 340]
+[]
+[9.36, 9.15]
+[4, 5, 5, 5, 5]
+[1, 1, 2, 1, 1]
+[0.97, 0.97, 0.97, 0.97]
+MISSING_SUBMISSION
+[2.0, 2.0, 3.0, 4.0, 2.0]
+True
+True
+True
+False
+True
+True
+True
+False
+MISSING_SUBMISSION
+southeast
+male
+yes
+southeast
+male
+True
+0
+northeast
+no
+MISSING_SUBMISSION
+1.0949177877429
+4
+17755824.990759
+18
+91
+274
+30.4
+[53.13, 52.58]
+[1163.4627, 44501.3982, 2438.0552]
+MISSING_SUBMISSION
+[18, 18, 18]
+['yes', 'no']
+['southeast', 'southwest', 'northwest']
+True
+True
+False
+True
+True
+True
+MISSING_SUBMISSION
+True
+True
+83 kg
+93 kg
+Bench Press
+399
+10
+10
+0
+MISSING_SUBMISSION
+nan
+Jane Smith
+258507
+100
+299
+0
+[399, 399, 399]
+[100, 100, 100, 100, 100]
+['93 kg', 'Open', '59 kg', '83 kg', '66 kg']
+MISSING_SUBMISSION
+['Laura Taylor', 'Laura Taylor']
+[399, 399, 399]
+[]
+[]
+['93 kg', 'Open', '59 kg']
+['Laura Taylor', 'Sarah Thomas', 'Matthew Anderson', 'Jane Smith', 'Laura Taylor']
+['Squat', 'Bench Press', 'Deadlift']
+['Deadlift', 'Bench Press', 'Squat']
+False
+MISSING_SUBMISSION
+True
+True
+False
+False
+True
+True
+HHS Region 04
+Suicide
+Male
+MISSING_SUBMISSION
+HHS Region 01
+276.4
+0.1
+25
+22762.7
+0.6407499999999999
+0.5146129650129294
+10
+273.0
+MISSING_SUBMISSION
+[0.1, 0.1, 0.1, 0.1, 0.1]
+[106.0, 106.7, 114.3, 115.1, 119.8]
+[]
+[0.1, 0.1, 0.1, 0.1, 0.1]
+['Heart disease', 'Cancer', 'Lower respiratory', 'Unintentional injuries', 'Cerebrovascular diseases', 'Alzheimers', 'Diabetes', 'Flu and pneumonia', 'Suicide', 'Nephritis']
+['HHS Region 04', 'HHS Region 06', 'HHS Region 03']
+['HHS Region 01', 'HHS Region 02', 'HHS Region 03', 'HHS Region 04', 'HHS Region 05', 'HHS Region 06', 'HHS Region 07', 'HHS Region 08', 'HHS Region 09', 'HHS Region 10']
+True
+False
+MISSING_SUBMISSION
+False
+True
+True
+True
+True
+Kevin Durant
+Kevin Durant
+GSW
+JaVale McGee
+MISSING_SUBMISSION
+Kevin Durant
+Ricky Rubio
+191
+1348034
+1896
+0.0
+82
+0
+0
+MISSING_SUBMISSION
+269
+[1247, 1226, 1120]
+[907, 840, 839]
+[2818, 2593, 2558, 2375]
+[191, 177, 174]
+[822, 786, 779]
+['Jordan Hamilton', 'Vic Law', "Johnny O'Bryant III", 'Zylan Cheatham', 'Tyler Hall']
+['Andre Drummond', 'Andre Drummond', 'DeAndre Jordan']
+['GSW', 'LAC', 'BOS', 'MIL', 'MIA']
+MISSING_SUBMISSION
+['Chris Paul', 'James Harden']
+['Hassan Whiteside', 'Victor Wembanyama', 'Serge Ibaka']
+['James Harden', 'Russell Westbrook', 'Rajon Rondo', 'Chris Paul']
+True
+True
+False
+False
+True
+True
+MISSING_SUBMISSION
+42
+True
+0
+19
+163
+2
+31.6
+126
+1.35
+MISSING_SUBMISSION
+1012
+29.0
+90
+61
+5.092321070184514
+[186, 180, 175]
+[16, 17, 18, 19]
+[]
+[49, 50, 55, 66, 61, 71, 95, 55, 67, 69, 89, 55, 90, 58, 61, 78, 80]
+MISSING_SUBMISSION
+[0, 1]
+[165, 165, 180, 165, 167, 157]
+[1, 2, 3, 4, 5, 6, 7, 8, 9]
+[17, 18, 19, 20, 21]
+False
+False
+False
+False
+False
+MISSING_SUBMISSION
+True
+True
+True
+1
+5
+May
+11
+0
+0
+MISSING_SUBMISSION
+May
+33.3
+0.4
+574.400320659
+7
+44.28820116054158
+852.7
+4.559477175216039
+247
+MISSING_SUBMISSION
+[7.9, 9.3, 15.3, 15.5, 15.8]
+[0.0, 0.3074847, 0.357674444, 0.385262401, 0.438254931, 0.476234179, 0.536493371, 0.570979547, 0.641853886, 0.667829373, 0.672944473, 0.727548607, 0.751416089, 0.783901544, 0.858661619, 0.887891257, 0.90016135, 0.940007258, 0.959350221, 0.966983846, 0.970778917, 0.989541194, 1.011600912, 1.064710737, 1.078409581, 1.08180517, 1.101940079, 1.1442228, 1.190887565, 1.255616037, 1.261297871, 1.266947603, 1.272565596, 1.305626458, 1.319085611, 1.403642999, 1.504077397, 1.710187816, 1.72455072, 1.738710248, 1.771556762, 1.829376333, 1.845300236, 1.86252854, 1.998773639, 2.05796251, 2.074429, 2.084429083, 2.102913898, 2.116255515, 2.128231706, 2.223541886, 2.231089091, 2.270061901, 2.273156282, 2.342766883, 2.398803951, 2.399711804, 2.479056236, 2.489894191, 2.504709277, 2.511223958, 2.528125769, 2.57261223, 2.642622396, 2.687847494, 2.707383312, 2.745345986, 2.800325477, 2.901421594, 3.007166651, 3.194992884, 3.228033763, 3.295836866, 3.300640127, 3.34462703, 3.389799337, 3.417070731, 3.444256871, 3.487986512, 3.492256113, 3.498626527, 3.607669399, 3.63363098, 3.638112337, 3.656097965, 3.902982261, 3.91939576, 4.082609306, 4.175924549, 4.280824129, 4.494126887, 4.566221436, 4.648133885, 4.669646205, 5.04908648, 5.285637313, 5.307970624, 5.36541511, 6.995619625, 2.409644165, 1.353254507, 0.565313809, 0.086177696, 0.559615788, 1.244154594, 0.518793793, 0.21511138, 0.19062036, 0.924258902, 2.428336298, 2.199444334, 0.867100488, 2.287471455, 1.458615023, 1.658228077, 2.020222182, 0.58221562, 0.157003749, 1.686398954, 0.418710335, 2.329227024, 1.40854497, 2.30058309, 2.500615943, 1.853168097, 2.936512914, 2.462149663, 3.136797714, 2.376764491, 3.249211025, 0.741937345, 3.228430038, 2.197224577, 1.291983682, 4.471067201, 2.024193067, 1.508511994, 0.343589704, 1.821318271, 2.72719902, 0.947789399, 1.564440547, 1.688249093, 3.565581238, 2.105352923, 0.698134722, 1.156881197, 1.690095815, 1.465567542, 2.0255132, 2.811809435, 2.503073954, 1.141033005, 4.043752776, 2.13771045, 0.904218151, 1.595338988, 1.960094784, 1.921324674, 3.373826185, 1.549687908, 2.117459609, 1.10856262, 1.00063188, 1.941615225, 2.643333886, 0.815364813, 2.210469804, 0.737164066, 1.597365331, 1.368639426, 1.894616855, 3.04594999, 2.613006652, 2.960105096, 3.697591395, 5.168379509, 2.16676537, 2.852439104, 1.925707442, 3.781230715, 2.578700529, 2.833213344, 3.24220165, 3.392492941, 2.394252282, 3.439776864, 4.273327218, 3.966132331, 1.534714366, 1.532556868, 2.214846179, 1.78339122, 1.95160817, 1.599387577, 2.174751721, 1.726331664, 6.616439948, 2.081938422, 1.235471471, 1.398716881, 5.22982437, 1.987874348, 0.542324291, 1.785070481, 1.208960346, 1.435084525, 1.996059933, 2.793616089, 0.431782416, 2.005525859, 0.285178942, 0.802001585, 1.470175845, 2.371177884, 4.427836171, 1.463255402, 1.854734268, 2.059238834, 1.430311247, 1.87946505, 2.029463172, 4.129228964, 3.675794215, 4.267176793, 2.405141681, 1.432700734, 1.01523068, 2.123458427, 1.166270937, 5.633109621, 1.32175584, 0.828551818, 3.311637305, 1.121677562, 1.098612289, 2.856470206, 3.864931398, 3.791436042, 2.260720889, 1.327075001, 2.752386015, 3.726656818, 2.469793012, 3.923753928, 1.916922612, 1.153731588, 2.006870849, 4.01259206, 2.498151877]
+[51, 33, 33, 97]
+[9.4, 9.4, 9.4, 9.4, 8.9]
+[6.995619625, 6.616439948, 5.633109621]
+[1.1, 2.4, 3.0]
+['August', 'November', 'February', 'December', 'January', 'July', 'June', 'April', 'May', 'March', 'September', 'October']
+['February', 'December', 'August']
+['August', 'November']
+MISSING_SUBMISSION
+['February', 'December', 'August', 'June']
+[2, 0, 0, 0, 0]
+['August', 'February', 'December', 'November', 'April', 'June', 'July', 'January', 'March']
+False
+False
+False
+False
+False
+True
+MISSING_SUBMISSION
+False
+Hell's Kitchen
+Flavours
+Fri
+Brewed Chai tea
+Jun
+20
+Lower Manhattan
+Coffee
+MISSING_SUBMISSION
+80
+__CODE_ERROR__: 'Categorical' with dtype category does not support reduction 'sum' Code:  def answer(df: pd.DataFrame):     return df['Revenue'].sum() 
+True
+3.382219413074385
+21096
+3
+1316931384.0
+35352
+[8, 8, 8]
+MISSING_SUBMISSION
+[0.8, 0.8, 0.8, 0.8]
+[149456.0, 112094.25, 74727.5]
+[7, 1, 2, 3, 4, 5, 6]
+['Lower Manhattan', "Hell's Kitchen", 'Astoria']
+['Coffee beans', 'Branded']
+['Brewed Chai tea', 'Gourmet brewed coffee', 'Barista Espresso']
+['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
+['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+[8, 3]
+MISSING_SUBMISSION
+Civet Cat
+True
+True
+False
+True
+False
+True
+False
+True
+MISSING_SUBMISSION
+ Novel
+0
+10
+Ernest Hemingway
+80
+Vintage Books (India)
+0.0
+Self-help and meditation
+16
+MISSING_SUBMISSION
+0
+20.236842105263158
+20
+498
+0
+12
+0
+[498, 640, 80, 512, 492]
+[498, 640, 80, 512, 492]
+MISSING_SUBMISSION
+[]
+[4.0, 6.0, 21.0, 38.0, 18.0]
+[5.0, 0.0, 27.0, 1.0, 40.0]
+[498]
+0.0
+['History and Tradition', ' Business, Investment and Economics', 'Islamic Books', 'Islamic Books', 'Computer Science & Engineering']
+[]
+['Madinah Arabic Reader 1', 'How Harsh Mariwala ?Groomed? Marico', 'Train to Pakistan', 'The Old Man and The Sea', 'Metamorphosis', 'Animal Farm', 'The Alchemist', 'Who Moved My Cheese?', 'The Art of War']

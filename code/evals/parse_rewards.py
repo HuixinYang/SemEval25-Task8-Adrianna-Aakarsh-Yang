@@ -137,16 +137,52 @@ def generate_predictions_files(parsed_rewards, output_dir):
     Which take into account semantic similarity and max rewards.
     """
     predictions = {}
-    for semeval_id in parsed_rewards:
-        semeval_id = int(semeval_id)
-        eval_results = [ r['eval_result'] for r in parsed_rewards[semeval_id]['parsed_rewards'] ]
-        eval_results_lite = [ r['eval_result_lite'] for r in parsed_rewards[semeval_id]['parsed_rewards'] ]
+    for semeval_id in parsed_rewards.keys():
+        #semeval_id = int(semeval_id)
+        logging.debug(f"Generating predictions for semeval_id: {semeval_id}")
+        # filter to keep only eval_results for higest rewards
+        records_highest_rewards = [ r for r in parsed_rewards[semeval_id]['parsed_rewards'] if r['reward'] == max([ r['reward'] for r in parsed_rewards[semeval_id]['parsed_rewards'] ]) ] 
+        eval_results = [ r['eval_result'] for r in records_highest_rewards ]
+        eval_results_lite = [ r['eval_result_lite'] for r in records_highest_rewards ]
+        
         predictions[semeval_id] = {
             'eval': max(set(eval_results), key=eval_results.count),
             'eval_lite': max(set(eval_results_lite), key=eval_results_lite.count)
         }
     return predictions
-            
+
+def generate_submission_from_predictions(predictions, output_dir, tag="", missing_submission="MISSING_SUBMISSION"):
+    """
+   Submissions are ordered by semeval_id, when we don't have a result we use 
+   the token MISSING_SUBMISSION. 
+   We will create two separate files, one for eval and one for eval_lite.
+   called predictions.txt and predictions_lite.txt respectively. 
+    """
+    sorted_prediction_ids = set(sorted(map(int, predictions.keys())))
+    max_id = max(sorted_prediction_ids)
+    logging.debug(f"Generating predictions files for {max_id} ids.")
+    def single_line_output(prog_output):
+        """
+        force program output to be single line.
+        """
+        prog_output = prog_output.replace("\n", " ") 
+        return prog_output
+        
+    with open(f"{output_dir}/predictions{tag}.txt", "w+") as f:
+        for idx in range(0, max_id):
+            if idx in sorted_prediction_ids:
+                f.write(f"{single_line_output(predictions[str(idx)]['eval'])}\n")
+            else:
+                f.write(f"{missing_submission}\n")
+
+    with open(f"{output_dir}/predictions_lite{tag}.txt", "w+") as f:
+        for idx in range(0, max_id):
+            if idx in sorted_prediction_ids:
+                f.write(f"{single_line_output(predictions[str(idx)]['eval_lite'])}\n")
+            else:
+                f.write(f"{missing_submission}\n")
+    logging.debug(f"Generated predictions files at: {output_dir}")
+           
 if __name__ == "__main__":
     root_dir = os.path.expanduser("~/.cache/pipeline-runs")
     parser = argparse.ArgumentParser(description="Parse rewards from the output of the reward function.")
@@ -157,26 +193,29 @@ if __name__ == "__main__":
     # parser.add_argument
     args = parser.parse_args()
 
-    questions_dataset, datasets_map = load_phase_dataset(phase=args.phase, split=args.split)
-    _, lite_datasets_map = load_phase_dataset(phase=args.phase, split=args.split, lite=True)
-    reward_data = read_reward_files(args.root_dir, args.base_model)
+    if not os.path.exists("parsed_rewards.json"):
+        questions_dataset, datasets_map = load_phase_dataset(phase=args.phase, split=args.split)
+        _, lite_datasets_map = load_phase_dataset(phase=args.phase, split=args.split, lite=True)
+        reward_data = read_reward_files(args.root_dir, args.base_model)
 
-    parsed_rewards = parse_reward_data(reward_data)
-    parsed_rewards = reshape_and_enrich_data(parsed_rewards, 
-                                             questions_dataset, 
-                                             datasets_map)
+        parsed_rewards = parse_reward_data(reward_data)
+        parsed_rewards = reshape_and_enrich_data(parsed_rewards, 
+                                                questions_dataset, 
+                                                datasets_map)
 
-    parsed_rewards = \
-        enrich_with_executions_results(parsed_rewards, questions_dataset, datasets_map, lite_datasets_map)
+        parsed_rewards = \
+            enrich_with_executions_results(parsed_rewards, questions_dataset, datasets_map, lite_datasets_map)
 
-    with open("parsed_rewards.json", "w") as f:
-        f.write(json.dumps(parsed_rewards, indent=4))
+        with open("parsed_rewards.json", "w") as f:
+            f.write(json.dumps(parsed_rewards, indent=4))
 
+    # reload the parsed rewards
+    with open("parsed_rewards.json", "r") as f:
+        parsed_rewards = json.load(f)
+    predictions = generate_predictions_files(parsed_rewards, output_dir="predictions.json")
+    
     # Evaluate the return statements
+    with open("predictions.json", "w") as f:
+        f.write(json.dumps(predictions, indent=4))
 
-    """
-    finetune_dataset = make_dataset(results, prompt_map=load_prompts(), 
-                                                semeval_map=load_sem_eval_dataset(), 
-                                                dataset_name=args.repo_name, 
-                                                save_to_disk=True)
-    """ 
+    generate_submission_from_predictions(predictions, output_dir="../submissions", tag="_latest")
