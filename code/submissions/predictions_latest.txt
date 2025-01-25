@@ -89,10 +89,10 @@ Energy and Extractives;Agriculture, Fishing and Forestry;Industry, Trade and Ser
 27051
 MISSING_SUBMISSION
 True
-[427.0, 832.0, 1418.0, 2530.0, 3058.0]
+[427.0, 832.0, 832.0, 832.0, 1418.0]
 [2021, 2022, 2023]
 [15925264883.9, 13321977331.02, 13505690141.88]
-__CODE_ERROR__: '(' was never closed (<string>, line 4) Code:  def answer(df: pd.DataFrame):     return df[(df['Supplier Contract Amount (USD)'] > 100000) & (df['Supplier Contract Amount (USD)'] < 
+__CODE_ERROR__: '(' was never closed (<string>, line 4) Code:  def answer(df: pd.DataFrame):     return df[(df['Supplier Contract Amount (USD)'] > 100000) & (df['Supplier Contract Amount (USD)'] <
 [812960107.83, 616609217.47, 577047623.48, 577047623.48]
 ['India', 'Western and Central Africa', 'Ethiopia', 'Madagascar', 'Bolivia']
 ['SOUTH ASIA', 'Western and Central Africa', 'Eastern and Southern Africa', 'LATIN AMERICA AND CARIBBEAN']
@@ -104,7 +104,7 @@ True
 True
 False
 False
-True
+False
 True
 True
 MISSING_SUBMISSION
@@ -345,8 +345,8 @@ True
 True
 Kevin Durant
 Kevin Durant
-GSW
-JaVale McGee
+BOS
+Kevin Durant
 MISSING_SUBMISSION
 Kevin Durant
 Ricky Rubio
@@ -355,13 +355,13 @@ Ricky Rubio
 1896
 0.0
 82
-0
+16
 0
 MISSING_SUBMISSION
 269
 [1247, 1226, 1120]
 [907, 840, 839]
-[2818, 2593, 2558, 2375]
+[26316, 26261, 24479, 22845]
 [191, 177, 174]
 [822, 786, 779]
 ['Jordan Hamilton', 'Vic Law', "Johnny O'Bryant III", 'Zylan Cheatham', 'Tyler Hall']
@@ -405,7 +405,7 @@ MISSING_SUBMISSION
 False
 False
 False
-False
+True
 False
 MISSING_SUBMISSION
 True
@@ -415,7 +415,7 @@ True
 5
 May
 11
-0
+February
 0
 MISSING_SUBMISSION
 May
@@ -459,7 +459,7 @@ Lower Manhattan
 Coffee
 MISSING_SUBMISSION
 80
-__CODE_ERROR__: 'Categorical' with dtype category does not support reduction 'sum' Code:  def answer(df: pd.DataFrame):     return df['Revenue'].sum() 
+__CODE_ERROR__: 'Categorical' with dtype category does not support reduction 'sum' Code:  def answer(df: pd.DataFrame):     return df['Revenue'].sum()
 True
 3.382219413074385
 21096
@@ -488,7 +488,7 @@ True
 False
 True
 MISSING_SUBMISSION
- Novel
+Novel
 0
 10
 Ernest Hemingway
@@ -504,7 +504,7 @@ MISSING_SUBMISSION
 498
 0
 12
-0
+19
 [498, 640, 80, 512, 492]
 [498, 640, 80, 512, 492]
 MISSING_SUBMISSION
@@ -516,3 +516,7 @@ MISSING_SUBMISSION
 ['History and Tradition', ' Business, Investment and Economics', 'Islamic Books', 'Islamic Books', 'Computer Science & Engineering']
 []
 ['Madinah Arabic Reader 1', 'How Harsh Mariwala ?Groomed? Marico', 'Train to Pakistan', 'The Old Man and The Sea', 'Metamorphosis', 'Animal Farm', 'The Alchemist', 'Who Moved My Cheese?', 'The Art of War']
+['History and Tradition', ' Business, Investment and Economics', 'Novel', 'Novel', 'Novel', 'Novel', 'Novel', 'Novel', 'Self-help and meditation', 'Self-help and meditation', 'Self-help and meditation', 'Self-help and meditation', 'Self-help and meditation', 'Self-help and meditation', ' Mystery, Detective, Thriller and Adventure']
+MISSING_SUBMISSION
+MISSING_SUBMISSION
+MISSING_SUBMISSION

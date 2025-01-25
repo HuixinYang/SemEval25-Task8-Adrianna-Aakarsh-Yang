@@ -44,7 +44,7 @@ False
 True
 False
 False
-False
+__CODE_ERROR__: 1 Code:  def answer(df: pd.DataFrame):     return df['via_mobile'].value_counts()[1] > df['via_mobile'].value_counts()[0]
 False
 False
 MISSING_SUBMISSION
@@ -92,7 +92,7 @@ True
 [477763.0, 552271.0, 754040.0, 783608.0, 841649.0]
 [2024, 2025, 2023]
 [13222.93, 2685156.49, 591432.79]
-__CODE_ERROR__: '(' was never closed (<string>, line 4) Code:  def answer(df: pd.DataFrame):     return df[(df['Supplier Contract Amount (USD)'] > 100000) & (df['Supplier Contract Amount (USD)'] < 
+__CODE_ERROR__: '(' was never closed (<string>, line 4) Code:  def answer(df: pd.DataFrame):     return df[(df['Supplier Contract Amount (USD)'] > 100000) & (df['Supplier Contract Amount (USD)'] <
 [800433.3, 716716.34, 369866.76, 198952.48]
 ['Burkina Faso', 'Nigeria', 'Niger', 'Ethiopia', 'Somalia']
 ['Western and Central Africa', 'Eastern and Southern Africa', 'EAST ASIA AND PACIFIC', 'LATIN AMERICA AND CARIBBEAN']
@@ -135,7 +135,7 @@ MISSING_SUBMISSION
 ['Attractions', 'Attractions', 'Attractions', 'Attractions']
 ['150', '2', '1', '680']
 ['150', nan, '1']
-True
+False
 False
 MISSING_SUBMISSION
 True
@@ -261,7 +261,7 @@ MISSING_SUBMISSION
 0.6
 4
 249048.48968
-18
+19
 1
 4
 29.354999999999997
@@ -342,7 +342,7 @@ False
 True
 True
 False
-False
+True
 Kevin Durant
 Kevin Durant
 OKC
@@ -459,7 +459,7 @@ Lower Manhattan
 Coffee
 MISSING_SUBMISSION
 16
-__CODE_ERROR__: 'Categorical' with dtype category does not support reduction 'sum' Code:  def answer(df: pd.DataFrame):     return df['Revenue'].sum() 
+__CODE_ERROR__: 'Categorical' with dtype category does not support reduction 'sum' Code:  def answer(df: pd.DataFrame):     return df['Revenue'].sum()
 True
 3.2049999999999996
 20
@@ -474,7 +474,7 @@ MISSING_SUBMISSION
 ['Lower Manhattan', "Hell's Kitchen"]
 []
 ['Hot chocolate', 'Brewed Chai tea', 'Gourmet brewed coffee']
-['Jan']
+['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
 ['Sun']
 [5, 8]
 MISSING_SUBMISSION
@@ -488,7 +488,7 @@ True
 False
 True
 MISSING_SUBMISSION
- Novel
+Novel
 0
 7
 Benjamin Graham
@@ -516,3 +516,7 @@ MISSING_SUBMISSION
 ['History and Tradition', ' Business, Investment and Economics', 'Islamic Books', 'Islamic Books', 'Computer Science & Engineering']
 []
 ['Madinah Arabic Reader 1', 'How Harsh Mariwala ?Groomed? Marico', 'Train to Pakistan']
+['History and Tradition', ' Business, Investment and Economics', 'Novel', 'Novel']
+MISSING_SUBMISSION
+MISSING_SUBMISSION
+MISSING_SUBMISSION

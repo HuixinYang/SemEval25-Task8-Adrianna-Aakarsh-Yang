@@ -1,0 +1,2342 @@
+{
+    "0": {
+        "code": "df['Age'].mean() > 35",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "1": {
+        "code": "df.BusinessTravel.value_counts().idxmax() == 'Non-Travel'",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "2": {
+        "code": "df['DailyRate'].max() == 1499",
+        "eval": "True",
+        "eval_lite": "False"
+    },
+    "3": {
+        "code": "df.DailyRate.max() < 0",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "4": {
+        "code": "df.Department.value_counts()['Research & Development'] > df.Department.value_counts()['Sales']",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "5": {
+        "code": "df['PerformanceRating'].max() == 4",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "6": {
+        "code": "True",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "7": {
+        "code": "df['MonthlyIncome'].mean() > df[df['Attrition']=='Yes']['MonthlyIncome'].mean()",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "8": {
+        "code": "df['StandardHours'].nunique() == 1",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "10": {
+        "code": "df.groupby('Department')['YearsAtCompany'].mean().idxmax()",
+        "eval": "Sales",
+        "eval_lite": "Sales"
+    },
+    "11": {
+        "code": "df['MaritalStatus'].value_counts().idxmin()",
+        "eval": "Divorced",
+        "eval_lite": "Divorced"
+    },
+    "12": {
+        "code": "df['EducationField'].mode()[0]",
+        "eval": "Life Sciences",
+        "eval_lite": "Life Sciences"
+    },
+    "13": {
+        "code": "df.groupby('BusinessTravel').mean()['MonthlyIncome'].idxmax()",
+        "eval": "Travel_Rarely",
+        "eval_lite": "Travel_Frequently"
+    },
+    "14": {
+        "code": "df.groupby('Gender')['JobSatisfaction'].mean().idxmax()",
+        "eval": "Male",
+        "eval_lite": "Male"
+    },
+    "15": {
+        "code": "df['WorkLifeBalance'].value_counts().index[0]",
+        "eval": "3",
+        "eval_lite": "3"
+    },
+    "16": {
+        "code": "df.EducationField.value_counts().idxmin()",
+        "eval": "Human Resources",
+        "eval_lite": "Marketing"
+    },
+    "17": {
+        "code": "df['Age'].mean()",
+        "eval": "36.923809523809524",
+        "eval_lite": "35.65"
+    },
+    "18": {
+        "code": "df['JobRole'].nunique()",
+        "eval": "9",
+        "eval_lite": "6"
+    },
+    "20": {
+        "code": "df[\"MonthlyIncome\"].median()",
+        "eval": "4919.0",
+        "eval_lite": "3183.0"
+    },
+    "21": {
+        "code": "df['DistanceFromHome'].sum()",
+        "eval": "13513",
+        "eval_lite": "241"
+    },
+    "22": {
+        "code": "df[df['Department'] == 'Sales']['TotalWorkingYears'].mean()",
+        "eval": "11.105381165919283",
+        "eval_lite": "19.5"
+    },
+    "23": {
+        "code": "df[df['EnvironmentSatisfaction'] == 4].shape[0]",
+        "eval": "446",
+        "eval_lite": "8"
+    },
+    "24": {
+        "code": "df['YearsSinceLastPromotion'].max() - df['YearsSinceLastPromotion'].min()",
+        "eval": "15",
+        "eval_lite": "8"
+    },
+    "25": {
+        "code": "df['YearsSinceLastPromotion'].max()",
+        "eval": "15",
+        "eval_lite": "8"
+    },
+    "26": {
+        "code": "df['PerformanceRating'].unique().tolist()",
+        "eval": "[3, 4]",
+        "eval_lite": "[3, 4]"
+    },
+    "27": {
+        "code": "df['MonthlyIncome'].nsmallest(5).to_list()",
+        "eval": "[1009, 1051, 1052, 1081, 1091]",
+        "eval_lite": "[2028, 2090, 2426, 2661, 2670]"
+    },
+    "28": {
+        "code": "df['Education'].unique().tolist()",
+        "eval": "[2, 1, 4, 3, 5]",
+        "eval_lite": "[2, 1, 4, 3]"
+    },
+    "30": {
+        "code": "list(df['Age'].value_counts().head(5).index)",
+        "eval": "[35, 34, 36, 31, 29]",
+        "eval_lite": "[38, 32, 29, 36, 22]"
+    },
+    "31": {
+        "code": "df['JobRole'].value_counts().head(3).index.tolist()",
+        "eval": "['Sales Executive', 'Research Scientist', 'Laboratory Technician']",
+        "eval_lite": "['Laboratory Technician', 'Research Scientist', 'Manufacturing Director']"
+    },
+    "32": {
+        "code": "df.groupby('Department').count().sort_values('EmployeeNumber', ascending=False).head(2).index.tolist()",
+        "eval": "['Research & Development', 'Sales']",
+        "eval_lite": "['Research & Development', 'Sales']"
+    },
+    "33": {
+        "code": "df['MaritalStatus'].unique().tolist()",
+        "eval": "['Single', 'Married', 'Divorced']",
+        "eval_lite": "['Single', 'Married', 'Divorced']"
+    },
+    "34": {
+        "code": "df['EducationField'].unique().tolist()",
+        "eval": "['Life Sciences', 'Other', 'Medical', 'Marketing', 'Technical Degree', 'Human Resources']",
+        "eval_lite": "['Life Sciences', 'Other', 'Medical']"
+    },
+    "35": {
+        "code": "df['BusinessTravel'].value_counts().head(5).index.tolist()",
+        "eval": "['Travel_Rarely', 'Travel_Frequently', 'Non-Travel']",
+        "eval_lite": "['Travel_Rarely', 'Travel_Frequently', 'Non-Travel']"
+    },
+    "36": {
+        "code": "df[\"OverTime\"].unique().tolist()",
+        "eval": "['Yes', 'No']",
+        "eval_lite": "['Yes', 'No']"
+    },
+    "37": {
+        "code": "df['JobLevel'].value_counts().head(4).index.tolist()",
+        "eval": "[1, 2, 3, 4]",
+        "eval_lite": "[1, 2, 3, 4]"
+    },
+    "38": {
+        "code": "df['JobLevel'].value_counts().head(3).index.tolist()",
+        "eval": "[1, 2, 3]",
+        "eval_lite": "[1, 2, 3]"
+    },
+    "40": {
+        "code": "df['via_mobile'].isnull().sum() == 0",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "41": {
+        "code": "(df.ratings == 1).value_counts().idxmin() == 1",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "42": {
+        "code": "df[df['ratings'].notnull()].shape[0]",
+        "eval": "20000",
+        "eval_lite": "20"
+    },
+    "43": {
+        "code": "True",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "44": {
+        "code": "df['date'].dt.year.eq(2024).any()",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "45": {
+        "code": "df['via_mobile'].all()",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "46": {
+        "code": "df['via_mobile'].value_counts()[1] > df['via_mobile'].value_counts()[0]",
+        "eval": "False",
+        "eval_lite": "__CODE_ERROR__: 1 Code:\n\ndef answer(df: pd.DataFrame):\n    return df['via_mobile'].value_counts()[1] > df['via_mobile'].value_counts()[0]\n"
+    },
+    "47": {
+        "code": "len(df.num_helpful_votes.unique()) == 1",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "48": {
+        "code": "(df['ratings'] == df['ratings'].max()).sum() > 15",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "50": {
+        "code": "df.loc[df['ratings'] == 'rooms'].mean()['ratings']",
+        "eval": "nan",
+        "eval_lite": "nan"
+    },
+    "51": {
+        "code": "df['ratings'].value_counts().idxmax()",
+        "eval": "{'service': 5.0, 'cleanliness': 5.0, 'overall': 5.0, 'value': 5.0, 'location': 5.0, 'sleep_quality': 5.0, 'rooms': 5.0}",
+        "eval_lite": "{'service': 5.0, 'cleanliness': 5.0, 'overall': 5.0, 'value': 4.0, 'location': 5.0, 'sleep_quality': 5.0, 'rooms': 4.0}"
+    },
+    "52": {
+        "code": "df['num_helpful_votes'].mode()[0]",
+        "eval": "0",
+        "eval_lite": "0"
+    },
+    "53": {
+        "code": "df[df.title.str.contains('value with a view')].author.values[0]",
+        "eval": "{'username': 'charlietrisj', 'num_cities': 9, 'num_helpful_votes': 2, 'num_reviews': 18, 'num_type_reviews': 7, 'id': 'E9E6CF57EF6DEFB14DBE13D71943545C', 'location': 'chatham, massachusetts'}",
+        "eval_lite": "{'username': 'charlietrisj', 'num_cities': 9, 'num_helpful_votes': 2, 'num_reviews': 18, 'num_type_reviews': 7, 'id': 'E9E6CF57EF6DEFB14DBE13D71943545C', 'location': 'chatham, massachusetts'}"
+    },
+    "54": {
+        "code": "df['text'].str.len().mean()",
+        "eval": "806.7501",
+        "eval_lite": "1240.3"
+    },
+    "55": {
+        "code": "df.shape[0]",
+        "eval": "20000",
+        "eval_lite": "20"
+    },
+    "56": {
+        "code": "df['num_helpful_votes'].max()",
+        "eval": "66",
+        "eval_lite": "5"
+    },
+    "57": {
+        "code": "df['num_helpful_votes'].mean()",
+        "eval": "1.151",
+        "eval_lite": "0.8"
+    },
+    "58": {
+        "code": "df['text'].str.len().max()",
+        "eval": "12592",
+        "eval_lite": "5463"
+    },
+    "60": {
+        "code": "df[df['author'] == 'Family Fun Guru'].shape[0]",
+        "eval": "0",
+        "eval_lite": "0"
+    },
+    "61": {
+        "code": "df['num_helpful_votes'].sum()",
+        "eval": "23020",
+        "eval_lite": "16"
+    },
+    "62": {
+        "code": "df.date.dt.year.value_counts().head(4).index.tolist()",
+        "eval": "[2012, 2011, 2010, 2009]",
+        "eval_lite": "[2012, 2010, 2011, 2009]"
+    },
+    "63": {
+        "code": "df['num_helpful_votes'].nlargest(5).to_list()",
+        "eval": "[66, 52, 47, 44, 43]",
+        "eval_lite": "[5, 3, 2, 2, 1]"
+    },
+    "64": {
+        "code": "df['author'].loc[df['author'].notnull()].value_counts()[lambda x: x>3].index.tolist()",
+        "eval": "[\"{'username': '', 'id': '', 'location': ''}\", \"{'username': 'Manny S', 'num_cities': 87, 'num_helpful_votes': 124, 'num_reviews': 136, 'num_type_reviews': 103, 'id': '515729851A55A42973EC60DB29771431', 'location': 'Fort Worth, Texas'}\", \"{'username': 'palmsprings0', 'num_cities': 54, 'num_helpful_votes': 84, 'num_reviews': 103, 'num_type_reviews': 32, 'id': '16267B510377A3C8214D09A29F96AAC2', 'location': 'Atlanta'}\", \"{'username': 'ZP83', 'num_cities': 29, 'num_helpful_votes': 18, 'num_reviews': 49, 'num_type_reviews': 49, 'id': '95BE8B0378C9B4066D4AAF00F0EB4708', 'location': 'ZP83'}\"]",
+        "eval_lite": "[]"
+    },
+    "65": {
+        "code": "df[df['author'].notnull() & df['author'].str.len()>4].author.unique().tolist()",
+        "eval": "[]",
+        "eval_lite": "[]"
+    },
+    "66": {
+        "code": "df['offering_id'].nlargest(5).to_list()",
+        "eval": "[3523356, 3236579, 3235844, 3235844, 3235844]",
+        "eval_lite": "[1164645, 643970, 281828, 262330, 258705]"
+    },
+    "67": {
+        "code": "[2016, 2017, 2018, 2019]",
+        "eval": "[2016, 2017, 2018, 2019]",
+        "eval_lite": "[2016, 2017, 2018, 2019]"
+    },
+    "68": {
+        "code": "df['Supplier Contract Amount (USD)'].gt(1000000).any()",
+        "eval": "True",
+        "eval_lite": "False"
+    },
+    "70": {
+        "code": "'India' in df['Borrower Country'].unique()",
+        "eval": "True",
+        "eval_lite": "False"
+    },
+    "71": {
+        "code": "df['Borrower Country'].value_counts().index[0] == 'India'",
+        "eval": "True",
+        "eval_lite": "False"
+    },
+    "72": {
+        "code": "False",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "73": {
+        "code": "True",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "74": {
+        "code": "df['Supplier Country Code'].str.contains('US').any()",
+        "eval": "True",
+        "eval_lite": "False"
+    },
+    "75": {
+        "code": "df['Procurement Method'].mode()[0]",
+        "eval": "Request for Quotations",
+        "eval_lite": "Request for Quotations"
+    },
+    "76": {
+        "code": "df['Region'].value_counts().index[0]",
+        "eval": "SOUTH ASIA",
+        "eval_lite": "Western and Central Africa"
+    },
+    "77": {
+        "code": "df['Supplier'].str.len().max()",
+        "eval": "80.0",
+        "eval_lite": "47"
+    },
+    "78": {
+        "code": "df['Procurement Category'][df['Supplier Contract Amount (USD)'].idxmax()]",
+        "eval": "Civil Works",
+        "eval_lite": "Consultant Services"
+    },
+    "80": {
+        "code": "df['Borrower Country'].value_counts().index[0]",
+        "eval": "India",
+        "eval_lite": "Burkina Faso"
+    },
+    "81": {
+        "code": "df.sort_values(by=['Project Global Practice'])['Project Global Practice'].iloc[0]",
+        "eval": "Energy and Extractives;Agriculture, Fishing and Forestry;Industry, Trade and Services",
+        "eval_lite": "Energy and Extractives;Agriculture, Fishing and Forestry;Industry, Trade and Services"
+    },
+    "82": {
+        "code": "df['Supplier Contract Amount (USD)'].max()",
+        "eval": "812960107.83",
+        "eval_lite": "800433.3"
+    },
+    "83": {
+        "code": "df['Fiscal Year'].nunique()",
+        "eval": "9",
+        "eval_lite": "3"
+    },
+    "84": {
+        "code": "df.shape[0]",
+        "eval": "239461",
+        "eval_lite": "20"
+    },
+    "85": {
+        "code": "df['Supplier Contract Amount (USD)'].mean()",
+        "eval": "530724.5038668092",
+        "eval_lite": "164490.6105"
+    },
+    "86": {
+        "code": "df['Supplier ID'].min()",
+        "eval": "427.0",
+        "eval_lite": "477763.0"
+    },
+    "87": {
+        "code": "df['Supplier Contract Amount (USD)'].std()",
+        "eval": "5652503.363732076",
+        "eval_lite": "224496.80638662673"
+    },
+    "88": {
+        "code": "df[df['Fiscal Year'] == 2024].shape[0]",
+        "eval": "27051",
+        "eval_lite": "13"
+    },
+    "90": {
+        "code": "df[df['Fiscal Year']>2020].shape[0]>0",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "91": {
+        "code": "df.sort_values(by='Supplier ID').head(5)['Supplier ID'].tolist()",
+        "eval": "[427.0, 832.0, 832.0, 832.0, 1418.0]",
+        "eval_lite": "[477763.0, 552271.0, 754040.0, 783608.0, 841649.0]"
+    },
+    "92": {
+        "code": "df['Fiscal Year'].value_counts().head(3).index.tolist()",
+        "eval": "[2021, 2022, 2023]",
+        "eval_lite": "[2024, 2025, 2023]"
+    },
+    "93": {
+        "code": "df.groupby('Fiscal Year')['Supplier Contract Amount (USD)'].sum().to_list()[:3]",
+        "eval": "[15925264883.9, 13321977331.02, 13505690141.88]",
+        "eval_lite": "[13222.93, 2685156.49, 591432.79]"
+    },
+    "94": {
+        "code": "df[(df['Supplier Contract Amount (USD)'] > 100000) & (df['Supplier Contract Amount (USD)'] <",
+        "eval": "__CODE_ERROR__: '(' was never closed (<string>, line 4) Code:\n\ndef answer(df: pd.DataFrame):\n    return df[(df['Supplier Contract Amount (USD)'] > 100000) & (df['Supplier Contract Amount (USD)'] <\n",
+        "eval_lite": "__CODE_ERROR__: '(' was never closed (<string>, line 4) Code:\n\ndef answer(df: pd.DataFrame):\n    return df[(df['Supplier Contract Amount (USD)'] > 100000) & (df['Supplier Contract Amount (USD)'] <\n"
+    },
+    "95": {
+        "code": "df['Supplier Contract Amount (USD)'].nlargest(4).to_list()",
+        "eval": "[812960107.83, 616609217.47, 577047623.48, 577047623.48]",
+        "eval_lite": "[800433.3, 716716.34, 369866.76, 198952.48]"
+    },
+    "96": {
+        "code": "df['Borrower Country'].value_counts().head(5).index.tolist()",
+        "eval": "['India', 'Western and Central Africa', 'Ethiopia', 'Madagascar', 'Bolivia']",
+        "eval_lite": "['Burkina Faso', 'Nigeria', 'Niger', 'Ethiopia', 'Somalia']"
+    },
+    "97": {
+        "code": "df['Region'].value_counts().head(4).index.tolist()",
+        "eval": "['SOUTH ASIA', 'Western and Central Africa', 'Eastern and Southern Africa', 'LATIN AMERICA AND CARIBBEAN']",
+        "eval_lite": "['Western and Central Africa', 'Eastern and Southern Africa', 'EAST ASIA AND PACIFIC', 'LATIN AMERICA AND CARIBBEAN']"
+    },
+    "98": {
+        "code": "df['Procurement Method'].value_counts().head(4).index.tolist()",
+        "eval": "['Request for Quotations', 'Individual Consultant Selection', 'Request for Bids', 'Direct Selection']",
+        "eval_lite": "['Request for Quotations', 'Request for Bids', 'Consultant Qualification  Selection', 'Individual Consultant Selection']"
+    },
+    "100": {
+        "code": "list(df[df['Supplier Contract Amount (USD)'] > 500000]['Review type'].unique())",
+        "eval": "['Post', 'Prior']",
+        "eval_lite": "['Post', 'Prior']"
+    },
+    "101": {
+        "code": "list(df[df['Supplier Contract Amount (USD)'] > 500000]['Review type'].unique())",
+        "eval": "['Post', 'Prior']",
+        "eval_lite": "['Post', 'Prior']"
+    },
+    "102": {
+        "code": "df['Tier 1'].str.contains('Attraction').any()",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "103": {
+        "code": "df['Tier 1'].nunique() > 5",
+        "eval": "True",
+        "eval_lite": "False"
+    },
+    "104": {
+        "code": "df['Tier 3'].isin([150]).any()",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "105": {
+        "code": "(df.columns.values == 'Unique ID').all()",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "106": {
+        "code": "df['Tier 4'].isnull().sum() == 0",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "107": {
+        "code": "df['Parent'].count() > df['Tier 3'].count()",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "108": {
+        "code": "df.shape[0] == 703",
+        "eval": "True",
+        "eval_lite": "False"
+    },
+    "110": {
+        "code": "df.groupby('Tier 1').count().sort_values(by='Unique ID', ascending=False).index[0]",
+        "eval": "Business and Finance",
+        "eval_lite": "Attractions"
+    },
+    "111": {
+        "code": "df['Tier 1'].value_counts().index[0]",
+        "eval": "Business and Finance",
+        "eval_lite": "Attractions"
+    },
+    "112": {
+        "code": "df.groupby('Tier 1')['Tier 1'].count().nlargest(2).index[1]",
+        "eval": "Sports",
+        "eval_lite": "Automotive"
+    },
+    "113": {
+        "code": "df['Tier 1'].value_counts().index[1]",
+        "eval": "Sports",
+        "eval_lite": "Automotive"
+    },
+    "114": {
+        "code": "df['Parent'].value_counts().idxmax()",
+        "eval": "483",
+        "eval_lite": "150"
+    },
+    "115": {
+        "code": "df['Tier 3'].dropna().unique()[0]",
+        "eval": "Commercial Trucks",
+        "eval_lite": "Commercial Trucks"
+    },
+    "116": {
+        "code": "df['Parent'].iloc[1]",
+        "eval": "150",
+        "eval_lite": "150"
+    },
+    "117": {
+        "code": "df.shape[0]",
+        "eval": "703",
+        "eval_lite": "20"
+    },
+    "118": {
+        "code": "df[df['Parent'].isnull()].shape[0]",
+        "eval": "34",
+        "eval_lite": "1"
+    },
+    "120": {
+        "code": "df[['Tier 3', 'Tier 4']].count().sum()",
+        "eval": "376",
+        "eval_lite": "6"
+    },
+    "121": {
+        "code": "df['Tier 1'].nunique()",
+        "eval": "40",
+        "eval_lite": "2"
+    },
+    "122": {
+        "code": "df[df['Tier 2'].isnull()].shape[0]",
+        "eval": "40",
+        "eval_lite": "2"
+    },
+    "123": {
+        "code": "df['Parent'].value_counts().loc[df['Parent'].value_counts() == 1].count()",
+        "eval": "8",
+        "eval_lite": "1"
+    },
+    "124": {
+        "code": "df['Name'].nunique() == df.shape[0]",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "125": {
+        "code": "df['Name'].nunique()",
+        "eval": "703",
+        "eval_lite": "20"
+    },
+    "126": {
+        "code": "df['Parent'].value_counts().nlargest(3).index.tolist()",
+        "eval": "['483', '90', 'SPSHQ5']",
+        "eval_lite": "['150', '2', '1']"
+    },
+    "127": {
+        "code": "list(df[df['Parent'].isin(['Attractions', 'Automotive'])].value_counts())",
+        "eval": "[]",
+        "eval_lite": "[]"
+    },
+    "128": {
+        "code": "[1, 2]",
+        "eval": "[1, 2]",
+        "eval_lite": "[1, 2]"
+    },
+    "130": {
+        "code": "df['Tier 4'].value_counts().head(3).index.tolist()",
+        "eval": "['Angel Investment', 'Bankruptcy', \"Women's Casual Wear\"]",
+        "eval_lite": "['Angel Investment', 'Bankruptcy', \"Women's Casual Wear\"]"
+    },
+    "131": {
+        "code": "df['Tier 1'].unique().tolist()[:2]",
+        "eval": "['Attractions', 'Automotive']",
+        "eval_lite": "['Attractions', 'Automotive']"
+    },
+    "132": {
+        "code": "df['Tier 2'].value_counts().head(4).index.tolist()",
+        "eval": "['Industries', 'Computing', 'Diseases and Conditions', 'Business']",
+        "eval_lite": "['Auto Body Styles', 'Amusement and Theme Parks', 'Outdoor Activities', 'Bars & Restaurants']"
+    },
+    "133": {
+        "code": "df['Tier 4'][:4].unique().tolist()",
+        "eval": "[nan]",
+        "eval_lite": "[nan]"
+    },
+    "134": {
+        "code": "list(df.iloc[0:4,3].values)",
+        "eval": "['Attractions', 'Attractions', 'Attractions', 'Attractions']",
+        "eval_lite": "['Attractions', 'Attractions', 'Attractions', 'Attractions']"
+    },
+    "135": {
+        "code": "df['Parent'].value_counts().head(4).index.tolist()",
+        "eval": "['483', '90', 'SPSHQ5', '338']",
+        "eval_lite": "['150', '2', '1', '680']"
+    },
+    "136": {
+        "code": "df['Parent'].unique()[:3].tolist()",
+        "eval": "['150', nan, '1']",
+        "eval_lite": "['150', nan, '1']"
+    },
+    "137": {
+        "code": "df['labels_en'].str.contains('vegan').any()",
+        "eval": "True",
+        "eval_lite": "False"
+    },
+    "138": {
+        "code": "df['creator'].str.contains('Eduardo').any()",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "140": {
+        "code": "True",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "141": {
+        "code": "df['categories_en'].str.contains('Plant-based foods and beverages').any()",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "142": {
+        "code": "df['creator'].str.contains('kiliweb').all()",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "143": {
+        "code": "df[df['stores'] == 'Mercadona'].shape[0] > 1000",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "144": {
+        "code": "True",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "145": {
+        "code": "df['brands'].mode()[0]",
+        "eval": "[Hacendado]",
+        "eval_lite": "[Hacendado]"
+    },
+    "146": {
+        "code": "df['countries_en'].value_counts().index[0]",
+        "eval": "[Spain]",
+        "eval_lite": "[Spain]"
+    },
+    "147": {
+        "code": "df['labels_en'].value_counts().index[0]",
+        "eval": "[]",
+        "eval_lite": "[]"
+    },
+    "148": {
+        "code": "df[df['labels_en'].str.contains('Vegan')].shape[0]",
+        "eval": "265",
+        "eval_lite": "1"
+    },
+    "150": {
+        "code": "df['creator'].value_counts().idxmax()",
+        "eval": "kiliweb",
+        "eval_lite": "elcoco"
+    },
+    "151": {
+        "code": "df[df.brands.str.contains('Hacendado')].shape[0]",
+        "eval": "8338",
+        "eval_lite": "17"
+    },
+    "152": {
+        "code": "df['countries_en'].nunique()",
+        "eval": "48",
+        "eval_lite": "3"
+    },
+    "153": {
+        "code": "df[df['labels_en'] == '[]'].shape[0]",
+        "eval": "5423",
+        "eval_lite": "14"
+    },
+    "154": {
+        "code": "df[df['stores'] == 'Mercadona'].shape[0]",
+        "eval": "0",
+        "eval_lite": "0"
+    },
+    "155": {
+        "code": "df[df['product_name'] != ''][['product_name']].shape[0]",
+        "eval": "9483",
+        "eval_lite": "20"
+    },
+    "156": {
+        "code": "df.code.value_counts().count()",
+        "eval": "9483",
+        "eval_lite": "20"
+    },
+    "157": {
+        "code": "df[df['categories_en'] == 'Plant-based foods and beverages'].shape[0]",
+        "eval": "0",
+        "eval_lite": "0"
+    },
+    "158": {
+        "code": "df[df['categories_en'] == 'Seitan']['code'].to_list()",
+        "eval": "[]",
+        "eval_lite": "[]"
+    },
+    "160": {
+        "code": "df['labels_en'].value_counts().head(2).index.tolist()",
+        "eval": "['[]', '[No gluten]']",
+        "eval_lite": "['[]', '[Green Dot]']"
+    },
+    "161": {
+        "code": "df['labels_en'].value_counts().head(5).index.tolist()",
+        "eval": "['[]', '[No gluten]', '[Green Dot]', '[No gluten, Green Dot]', '[No lactose]']",
+        "eval_lite": "['[]', '[Green Dot]', '[Vegetarian, Vegan]', '[No preservatives]', '[No gluten]']"
+    },
+    "162": {
+        "code": "df['stores'].value_counts().head(2).index.tolist()",
+        "eval": "['[Hacendado]', '[]']",
+        "eval_lite": "['[]', '[Hacendado]']"
+    },
+    "163": {
+        "code": "df['stores'].value_counts().head(2).to_list()",
+        "eval": "[3169, 2843]",
+        "eval_lite": "[9, 6]"
+    },
+    "164": {
+        "code": "df['countries_en'].value_counts().head(3).index.tolist()",
+        "eval": "['[Spain]', '[Portugal, Spain]', '[Ireland]']",
+        "eval_lite": "['[Spain]', '[United States]', '[United Kingdom]']"
+    },
+    "165": {
+        "code": "df['countries_en'].value_counts().head(3).to_list()",
+        "eval": "[8891, 108, 83]",
+        "eval_lite": "[18, 1, 1]"
+    },
+    "166": {
+        "code": "df.loc[df['Cost of Living Index'] == df['Cost of Living Index'].max(), 'Country'].values[0] == 'Switzerland'",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "167": {
+        "code": "df.loc[df['Country'] == 'Bahamas', 'Rank'].values[0] == 2",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "168": {
+        "code": "(df['Rent Index'] > 65).any()",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "170": {
+        "code": "df['Cost of Living Plus Rent Index'][0] > df['Cost of Living Plus Rent Index'][9]",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "171": {
+        "code": "df['Country'].count() >= 120",
+        "eval": "True",
+        "eval_lite": "False"
+    },
+    "172": {
+        "code": "df[(df['Country'] == 'Iceland') & (df['Rent Index'] > df['Cost of Living Plus Rent Index'])].empty",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "173": {
+        "code": "True",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "174": {
+        "code": "df['Country'][df['Cost of Living Index'] == df['Cost of Living Index'].max()].values[0]",
+        "eval": "Switzerland",
+        "eval_lite": "Switzerland"
+    },
+    "175": {
+        "code": "df[df['Groceries Index'] == df['Groceries Index'].min()]['Country'].iloc[0]",
+        "eval": "Pakistan",
+        "eval_lite": "Ireland"
+    },
+    "176": {
+        "code": "df[df['Cost of Living Plus Rent Index'] == df['Cost of Living Plus Rent Index'].min()]['Country'].values[0]",
+        "eval": "Pakistan",
+        "eval_lite": "Puerto Rico"
+    },
+    "177": {
+        "code": "df.loc[df['Restaurant Price Index'] == df['Restaurant Price Index'].max(), 'Country'].iloc[0]",
+        "eval": "Switzerland",
+        "eval_lite": "Switzerland"
+    },
+    "178": {
+        "code": "df.sort_values(by='Rent Index', ascending=False).iloc[1]['Country']",
+        "eval": "Hong Kong (China)",
+        "eval_lite": "Hong Kong (China)"
+    },
+    "180": {
+        "code": "df.iloc[df['Groceries Index'].sub(80).abs().argsort()[:1]].Country.item()",
+        "eval": "Barbados",
+        "eval_lite": "Barbados"
+    },
+    "181": {
+        "code": "df.sort_values(by='Cost of Living Index', ascending=False).iloc[0]['Cost of Living Index']",
+        "eval": "101.1",
+        "eval_lite": "101.1"
+    },
+    "182": {
+        "code": "df.loc[df['Rank'] == 1, 'Rent Index'].values[0]",
+        "eval": "46.5",
+        "eval_lite": "46.5"
+    },
+    "183": {
+        "code": "df.Country.nunique()",
+        "eval": "121",
+        "eval_lite": "20"
+    },
+    "184": {
+        "code": "df['Groceries Index'].mean()",
+        "eval": "44.22892561983471",
+        "eval_lite": "73.21"
+    },
+    "185": {
+        "code": "df['Restaurant Price Index'].max() - df['Restaurant Price Index'].min()",
+        "eval": "84.2",
+        "eval_lite": "50.8"
+    },
+    "186": {
+        "code": "df.loc[df['Country'] == 'Singapore', 'Cost of Living Index'].values[0]",
+        "eval": "76.7",
+        "eval_lite": "76.7"
+    },
+    "187": {
+        "code": "df.sort_values(by='Rank').head(10).mean()['Local Purchasing Power Index']",
+        "eval": "110.91",
+        "eval_lite": "110.91"
+    },
+    "188": {
+        "code": "df.loc[df['Country'] == 'Iceland', 'Rank'].iloc[0]",
+        "eval": "3",
+        "eval_lite": "3"
+    },
+    "190": {
+        "code": "df[df['Rank'] <= 5]['Cost of Living Index'].tolist()",
+        "eval": "[101.1, 85.0, 83.0, 76.7, 76.6]",
+        "eval_lite": "[101.1, 85.0, 83.0, 76.7, 76.6]"
+    },
+    "191": {
+        "code": "df.iloc[0:5, -1].tolist()",
+        "eval": "[158.7, 54.6, 120.3, 111.1, 43.5]",
+        "eval_lite": "[158.7, 54.6, 120.3, 111.1, 43.5]"
+    },
+    "192": {
+        "code": "df.sort_values(by='Groceries Index', ascending=False).head(3).Rank.to_list()",
+        "eval": "[1, 3, 8]",
+        "eval_lite": "[1, 3, 8]"
+    },
+    "193": {
+        "code": "[121, 120, 119, 118, 117]",
+        "eval": "[121, 120, 119, 118, 117]",
+        "eval_lite": "[121, 120, 119, 118, 117]"
+    },
+    "194": {
+        "code": "df.loc[df['Rent Index'] == 1, 'Rank'].head(5).tolist()",
+        "eval": "[]",
+        "eval_lite": "[]"
+    },
+    "195": {
+        "code": "df.sort_values(by='Local Purchasing Power Index', ascending=False).head(5).index.tolist()",
+        "eval": "[19, 51, 36, 0, 8]",
+        "eval_lite": "[19, 0, 8, 9, 6]"
+    },
+    "196": {
+        "code": "df.sort_values(by='Rank', ascending=True).head(5)['Country'].tolist()",
+        "eval": "['Switzerland', 'Bahamas', 'Iceland', 'Singapore', 'Barbados']",
+        "eval_lite": "['Switzerland', 'Bahamas', 'Iceland', 'Singapore', 'Barbados']"
+    },
+    "197": {
+        "code": "df.sort_values(by='Groceries Index', ascending=False).head(3)['Country'].tolist()",
+        "eval": "['Switzerland', 'Iceland', 'Hong Kong (China)']",
+        "eval_lite": "['Switzerland', 'Iceland', 'Hong Kong (China)']"
+    },
+    "198": {
+        "code": "df.sort_values(by='Cost of Living Plus Rent Index', ascending=True).head(3)['Country'].to_list()",
+        "eval": "['Pakistan', 'Egypt', 'Libya']",
+        "eval_lite": "['Puerto Rico', 'Finland', 'France']"
+    },
+    "200": {
+        "code": "df.sort_values(by='Local Purchasing Power Index', ascending=False).head(5)['Country'].tolist()",
+        "eval": "['Luxembourg', 'Kuwait', 'Qatar', 'Switzerland', 'United States']",
+        "eval_lite": "['Luxembourg', 'Switzerland', 'United States', 'Australia', 'Denmark']"
+    },
+    "201": {
+        "code": "df.sort_values(by='Restaurant Price Index')[:3].Country.to_list()",
+        "eval": "['Bangladesh', 'Pakistan', 'Indonesia']",
+        "eval_lite": "['Hong Kong (China)', 'Singapore', 'Puerto Rico']"
+    },
+    "202": {
+        "code": "df[df['GRE Score'] > 330].shape[0] > 0",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "203": {
+        "code": "df['TOEFL Score'].max() > 100",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "204": {
+        "code": "df['CGPA'].max() > 9.5",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "205": {
+        "code": "((df['University Rating']==5.0) & (df['GRE Score']==320)).any()",
+        "eval": "True",
+        "eval_lite": "False"
+    },
+    "206": {
+        "code": "df['Chance of Admit'].max() > 0.95",
+        "eval": "True",
+        "eval_lite": "False"
+    },
+    "207": {
+        "code": "df['Chance of Admit'].min() < 2",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "208": {
+        "code": "df[df['Research'] == 0].shape[0] > 0",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "210": {
+        "code": "df.loc[df['CGPA'].idxmax(), 'University Rating']",
+        "eval": "4",
+        "eval_lite": "4"
+    },
+    "211": {
+        "code": "df.loc[df['GRE Score'] == df['GRE Score'].min(), 'University Rating'].values[0]",
+        "eval": "4",
+        "eval_lite": "1"
+    },
+    "212": {
+        "code": "df['Chance of Admit'].mode()[0]",
+        "eval": "0.71",
+        "eval_lite": "0.62"
+    },
+    "213": {
+        "code": "df.loc[df['Chance of Admit'].idxmin(), 'GRE Score']",
+        "eval": "298",
+        "eval_lite": "323"
+    },
+    "214": {
+        "code": "df.loc[df['Chance of Admit'] == df['Chance of Admit'].min()]['University Rating'].values[0]",
+        "eval": "2",
+        "eval_lite": "3"
+    },
+    "215": {
+        "code": "df['University Rating'].idxmax()",
+        "eval": "5",
+        "eval_lite": "5"
+    },
+    "216": {
+        "code": "df['University Rating'].mode()[0]",
+        "eval": "3",
+        "eval_lite": "3"
+    },
+    "217": {
+        "code": "df['Research'].value_counts()[1] / df.shape[0] > 0.5",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "218": {
+        "code": "df['GRE Score'].max()",
+        "eval": "340",
+        "eval_lite": "337"
+    },
+    "220": {
+        "code": "df[df['University Rating'] == 3].shape[0]",
+        "eval": "162",
+        "eval_lite": "12"
+    },
+    "221": {
+        "code": "df[df['Research'] == 0]['CGPA'].max()",
+        "eval": "9.7",
+        "eval_lite": "8.8"
+    },
+    "222": {
+        "code": "df[df['Chance of Admit'] > 0.8]['GRE Score'].min()",
+        "eval": "312",
+        "eval_lite": "327"
+    },
+    "223": {
+        "code": "df['CGPA'].std()",
+        "eval": "0.6048128003332054",
+        "eval_lite": "0.4924867083432169"
+    },
+    "224": {
+        "code": "df[df['Chance of Admit'] > 0.4]['TOEFL Score'].sum()",
+        "eval": "52802",
+        "eval_lite": "2149"
+    },
+    "225": {
+        "code": "df[df['GRE Score'].between(300,310)].shape[0]",
+        "eval": "108",
+        "eval_lite": "4"
+    },
+    "226": {
+        "code": "df['GRE Score'].nlargest(5).to_list()",
+        "eval": "[340, 340, 340, 340, 340]",
+        "eval_lite": "[337, 330, 328, 327, 325]"
+    },
+    "227": {
+        "code": "df[df['TOEFL Score'] == 120].shape[0]",
+        "eval": "9",
+        "eval_lite": "0"
+    },
+    "228": {
+        "code": "df[df.SOP == 5.0].shape[0]",
+        "eval": "42",
+        "eval_lite": "0"
+    },
+    "230": {
+        "code": "df.sort_values(by='CGPA', ascending=True).head(5).CGPA.tolist()",
+        "eval": "[6.8, 7.2, 7.21, 7.23, 7.25]",
+        "eval_lite": "[7.9, 8.0, 8.0, 8.0, 8.0]"
+    },
+    "231": {
+        "code": "df['Chance of Admit'].nlargest(5).to_list()",
+        "eval": "[0.97, 0.97, 0.97, 0.97, 0.96]",
+        "eval_lite": "[0.92, 0.9, 0.84, 0.8, 0.78]"
+    },
+    "232": {
+        "code": "df['Chance of Admit'].nlargest(5).to_list()",
+        "eval": "[0.97, 0.97, 0.97, 0.97, 0.96]",
+        "eval_lite": "[0.92, 0.9, 0.84, 0.8, 0.78]"
+    },
+    "233": {
+        "code": "df[df['Research'] == 1]['GRE Score'].sort_values(ascending=False).head(5).to_list()",
+        "eval": "[340, 340, 340, 340, 340]",
+        "eval_lite": "[337, 330, 328, 327, 325]"
+    },
+    "234": {
+        "code": "list(df[df['Chance of Admit'] > 4]['GRE Score'].nlargest(2).values)",
+        "eval": "[]",
+        "eval_lite": "[]"
+    },
+    "235": {
+        "code": "df[df['University Rating'] == 2]['CGPA'].sort_values(ascending=False)[:2].to_list()",
+        "eval": "[9.36, 9.15]",
+        "eval_lite": "[8.21, 7.9]"
+    },
+    "236": {
+        "code": "df.sort_values(by='CGPA', ascending=False).head(5)['University Rating'].tolist()",
+        "eval": "[4, 5, 5, 5, 5]",
+        "eval_lite": "[4, 5, 4, 4, 4]"
+    },
+    "237": {
+        "code": "df.sort_values(by='CGPA', ascending=True)['University Rating'].head(5).tolist()",
+        "eval": "[1, 1, 2, 1, 1]",
+        "eval_lite": "[2, 3, 3, 1, 3]"
+    },
+    "238": {
+        "code": "df.sort_values(by='Chance of Admit', ascending=False).head(4)['Chance of Admit'].tolist()",
+        "eval": "[0.97, 0.97, 0.97, 0.97]",
+        "eval_lite": "[0.92, 0.9, 0.84, 0.8]"
+    },
+    "240": {
+        "code": "df.sort_values(by='CGPA').head(5)['LOR'].tolist()",
+        "eval": "[2.0, 2.0, 3.0, 4.0, 2.0]",
+        "eval_lite": "[4.0, 3.0, 3.5, 1.5, 3.0]"
+    },
+    "241": {
+        "code": "df['bmi'].gt(50).any()",
+        "eval": "True",
+        "eval_lite": "False"
+    },
+    "242": {
+        "code": "df.region.nunique() > 3",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "243": {
+        "code": "df['age'].max() < 100",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "244": {
+        "code": "df['bmi'].mean() < 30",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "245": {
+        "code": "df[df['children'] == 0].shape[0] > 0",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "246": {
+        "code": "df[df['smoker'] == 'no'].shape[0] > 0",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "247": {
+        "code": "df[df['region'] == 'northeast'].shape[0] > 0",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "248": {
+        "code": "df.bmi.median() < 21.0",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "250": {
+        "code": "df['region'].value_counts().idxmax()",
+        "eval": "southeast",
+        "eval_lite": "southeast"
+    },
+    "251": {
+        "code": "df.sex.value_counts().index[0]",
+        "eval": "male",
+        "eval_lite": "male"
+    },
+    "252": {
+        "code": "df.loc[df['charges'].idxmax(), 'smoker']",
+        "eval": "yes",
+        "eval_lite": "yes"
+    },
+    "253": {
+        "code": "df.loc[df['age'] == df['age'].min()]['region'].values[0]",
+        "eval": "southeast",
+        "eval_lite": "southeast"
+    },
+    "254": {
+        "code": "df.loc[df['bmi'].idxmax(), 'sex']",
+        "eval": "male",
+        "eval_lite": "male"
+    },
+    "255": {
+        "code": "df['children'].value_counts().idxmax() == 0",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "256": {
+        "code": "df.children.value_counts().idxmax()",
+        "eval": "0",
+        "eval_lite": "0"
+    },
+    "257": {
+        "code": "df['region'].value_counts().idxmin()",
+        "eval": "northeast",
+        "eval_lite": "northwest"
+    },
+    "258": {
+        "code": "df.loc[df['bmi'].idxmin(), 'smoker']",
+        "eval": "no",
+        "eval_lite": "no"
+    },
+    "260": {
+        "code": "df['children'].mean()",
+        "eval": "1.0949177877429",
+        "eval_lite": "0.6"
+    },
+    "261": {
+        "code": "df['region'].nunique()",
+        "eval": "4",
+        "eval_lite": "4"
+    },
+    "262": {
+        "code": "df['charges'].sum()",
+        "eval": "17755824.990759",
+        "eval_lite": "249048.48968"
+    },
+    "263": {
+        "code": "df[df['sex'] == 'female'].sort_values(by='age').iloc[0]['age']",
+        "eval": "18",
+        "eval_lite": "19"
+    },
+    "264": {
+        "code": "df[df['age'] > 60].shape[0]",
+        "eval": "91",
+        "eval_lite": "1"
+    },
+    "265": {
+        "code": "df.smoker.value_counts()['yes']",
+        "eval": "274",
+        "eval_lite": "4"
+    },
+    "266": {
+        "code": "df['bmi'].median()",
+        "eval": "30.4",
+        "eval_lite": "29.354999999999997"
+    },
+    "267": {
+        "code": "df[df.bmi > 30].sort_values(by='bmi', ascending=False).bmi[:2].to_list()",
+        "eval": "[53.13, 52.58]",
+        "eval_lite": "[42.13, 40.3]"
+    },
+    "268": {
+        "code": "df.sort_values(by='bmi', ascending=False).head(3)['charges'].tolist()",
+        "eval": "[1163.4627, 44501.3982, 2438.0552]",
+        "eval_lite": "[39611.7577, 10602.385, 11090.7178]"
+    },
+    "270": {
+        "code": "df.loc[df['age'] < 20, 'age'].sort_values().head(3).tolist()",
+        "eval": "[18, 18, 18]",
+        "eval_lite": "[18, 19, 19]"
+    },
+    "271": {
+        "code": "df[df['age']>60]['smoker'].unique().tolist()",
+        "eval": "['yes', 'no']",
+        "eval_lite": "['yes']"
+    },
+    "272": {
+        "code": "df['region'].value_counts().head(3).index.tolist()",
+        "eval": "['southeast', 'southwest', 'northwest']",
+        "eval_lite": "['southeast', 'southwest', 'northwest']"
+    },
+    "273": {
+        "code": "df[df['Age'] > 50].shape[0] > 0",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "274": {
+        "code": "True",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "275": {
+        "code": "df['Amount Lifted (kg)'].max() > 880",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "276": {
+        "code": "df['Amount Lifted (kg)'].min() < 330",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "277": {
+        "code": "True",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "278": {
+        "code": "df[df['Weight Class'] == '105 kg']['Age'].mean() > 40",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "280": {
+        "code": "'Jessica Wilson' in df['Lifter Name'].values",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "281": {
+        "code": "df['Lift Type'].nunique() < 5",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "282": {
+        "code": "df.groupby('Weight Class')['Amount Lifted (kg)'].mean().idxmax()",
+        "eval": "83 kg",
+        "eval_lite": "52 kg"
+    },
+    "283": {
+        "code": "df['Weight Class'].mode()[0]",
+        "eval": "93 kg",
+        "eval_lite": "74 kg"
+    },
+    "284": {
+        "code": "df.groupby('Lift Type')['Amount Lifted (kg)'].mean().idxmax()",
+        "eval": "Bench Press",
+        "eval_lite": "Squat"
+    },
+    "285": {
+        "code": "df['Amount Lifted (kg)'].max()",
+        "eval": "399",
+        "eval_lite": "398"
+    },
+    "286": {
+        "code": "df['Lifter Name'].nunique()",
+        "eval": "10",
+        "eval_lite": "10"
+    },
+    "287": {
+        "code": "df['Lifter Name'].value_counts().count()",
+        "eval": "10",
+        "eval_lite": "10"
+    },
+    "288": {
+        "code": "df[df['Lifter Name'] == 'WOMEN'].shape[0]",
+        "eval": "0",
+        "eval_lite": "0"
+    },
+    "290": {
+        "code": "df.loc[df['Lifter Name'] == 'Melissa Gogan', 'Amount Lifted (kg)'].max()",
+        "eval": "nan",
+        "eval_lite": "nan"
+    },
+    "291": {
+        "code": "df.loc[df['Amount Lifted (kg)'] == df['Amount Lifted (kg)'].max(), 'Lifter Name'].iloc[0]",
+        "eval": "Jane Smith",
+        "eval_lite": "Matthew Anderson"
+    },
+    "292": {
+        "code": "df[df['Lift Type'] == 'Bench Press']['Amount Lifted (kg)'].sum()",
+        "eval": "258507",
+        "eval_lite": "2125"
+    },
+    "293": {
+        "code": "df[df['Age'] == 55].min()['Amount Lifted (kg)']",
+        "eval": "100",
+        "eval_lite": "265"
+    },
+    "294": {
+        "code": "df['Amount Lifted (kg)'].max() - df['Amount Lifted (kg)'].min()",
+        "eval": "299",
+        "eval_lite": "287"
+    },
+    "295": {
+        "code": "df[df['Weight Class'] == '139 lbs'].shape[0]",
+        "eval": "0",
+        "eval_lite": "0"
+    },
+    "296": {
+        "code": "df['Amount Lifted (kg)'].nlargest(3).to_list()",
+        "eval": "[399, 399, 399]",
+        "eval_lite": "[398, 396, 396]"
+    },
+    "297": {
+        "code": "df['Amount Lifted (kg)'].nsmallest(5).to_list()",
+        "eval": "[100, 100, 100, 100, 100]",
+        "eval_lite": "[111, 120, 132, 133, 178]"
+    },
+    "298": {
+        "code": "df['Weight Class'].value_counts().head(5).index.tolist()",
+        "eval": "['93 kg', 'Open', '59 kg', '83 kg', '66 kg']",
+        "eval_lite": "['74 kg', '83 kg', '120 kg', '59 kg', '105 kg']"
+    },
+    "300": {
+        "code": "df[df['Weight Class'] == '105 kg'].nlargest(2, 'Amount Lifted (kg)')['Lifter Name'].tolist()",
+        "eval": "['Laura Taylor', 'Laura Taylor']",
+        "eval_lite": "['Laura Taylor', 'Emily Davis']"
+    },
+    "301": {
+        "code": "list(df[df['Lift Type'] == 'Squat']['Amount Lifted (kg)'].nlargest(3))",
+        "eval": "[399, 399, 399]",
+        "eval_lite": "[359, 265, 264]"
+    },
+    "302": {
+        "code": "list(df.loc[df['Weight Class'] == 'Women']['Lifter Name'])[:5]",
+        "eval": "[]",
+        "eval_lite": "[]"
+    },
+    "303": {
+        "code": "df.loc[df['Weight Class'] == 'M', 'Lifter Name'].head(5).to_list()",
+        "eval": "[]",
+        "eval_lite": "[]"
+    },
+    "304": {
+        "code": "df['Weight Class'].value_counts().head(3).index.tolist()",
+        "eval": "['93 kg', 'Open', '59 kg']",
+        "eval_lite": "['74 kg', '83 kg', '120 kg']"
+    },
+    "305": {
+        "code": "df.loc[df['Weight Class'] == '74 kg', 'Lifter Name'].to_list()[:5]",
+        "eval": "['Laura Taylor', 'Sarah Thomas', 'Matthew Anderson', 'Jane Smith', 'Laura Taylor']",
+        "eval_lite": "['Laura Taylor', 'Sarah Thomas', 'Matthew Anderson', 'Jane Smith', 'Laura Taylor']"
+    },
+    "306": {
+        "code": "df['Lift Type'].value_counts().sort_values().head(3).index.tolist()",
+        "eval": "['Squat', 'Bench Press', 'Deadlift']",
+        "eval_lite": "['Squat', 'Deadlift', 'Bench Press']"
+    },
+    "307": {
+        "code": "df['Lift Type'].value_counts().head(3).index.tolist()",
+        "eval": "['Deadlift', 'Bench Press', 'Squat']",
+        "eval_lite": "['Bench Press', 'Deadlift', 'Squat']"
+    },
+    "308": {
+        "code": "df.Rate.max() > 300",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "310": {
+        "code": "df['Rate'].max() > 250",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "311": {
+        "code": "(df['SE']<0.5).any()",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "312": {
+        "code": "(df['Rate'] > 100).all()",
+        "eval": "False",
+        "eval_lite": "True"
+    },
+    "313": {
+        "code": "df['Cause'].value_counts().head(1).index[0] == 'Cardiovascular diseases'",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "314": {
+        "code": "True",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "315": {
+        "code": "df[df['Sex']=='Male']['Rate'].sum() > df[df['Sex']=='Female']['Rate'].sum()",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "316": {
+        "code": "df.groupby('Region').sum().sort_values(by='Rate', ascending=False).head(1).index.values[0]",
+        "eval": "HHS Region 04",
+        "eval_lite": "HHS Region 04"
+    },
+    "317": {
+        "code": "df.sort_values(by='Rate', ascending=True).head(1)['Cause'].values[0]",
+        "eval": "Suicide",
+        "eval_lite": "Heart disease"
+    },
+    "318": {
+        "code": "df['Sex'].value_counts().idxmax()",
+        "eval": "Male",
+        "eval_lite": "Male"
+    },
+    "320": {
+        "code": "df.groupby('Region')['Rate'].mean().idxmin()",
+        "eval": "HHS Region 01",
+        "eval_lite": "HHS Region 01"
+    },
+    "321": {
+        "code": "df['Rate'].max()",
+        "eval": "276.4",
+        "eval_lite": "276.4"
+    },
+    "322": {
+        "code": "df['SE'].min()",
+        "eval": "0.1",
+        "eval_lite": "0.4"
+    },
+    "323": {
+        "code": "df[df['Rate'] > 200].shape[0]",
+        "eval": "25",
+        "eval_lite": "8"
+    },
+    "324": {
+        "code": "df['Rate'].sum()",
+        "eval": "22762.7",
+        "eval_lite": "3711.6"
+    },
+    "325": {
+        "code": "df['SE'].mean()",
+        "eval": "0.6407499999999999",
+        "eval_lite": "1.18"
+    },
+    "326": {
+        "code": "df['SE'].std()",
+        "eval": "0.5146129650129294",
+        "eval_lite": "0.8140865077528696"
+    },
+    "327": {
+        "code": "df['Region'].nunique()",
+        "eval": "10",
+        "eval_lite": "5"
+    },
+    "328": {
+        "code": "df['Rate'].max() - df['Rate'].min()",
+        "eval": "273.0",
+        "eval_lite": "161.29999999999998"
+    },
+    "330": {
+        "code": "df['SE'].nsmallest(5).to_list()",
+        "eval": "[0.1, 0.1, 0.1, 0.1, 0.1]",
+        "eval_lite": "[0.4, 0.4, 0.5, 0.5, 0.5]"
+    },
+    "331": {
+        "code": "list(df[df['Rate'] > 100].sort_values(by='Rate').head(5)['Rate'])",
+        "eval": "[106.0, 106.7, 114.3, 115.1, 119.8]",
+        "eval_lite": "[115.1, 124.5, 132.2, 138.1, 139.6]"
+    },
+    "332": {
+        "code": "list(df[df['Region'] == 'Urban']['Rate'].nlargest(4))",
+        "eval": "[]",
+        "eval_lite": "[]"
+    },
+    "333": {
+        "code": "list(df.sort_values(by=['SE'], ascending=True)['SE'][:5])",
+        "eval": "[0.1, 0.1, 0.1, 0.1, 0.1]",
+        "eval_lite": "[0.4, 0.4, 0.5, 0.5, 0.5]"
+    },
+    "334": {
+        "code": "df['Cause'].unique().tolist()",
+        "eval": "['Heart disease', 'Cancer', 'Lower respiratory', 'Unintentional injuries', 'Cerebrovascular diseases', 'Alzheimers', 'Diabetes', 'Flu and pneumonia', 'Suicide', 'Nephritis']",
+        "eval_lite": "['Heart disease']"
+    },
+    "335": {
+        "code": "df.groupby('Region')['Rate'].mean().nlargest(3).index.to_list()",
+        "eval": "['HHS Region 04', 'HHS Region 06', 'HHS Region 03']",
+        "eval_lite": "['HHS Region 04', 'HHS Region 02', 'HHS Region 03']"
+    },
+    "336": {
+        "code": "df['Region'].unique().tolist()",
+        "eval": "['HHS Region 01', 'HHS Region 02', 'HHS Region 03', 'HHS Region 04', 'HHS Region 05', 'HHS Region 06', 'HHS Region 07', 'HHS Region 08', 'HHS Region 09', 'HHS Region 10']",
+        "eval_lite": "['HHS Region 01', 'HHS Region 02', 'HHS Region 03', 'HHS Region 04', 'HHS Region 05']"
+    },
+    "337": {
+        "code": "df.query(\"PTS == 1000\").shape[0] > 0",
+        "eval": "True",
+        "eval_lite": "False"
+    },
+    "338": {
+        "code": "df.loc[df['PTS'] > 3000].any().any()",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "340": {
+        "code": "df[df['PTS'] == 2000].shape[0] > 0",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "341": {
+        "code": "(df['REB'] > 500).any()",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "342": {
+        "code": "(df['AST'] > 500).any()",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "343": {
+        "code": "df[df['GP'] == 38].shape[0] > 0",
+        "eval": "True",
+        "eval_lite": "False"
+    },
+    "344": {
+        "code": "True",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "345": {
+        "code": "df.loc[df['year'] == 2013, 'PLAYER'].value_counts().idxmax()",
+        "eval": "Kevin Durant",
+        "eval_lite": "Kevin Durant"
+    },
+    "346": {
+        "code": "df.loc[df['year'] == 2012, 'PLAYER'].value_counts().idxmax()",
+        "eval": "Kevin Durant",
+        "eval_lite": "Kevin Durant"
+    },
+    "347": {
+        "code": "df['TEAM'].value_counts().idxmax()",
+        "eval": "BOS",
+        "eval_lite": "OKC"
+    },
+    "348": {
+        "code": "df.loc[df['year'] == 2012, 'PLAYER'].value_counts().idxmax()",
+        "eval": "Kevin Durant",
+        "eval_lite": "Kevin Durant"
+    },
+    "350": {
+        "code": "df.query(\"year==2012\")['PLAYER'].value_counts().index[0]",
+        "eval": "Kevin Durant",
+        "eval_lite": "Kevin Durant"
+    },
+    "351": {
+        "code": "df.loc[df['STL'] == df['STL'].max()]['PLAYER'].values[0]",
+        "eval": "Ricky Rubio",
+        "eval_lite": "Monta Ellis"
+    },
+    "352": {
+        "code": "df['STL'].max()",
+        "eval": "191",
+        "eval_lite": "169"
+    },
+    "353": {
+        "code": "df['REB'].sum()",
+        "eval": "1348034",
+        "eval_lite": "8904"
+    },
+    "354": {
+        "code": "sum(df['REB'][df['TOV'] == 0])",
+        "eval": "1896",
+        "eval_lite": "0"
+    },
+    "355": {
+        "code": "(df['TEAM_ID'] == df['REB']).sum() / df.shape[0]",
+        "eval": "0.0",
+        "eval_lite": "0.0"
+    },
+    "356": {
+        "code": "df.loc[df['MIN'] == df['MIN'].max()]['GP'].sum()",
+        "eval": "82",
+        "eval_lite": "82"
+    },
+    "357": {
+        "code": "df[df['PLAYER_ID'] == 203501.0].shape[0]",
+        "eval": "16",
+        "eval_lite": "0"
+    },
+    "358": {
+        "code": "df[df['year'] == '2010-11'].shape[0]",
+        "eval": "0",
+        "eval_lite": "0"
+    },
+    "360": {
+        "code": "df['BLK'].max()",
+        "eval": "269",
+        "eval_lite": "154"
+    },
+    "361": {
+        "code": "df.groupby('PLAYER_ID')['REB'].max().nlargest(3).to_list()",
+        "eval": "[1247, 1226, 1120]",
+        "eval_lite": "[886, 670, 662]"
+    },
+    "362": {
+        "code": "df.sort_values(by='AST', ascending=False).head(3)['AST'].to_list()",
+        "eval": "[907, 840, 839]",
+        "eval_lite": "[607, 604, 551]"
+    },
+    "363": {
+        "code": "df.groupby([\"PLAYER_ID\"])[\"PTS\"].sum().sort_values(ascending=False).head(4).to_list()",
+        "eval": "[26316, 26261, 24479, 22845]",
+        "eval_lite": "[2280, 2133, 2036, 2023]"
+    },
+    "364": {
+        "code": "df['STL'].nlargest(3).to_list()",
+        "eval": "[191, 177, 174]",
+        "eval_lite": "[169, 160, 145]"
+    },
+    "365": {
+        "code": "df['year'].value_counts().head(3).to_list()",
+        "eval": "[822, 786, 779]",
+        "eval_lite": "[20, 0, 0]"
+    },
+    "366": {
+        "code": "df.sort_values(by='GP', ascending=True).head(5)['PLAYER'].to_list()",
+        "eval": "['Jordan Hamilton', 'Vic Law', \"Johnny O'Bryant III\", 'Zylan Cheatham', 'Tyler Hall']",
+        "eval_lite": "['Carmelo Anthony', 'Dwyane Wade', 'LaMarcus Aldridge', 'Brook Lopez', 'LeBron James']"
+    },
+    "367": {
+        "code": "df.sort_values(by='REB', ascending=False).head(3)['PLAYER'].tolist()",
+        "eval": "['Andre Drummond', 'Andre Drummond', 'DeAndre Jordan']",
+        "eval_lite": "['David Lee', 'LaMarcus Aldridge', 'Blake Griffin']"
+    },
+    "368": {
+        "code": "df.groupby('TEAM')['PTS'].sum().sort_values(ascending=False).head(5).index.tolist()",
+        "eval": "['GSW', 'LAC', 'BOS', 'MIL', 'MIA']",
+        "eval_lite": "['OKC', 'MIA', 'NYK', 'GSW', 'POR']"
+    },
+    "370": {
+        "code": "df.groupby('PLAYER')['STL'].sum().sort_values(ascending=False).head(2).index.tolist()",
+        "eval": "['Chris Paul', 'James Harden']",
+        "eval_lite": "['Monta Ellis', 'Kemba Walker']"
+    },
+    "371": {
+        "code": "df.sort_values(by='BLK', ascending=False).head(3)['PLAYER'].to_list()",
+        "eval": "['Hassan Whiteside', 'Victor Wembanyama', 'Serge Ibaka']",
+        "eval_lite": "['Brook Lopez', 'Kevin Durant', 'LaMarcus Aldridge']"
+    },
+    "372": {
+        "code": "df.sort_values(by='AST', ascending=False).head(4).PLAYER.to_list()",
+        "eval": "['James Harden', 'Russell Westbrook', 'Rajon Rondo', 'Chris Paul']",
+        "eval_lite": "['Russell Westbrook', 'Deron Williams', 'LeBron James', 'Stephen Curry']"
+    },
+    "373": {
+        "code": "(df[df['BMI'] > 30].shape[0] > 0)",
+        "eval": "True",
+        "eval_lite": "False"
+    },
+    "374": {
+        "code": "df[df['Age'] < 18].shape[0] > 0",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "375": {
+        "code": "df[df['Pregnancy No'] == 0].shape[0] > 0",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "376": {
+        "code": "all(df['Age'] < 40)",
+        "eval": "False",
+        "eval_lite": "True"
+    },
+    "377": {
+        "code": "df[df['Height'] > 1.40].shape[0] == df.shape[0]",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "378": {
+        "code": "df[df['Heredity'] == 1].shape[0] > 0",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "380": {
+        "code": "df[df['Age'].between(13,19)].shape[0]",
+        "eval": "42",
+        "eval_lite": "20"
+    },
+    "381": {
+        "code": "True",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "382": {
+        "code": "df['Heredity'].value_counts().idxmax()",
+        "eval": "0",
+        "eval_lite": "0"
+    },
+    "383": {
+        "code": "df.loc[df['BMI'] == df['BMI'].min(), 'Age'].iloc[0]",
+        "eval": "19",
+        "eval_lite": "19"
+    },
+    "384": {
+        "code": "df.nlargest(2, 'Weight')['Height'].max()",
+        "eval": "163",
+        "eval_lite": "156"
+    },
+    "385": {
+        "code": "df['Pregnancy No'].value_counts().idxmax()",
+        "eval": "2",
+        "eval_lite": "1"
+    },
+    "386": {
+        "code": "df['BMI'].mode()[0]",
+        "eval": "31.6",
+        "eval_lite": "23.1"
+    },
+    "387": {
+        "code": "df['Weight'].max()",
+        "eval": "126",
+        "eval_lite": "55"
+    },
+    "388": {
+        "code": "df['Height'].min() / 100",
+        "eval": "1.35",
+        "eval_lite": "1.4"
+    },
+    "390": {
+        "code": "df[df.Age < 50].shape[0]",
+        "eval": "1012",
+        "eval_lite": "20"
+    },
+    "391": {
+        "code": "df.loc[df['Heredity'] == 0, 'Age'].median()",
+        "eval": "29.0",
+        "eval_lite": "17.0"
+    },
+    "392": {
+        "code": "df[df['Weight'] < 60].shape[0]",
+        "eval": "90",
+        "eval_lite": "20"
+    },
+    "393": {
+        "code": "df['Height'].max() - df['Height'].min()",
+        "eval": "61",
+        "eval_lite": "40"
+    },
+    "394": {
+        "code": "df['BMI'].std()",
+        "eval": "5.092321070184514",
+        "eval_lite": "2.383247452752784"
+    },
+    "395": {
+        "code": "df.loc[df['Heredity'] == 1, 'Height'].nlargest(3).to_list()",
+        "eval": "[186, 180, 175]",
+        "eval_lite": "[156, 147]"
+    },
+    "396": {
+        "code": "list(set(df.loc[(df['Age'] >= 13) & (df['Age'] <= 19), 'Age']))",
+        "eval": "[16, 17, 18, 19]",
+        "eval_lite": "[16, 17, 18, 19]"
+    },
+    "397": {
+        "code": "list(df[df['Weight'] > 70000]['Pregnancy No'].unique())",
+        "eval": "[]",
+        "eval_lite": "[]"
+    },
+    "398": {
+        "code": "df[(df['Height'] == 145) & (df['Weight'] > 0)].Weight.tolist()",
+        "eval": "[49, 50, 55, 66, 61, 71, 95, 55, 67, 69, 89, 55, 90, 58, 61, 78, 80]",
+        "eval_lite": "[49, 50]"
+    },
+    "400": {
+        "code": "df['Prediction'].unique().tolist()",
+        "eval": "[0, 1]",
+        "eval_lite": "[0]"
+    },
+    "401": {
+        "code": "df.loc[(df['BMI'] < 18.5) & (df['Heredity'] == 0), 'Height'].to_list()",
+        "eval": "[165, 165, 180, 165, 167, 157]",
+        "eval_lite": "[165, 165, 180]"
+    },
+    "402": {
+        "code": "df[df['Age'] > 30]['Pregnancy No'].unique().tolist()",
+        "eval": "[1, 2, 3, 4, 5, 6, 7, 8, 9]",
+        "eval_lite": "[]"
+    },
+    "403": {
+        "code": "df[df['Heredity'] == 1].sort_values(by='Age', ascending=True)['Age'].unique().tolist()[:5]",
+        "eval": "[17, 18, 19, 20, 21]",
+        "eval_lite": "[17, 18]"
+    },
+    "404": {
+        "code": "(df['area'] > 50).any()",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "405": {
+        "code": "df[df['wind'] == 0.0].shape[0] > 0",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "406": {
+        "code": "df['DMC'].max() < 200",
+        "eval": "False",
+        "eval_lite": "True"
+    },
+    "407": {
+        "code": "(df.X.max() > 3)",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "408": {
+        "code": "df[df['temp'] < 0].shape[0] > 0",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "410": {
+        "code": "df['month'].nunique() > 10",
+        "eval": "True",
+        "eval_lite": "False"
+    },
+    "411": {
+        "code": "df.month.nunique() == 12",
+        "eval": "True",
+        "eval_lite": "False"
+    },
+    "412": {
+        "code": "df['wind'].mean() > 3",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "413": {
+        "code": "df.groupby('month').count().sort_values('area', ascending=False).reset_index().iloc[0,0]",
+        "eval": "1",
+        "eval_lite": "11"
+    },
+    "414": {
+        "code": "df.loc[df['temp'] == df['temp'].max()]['day'].values[0]",
+        "eval": "5",
+        "eval_lite": "6"
+    },
+    "415": {
+        "code": "df.loc[df['ISI'].idxmin(), 'calendar_names_1']",
+        "eval": "May",
+        "eval_lite": "February"
+    },
+    "416": {
+        "code": "df.month[df.area == df.area.max()].iloc[0]",
+        "eval": "11",
+        "eval_lite": "7"
+    },
+    "417": {
+        "code": "df['calendar_names_1'].value_counts().idxmax()",
+        "eval": "February",
+        "eval_lite": "December"
+    },
+    "418": {
+        "code": "df.groupby('month')['DC'].mean().idxmin()",
+        "eval": "0",
+        "eval_lite": "7"
+    },
+    "420": {
+        "code": "df['calendar_names_1'][df['DMC'] == df['DMC'].min()].iloc[0]",
+        "eval": "May",
+        "eval_lite": "August"
+    },
+    "421": {
+        "code": "df['temp'].max()",
+        "eval": "33.3",
+        "eval_lite": "26.4"
+    },
+    "422": {
+        "code": "df['wind'].min()",
+        "eval": "0.4",
+        "eval_lite": "0.9"
+    },
+    "423": {
+        "code": "df['area'].sum()",
+        "eval": "574.400320659",
+        "eval_lite": "0.0"
+    },
+    "424": {
+        "code": "len(df.Y.unique())",
+        "eval": "7",
+        "eval_lite": "3"
+    },
+    "425": {
+        "code": "df['RH'].mean()",
+        "eval": "44.28820116054158",
+        "eval_lite": "48.95"
+    },
+    "426": {
+        "code": "df['DC'].max() - df['DC'].min()",
+        "eval": "852.7",
+        "eval_lite": "643.1"
+    },
+    "427": {
+        "code": "df['ISI'].std()",
+        "eval": "4.559477175216039",
+        "eval_lite": "4.621855972613053"
+    },
+    "428": {
+        "code": "df[df.area == 0].shape[0]",
+        "eval": "247",
+        "eval_lite": "20"
+    },
+    "430": {
+        "code": "df['DC'].nsmallest(5).tolist()",
+        "eval": "[7.9, 9.3, 15.3, 15.5, 15.8]",
+        "eval_lite": "[70.8, 77.5, 80.8, 94.3, 97.1]"
+    },
+    "431": {
+        "code": "df['area'].unique().tolist()",
+        "eval": "[0.0, 0.3074847, 0.357674444, 0.385262401, 0.438254931, 0.476234179, 0.536493371, 0.570979547, 0.641853886, 0.667829373, 0.672944473, 0.727548607, 0.751416089, 0.783901544, 0.858661619, 0.887891257, 0.90016135, 0.940007258, 0.959350221, 0.966983846, 0.970778917, 0.989541194, 1.011600912, 1.064710737, 1.078409581, 1.08180517, 1.101940079, 1.1442228, 1.190887565, 1.255616037, 1.261297871, 1.266947603, 1.272565596, 1.305626458, 1.319085611, 1.403642999, 1.504077397, 1.710187816, 1.72455072, 1.738710248, 1.771556762, 1.829376333, 1.845300236, 1.86252854, 1.998773639, 2.05796251, 2.074429, 2.084429083, 2.102913898, 2.116255515, 2.128231706, 2.223541886, 2.231089091, 2.270061901, 2.273156282, 2.342766883, 2.398803951, 2.399711804, 2.479056236, 2.489894191, 2.504709277, 2.511223958, 2.528125769, 2.57261223, 2.642622396, 2.687847494, 2.707383312, 2.745345986, 2.800325477, 2.901421594, 3.007166651, 3.194992884, 3.228033763, 3.295836866, 3.300640127, 3.34462703, 3.389799337, 3.417070731, 3.444256871, 3.487986512, 3.492256113, 3.498626527, 3.607669399, 3.63363098, 3.638112337, 3.656097965, 3.902982261, 3.91939576, 4.082609306, 4.175924549, 4.280824129, 4.494126887, 4.566221436, 4.648133885, 4.669646205, 5.04908648, 5.285637313, 5.307970624, 5.36541511, 6.995619625, 2.409644165, 1.353254507, 0.565313809, 0.086177696, 0.559615788, 1.244154594, 0.518793793, 0.21511138, 0.19062036, 0.924258902, 2.428336298, 2.199444334, 0.867100488, 2.287471455, 1.458615023, 1.658228077, 2.020222182, 0.58221562, 0.157003749, 1.686398954, 0.418710335, 2.329227024, 1.40854497, 2.30058309, 2.500615943, 1.853168097, 2.936512914, 2.462149663, 3.136797714, 2.376764491, 3.249211025, 0.741937345, 3.228430038, 2.197224577, 1.291983682, 4.471067201, 2.024193067, 1.508511994, 0.343589704, 1.821318271, 2.72719902, 0.947789399, 1.564440547, 1.688249093, 3.565581238, 2.105352923, 0.698134722, 1.156881197, 1.690095815, 1.465567542, 2.0255132, 2.811809435, 2.503073954, 1.141033005, 4.043752776, 2.13771045, 0.904218151, 1.595338988, 1.960094784, 1.921324674, 3.373826185, 1.549687908, 2.117459609, 1.10856262, 1.00063188, 1.941615225, 2.643333886, 0.815364813, 2.210469804, 0.737164066, 1.597365331, 1.368639426, 1.894616855, 3.04594999, 2.613006652, 2.960105096, 3.697591395, 5.168379509, 2.16676537, 2.852439104, 1.925707442, 3.781230715, 2.578700529, 2.833213344, 3.24220165, 3.392492941, 2.394252282, 3.439776864, 4.273327218, 3.966132331, 1.534714366, 1.532556868, 2.214846179, 1.78339122, 1.95160817, 1.599387577, 2.174751721, 1.726331664, 6.616439948, 2.081938422, 1.235471471, 1.398716881, 5.22982437, 1.987874348, 0.542324291, 1.785070481, 1.208960346, 1.435084525, 1.996059933, 2.793616089, 0.431782416, 2.005525859, 0.285178942, 0.802001585, 1.470175845, 2.371177884, 4.427836171, 1.463255402, 1.854734268, 2.059238834, 1.430311247, 1.87946505, 2.029463172, 4.129228964, 3.675794215, 4.267176793, 2.405141681, 1.432700734, 1.01523068, 2.123458427, 1.166270937, 5.633109621, 1.32175584, 0.828551818, 3.311637305, 1.121677562, 1.098612289, 2.856470206, 3.864931398, 3.791436042, 2.260720889, 1.327075001, 2.752386015, 3.726656818, 2.469793012, 3.923753928, 1.916922612, 1.153731588, 2.006870849, 4.01259206, 2.498151877]",
+        "eval_lite": "[0.0]"
+    },
+    "432": {
+        "code": "df.loc[df['area'].nsmallest(4).index].RH.to_list()",
+        "eval": "[51, 33, 33, 97]",
+        "eval_lite": "[51, 33, 33, 97]"
+    },
+    "433": {
+        "code": "df['wind'].nlargest(5).to_list()",
+        "eval": "[9.4, 9.4, 9.4, 9.4, 8.9]",
+        "eval_lite": "[7.2, 6.7, 6.7, 5.4, 5.4]"
+    },
+    "434": {
+        "code": "df['area'].nlargest(3).to_list()",
+        "eval": "[6.995619625, 6.616439948, 5.633109621]",
+        "eval_lite": "[0.0, 0.0, 0.0]"
+    },
+    "435": {
+        "code": "df['DMC'].nsmallest(3).to_list()",
+        "eval": "[1.1, 2.4, 3.0]",
+        "eval_lite": "[26.2, 27.4, 27.9]"
+    },
+    "436": {
+        "code": "df['calendar_names_1'].unique().tolist()",
+        "eval": "['August', 'November', 'February', 'December', 'January', 'July', 'June', 'April', 'May', 'March', 'September', 'October']",
+        "eval_lite": "['August', 'November', 'February', 'December', 'January']"
+    },
+    "437": {
+        "code": "df['calendar_names_1'].value_counts().head(3).index.tolist()",
+        "eval": "['February', 'December', 'August']",
+        "eval_lite": "['December', 'August', 'February']"
+    },
+    "438": {
+        "code": "[df.iloc[0]['calendar_names_1'], df.iloc[1]['calendar_names_1']]",
+        "eval": "['August', 'November']",
+        "eval_lite": "['August', 'November']"
+    },
+    "440": {
+        "code": "df[\"calendar_names_1\"].value_counts().head(4).index.tolist()",
+        "eval": "['February', 'December', 'August', 'June']",
+        "eval_lite": "['December', 'August', 'February', 'November']"
+    },
+    "441": {
+        "code": "df.sort_values(by=['DMC'], ascending=False).head(5)['day'].tolist()",
+        "eval": "[2, 0, 0, 0, 0]",
+        "eval_lite": "[1, 0, 6, 5, 1]"
+    },
+    "442": {
+        "code": "df[df['wind'] > 5].calendar_names_1.unique().tolist()",
+        "eval": "['August', 'February', 'December', 'November', 'April', 'June', 'July', 'January', 'March']",
+        "eval_lite": "['August', 'February', 'December']"
+    },
+    "443": {
+        "code": "(df['transaction_qty'] > 10).any()",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "444": {
+        "code": "99 in df['store_id'].values",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "445": {
+        "code": "df['product_id'].nunique() == df['product_id'].count()",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "446": {
+        "code": "df['transaction_qty'].eq(20).any()",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "447": {
+        "code": "df.unit_price.max() > 100",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "448": {
+        "code": "df.shape[0] < 200000",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "450": {
+        "code": "df.groupby('store_id').count().sort_values('transaction_id', ascending=False).iloc[0].name == 5",
+        "eval": "False",
+        "eval_lite": "True"
+    },
+    "451": {
+        "code": "df['store_location'].value_counts().idxmax()",
+        "eval": "Hell's Kitchen",
+        "eval_lite": "Lower Manhattan"
+    },
+    "452": {
+        "code": "df.loc[df['unit_price'].idxmin(), 'product_category']",
+        "eval": "Flavours",
+        "eval_lite": "Coffee"
+    },
+    "453": {
+        "code": "df['Weekday_1'].value_counts().idxmax()[:3]",
+        "eval": "Fri",
+        "eval_lite": "Sun"
+    },
+    "454": {
+        "code": "df['product_type'].value_counts().idxmax()",
+        "eval": "Brewed Chai tea",
+        "eval_lite": "Hot chocolate"
+    },
+    "455": {
+        "code": "df[df['Month'] == df['Month'].mode()[0]].iloc[0]['Month_1'][:3]",
+        "eval": "Jun",
+        "eval_lite": "Jan"
+    },
+    "456": {
+        "code": "df['Hour'].value_counts().idxmin()",
+        "eval": "20",
+        "eval_lite": "8"
+    },
+    "457": {
+        "code": "df['store_location'].iloc[0]",
+        "eval": "Lower Manhattan",
+        "eval_lite": "Lower Manhattan"
+    },
+    "458": {
+        "code": "df.iloc[0]['product_category']",
+        "eval": "Coffee",
+        "eval_lite": "Coffee"
+    },
+    "460": {
+        "code": "df['product_id'].nunique()",
+        "eval": "80",
+        "eval_lite": "16"
+    },
+    "461": {
+        "code": "df['Revenue'].sum()",
+        "eval": "__CODE_ERROR__: 'Categorical' with dtype category does not support reduction 'sum' Code:\n\ndef answer(df: pd.DataFrame):\n    return df['Revenue'].sum()\n",
+        "eval_lite": "__CODE_ERROR__: 'Categorical' with dtype category does not support reduction 'sum' Code:\n\ndef answer(df: pd.DataFrame):\n    return df['Revenue'].sum()\n"
+    },
+    "462": {
+        "code": "(df['Weekday'] == 7).sum() > 0",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "463": {
+        "code": "df['unit_price'].mean()",
+        "eval": "3.382219413074385",
+        "eval_lite": "3.2049999999999996"
+    },
+    "464": {
+        "code": "df[df['Weekday'] == 7]['transaction_id'].count()",
+        "eval": "21096",
+        "eval_lite": "20"
+    },
+    "465": {
+        "code": "df.store_id.nunique()",
+        "eval": "3",
+        "eval_lite": "2"
+    },
+    "466": {
+        "code": "df.groupby('Revenue').sum().max().values[0]",
+        "eval": "1316931384.0",
+        "eval_lite": "32.0"
+    },
+    "467": {
+        "code": "df[df['Month'] == 6].shape[0]",
+        "eval": "35352",
+        "eval_lite": "0"
+    },
+    "468": {
+        "code": "df['transaction_qty'].nlargest(3).to_list()",
+        "eval": "[8, 8, 8]",
+        "eval_lite": "[2, 2, 2]"
+    },
+    "470": {
+        "code": "df['unit_price'].nsmallest(4).to_list()",
+        "eval": "[0.8, 0.8, 0.8, 0.8]",
+        "eval_lite": "[2.0, 2.0, 2.0, 2.5]"
+    },
+    "471": {
+        "code": "[149456.0, 112094.25, 74727.5]",
+        "eval": "[149456.0, 112094.25, 74727.5]",
+        "eval_lite": "[149456.0, 112094.25, 74727.5]"
+    },
+    "472": {
+        "code": "df['Weekday'].unique().tolist()",
+        "eval": "[7, 1, 2, 3, 4, 5, 6]",
+        "eval_lite": "[7]"
+    },
+    "473": {
+        "code": "df['store_location'].unique().tolist()",
+        "eval": "['Lower Manhattan', \"Hell's Kitchen\", 'Astoria']",
+        "eval_lite": "['Lower Manhattan', \"Hell's Kitchen\"]"
+    },
+    "474": {
+        "code": "df[df['transaction_qty'] > 5]['product_category'].unique().tolist()",
+        "eval": "['Coffee beans', 'Branded']",
+        "eval_lite": "[]"
+    },
+    "475": {
+        "code": "df['product_type'].value_counts().head(3).index.tolist()",
+        "eval": "['Brewed Chai tea', 'Gourmet brewed coffee', 'Barista Espresso']",
+        "eval_lite": "['Hot chocolate', 'Brewed Chai tea', 'Gourmet brewed coffee']"
+    },
+    "476": {
+        "code": "['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']",
+        "eval": "['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']",
+        "eval_lite": "['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']"
+    },
+    "477": {
+        "code": "df['Weekday_1'].unique().tolist()",
+        "eval": "['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']",
+        "eval_lite": "['Sun']"
+    },
+    "478": {
+        "code": "df['store_id'].value_counts().head(2).index.tolist()",
+        "eval": "[8, 3]",
+        "eval_lite": "[5, 8]"
+    },
+    "480": {
+        "code": "df.sort_values(by='unit_price', ascending=False).iloc[0]['product_detail']",
+        "eval": "Civet Cat",
+        "eval_lite": "Sustainably Grown Organic Lg"
+    },
+    "481": {
+        "code": "True",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "482": {
+        "code": "(df['Book Length (Pages)'] > 500).any()",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "483": {
+        "code": "'History' in df['Category'].values",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "484": {
+        "code": "(df['Ratings'] > 35).any()",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "485": {
+        "code": "(df['Copies Left'] > 0).all()",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "486": {
+        "code": "True",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "487": {
+        "code": "df['Publication'].str.contains('Harper Collins').any()",
+        "eval": "False",
+        "eval_lite": "False"
+    },
+    "488": {
+        "code": "df[df['Book Length (Pages)'] < 100].shape[0] > 0",
+        "eval": "True",
+        "eval_lite": "True"
+    },
+    "490": {
+        "code": "df['Category'].iloc[np.argmax(df['Book Length (Pages)'])]",
+        "eval": " Novel",
+        "eval_lite": " Novel"
+    },
+    "491": {
+        "code": "df['Book Title'].str.count('suns').sum()",
+        "eval": "0",
+        "eval_lite": "0"
+    },
+    "492": {
+        "code": "df[df['Author'].str.contains(',')].shape[0]",
+        "eval": "10",
+        "eval_lite": "7"
+    },
+    "493": {
+        "code": "df.loc[df['Reviews'] == df['Reviews'].max(), 'Author'].values[0]",
+        "eval": "Ernest Hemingway",
+        "eval_lite": "Benjamin Graham"
+    },
+    "494": {
+        "code": "df['Book Length (Pages)'].min()",
+        "eval": "80",
+        "eval_lite": "80"
+    },
+    "495": {
+        "code": "df['Publication'][0]",
+        "eval": "Vintage Books (India)",
+        "eval_lite": "Vintage Books (India)"
+    },
+    "496": {
+        "code": "df.loc[df['Author'] == 'Ben Graham', 'Copies Left'].sum()",
+        "eval": "0.0",
+        "eval_lite": "0.0"
+    },
+    "497": {
+        "code": "df['Category'].value_counts().index[0]",
+        "eval": "Self-help and meditation",
+        "eval_lite": "Business, Investment and Economics"
+    },
+    "498": {
+        "code": "df.loc[df['Book Title'] == 'The Intelligent Investor', 'Edition'].value_counts().count()",
+        "eval": "16",
+        "eval_lite": "16"
+    },
+    "500": {
+        "code": "df[df['Copies Left'] > 200 * 2].shape[0]",
+        "eval": "0",
+        "eval_lite": "0"
+    },
+    "501": {
+        "code": "df['Ratings'].mean()",
+        "eval": "20.236842105263158",
+        "eval_lite": "10.65"
+    },
+    "502": {
+        "code": "(30 - 10)",
+        "eval": "20",
+        "eval_lite": "20"
+    },
+    "503": {
+        "code": "df['Book Length (Pages)'][0]",
+        "eval": "498",
+        "eval_lite": "498"
+    },
+    "504": {
+        "code": "df[df['Category'] == 'Islamic'].shape[0]",
+        "eval": "0",
+        "eval_lite": "0"
+    },
+    "505": {
+        "code": "df[df['Reviews'] > 10].shape[0]",
+        "eval": "12",
+        "eval_lite": "3"
+    },
+    "506": {
+        "code": "df[df['Price (TK)'] < 300].shape[0]",
+        "eval": "19",
+        "eval_lite": "10"
+    },
+    "507": {
+        "code": "df['Book Length (Pages)'].head(5).to_list()",
+        "eval": "[498, 640, 80, 512, 492]",
+        "eval_lite": "[498, 640, 80, 512, 492]"
+    },
+    "508": {
+        "code": "df['Book Length (Pages)'][:5].tolist()",
+        "eval": "[498, 640, 80, 512, 492]",
+        "eval_lite": "[498, 640, 80, 512, 492]"
+    },
+    "510": {
+        "code": "df[df['Category'] == 'Computer Science']['Book Length (Pages)'].tolist()",
+        "eval": "[]",
+        "eval_lite": "[]"
+    },
+    "511": {
+        "code": "df['Copies Left'][:5].to_list()",
+        "eval": "[4.0, 6.0, 21.0, 38.0, 18.0]",
+        "eval_lite": "[4.0, 6.0, 21.0, 38.0, 18.0]"
+    },
+    "512": {
+        "code": "list(df.iloc[-5:]['Ratings'])",
+        "eval": "[5.0, 0.0, 27.0, 1.0, 40.0]",
+        "eval_lite": "[11.0, 23.0, 27.0, 10.0, 13.0]"
+    },
+    "513": {
+        "code": "df[df['Category'] == 'History and Tradition']['Book Length (Pages)'].to_list()",
+        "eval": "[498]",
+        "eval_lite": "[498]"
+    },
+    "514": {
+        "code": "df['Copies Left'][df['Copies Left'].idxmin()]",
+        "eval": "0.0",
+        "eval_lite": "0.0"
+    },
+    "515": {
+        "code": "df['Category'].head().tolist()",
+        "eval": "['History and Tradition', ' Business, Investment and Economics', 'Islamic Books', 'Islamic Books', 'Computer Science & Engineering']",
+        "eval_lite": "['History and Tradition', ' Business, Investment and Economics', 'Islamic Books', 'Islamic Books', 'Computer Science & Engineering']"
+    },
+    "516": {
+        "code": "df[df['Stock Status'] == 'Not on sale'].Author.to_list()",
+        "eval": "[]",
+        "eval_lite": "[]"
+    },
+    "517": {
+        "code": "df[df['Book Length (Pages)'] < 200]['Book Title'].tolist()",
+        "eval": "['Madinah Arabic Reader 1', 'How Harsh Mariwala ?Groomed? Marico', 'Train to Pakistan', 'The Old Man and The Sea', 'Metamorphosis', 'Animal Farm', 'The Alchemist', 'Who Moved My Cheese?', 'The Art of War']",
+        "eval_lite": "['Madinah Arabic Reader 1', 'How Harsh Mariwala ?Groomed? Marico', 'Train to Pakistan']"
+    },
+    "518": {
+        "code": "df[df['Ratings'] > 20]['Category'].tolist()",
+        "eval": "['History and Tradition', ' Business, Investment and Economics', 'Novel', 'Novel', 'Novel', 'Novel', 'Novel', 'Novel', 'Self-help and meditation', 'Self-help and meditation', 'Self-help and meditation', 'Self-help and meditation', 'Self-help and meditation', 'Self-help and meditation', ' Mystery, Detective, Thriller and Adventure']",
+        "eval_lite": "['History and Tradition', ' Business, Investment and Economics', 'Novel', 'Novel']"
+    }
+}
