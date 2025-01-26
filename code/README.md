@@ -6,13 +6,12 @@ This repository is a fork of [mcts-for-llm](https://github.com/shunzh/mcts-for-l
 Run the code-generator file in examples, .py file for local, notebook for colab.
 
 ### [01.26.2025]
-
-- Generated Predictions Files: 
-
+- Generated predictions files: 
     - MISSING_SUBMISSION - 54 entries
     - CODE_ERROR - 2 entries
     - TRIVIAL CODE - 14 
 
+Total Competition Questions: 522
 Thus maximum accuracy achievable accuracy: 86.5 
 
 
