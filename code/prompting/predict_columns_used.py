@@ -17,18 +17,9 @@ from datasets import Dataset
 from dataloading.semeval_load_dataset import load_phase_dataset
 
 from generate_prompts import generate_dataframe_schma_json
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 
-"""
-We predict the question category based on question test. 
-
-The question categories are:
-    - boolean: Valid answers include True/False, Y/N, Yes/No (all case insensitive).
-    - category: A value from a cell (or a substring of a cell) in the dataset.
-    - number: A numerical value from a cell in the dataset, which may represent a computed statistic (e.g., average, maximum, minimum).
-    - list[category]: A list containing a fixed number of categories. The expected format is: "['cat', 'dog']". Pay attention to the wording of the question to determine if uniqueness is required or if repeated values are allowed.
-    - list[number]: Similar to list[category], but with numbers as its elements.
-"""
+DEFAULT_MODEL="Qwen/Qwen2.5-Coder-32B-Instruct"
 DEEPINFRA_TOKEN=os.getenv('DEEPINFRA_TOKEN')
 
 # Create an OpenAI client with your deepinfra token and endpoint
@@ -37,49 +28,62 @@ openai = OpenAI(
     base_url="https://api.deepinfra.com/v1/openai",
 )
 
-def is_valid_category(response):
-    expected_categories = [
-        "boolean", 
-        "category", 
-        "number", 
-        "list[category]", 
-        "list[number]"
-    ]
-    return response in expected_categories
+def parse_list(return_str, backing_df_columns):
+    """
+    Parses a string representation of a list and returns the list if valid.
 
-def extract_code_from_response(response):
-    expected_categories = [
-        "boolean", 
-        "category", 
-        "number", 
-        "list[category]", 
-        "list[number]"
-    ]
-    print("Response: ", response)
-    for category in expected_categories:
-        if category.lower() == response.lower():
-            return category 
+    Args:
+        return_str (str): The string representation of the list to be parsed.
+        backing_df_columns (list): A list of column names from a DataFrame (not used in the function).
 
-def get_api_prompt_completion(prompt, model="Qwen/Qwen2.5-Coder-32B-Instruct", max_tokens=15):
+    Returns:
+        list: The parsed list if the string is a valid list representation.
+        None: If the string is not a valid list representation or an error occurs during parsing.
+
+    Raises:
+        ValueError: If the provided string does not represent a list.
+    """
+    try:
+        # Use ast.literal_eval to safely evaluate the string as a Python literal
+        parsed_list = ast.literal_eval(return_str)
+        if isinstance(parsed_list, list):
+            return parsed_list
+        else:
+            raise ValueError("The provided string does not represent a list.")
+    except (ValueError, SyntaxError) as e:
+        print(f"Error parsing list: {e}")
+        return None
+    
+def parse_columns(return_str, columns_expected):
+    """
+    Parses the returned columns from a given string and filters them based on the expected columns.
+
+    Args:
+        return_str (str): The string containing the returned columns.
+        columns_expected (list): A list of expected column names.
+
+    Returns:
+        list: A list of columns that are both in the returned columns and the expected columns.
+    """
+    returned_columns = parse_columns(return_str)
+    columns = []
+    if returned_columns:
+        for column in returned_columns:
+            if column in columns_expected:
+                columns.append(column)
+    return columns
+
+def get_api_prompt_completion(prompt, model=DEFAULT_MODEL, max_tokens=15):
     chat_completion = openai.chat.completions.create(
         model=model,
         max_tokens=max_tokens,
         messages=[{"role": "user", "content": prompt}],
     )
+    logging.debug(f"Chat Completion: {chat_completion}")
     return chat_completion.choices[0].message.content
 
-def prompt_generator(question_row, backing_df):
-    prompt = f""""
-'''
-# TODO: Output only the the columns used to to answer the question 
-# DO NOT give any explanation or other infromation except the 
-# list of columns used to answer the question. 
-#
-# Question: What is the age of the youngest billionaire? 
-# Answer:
-
-# Description of dataframe schema. 
-df_schema = { "columns": [ 
+def example_schema():
+   return json.dumps({ "columns": [ 
     { "name": "rank", "type": "uint16" }, 
     { "name": "personName", "type": "category" }, 
     { "name": "age", "type": "float64" }, 
@@ -96,9 +100,19 @@ df_schema = { "columns": [
     { "name": "title", "type": "category" }, 
     { "name": "philanthropyScore", "type": "float64" }, 
     { "name": "bio", "type": "object" }, 
-    { "name": "about", "type": "object" } 
-    ]
-}
+    { "name": "about", "type": "object" }]}, indent=4)
+ 
+def prompt_generator(question_row, backing_df):
+    prompt = f"""
+# TODO: Output only the the columns used to to answer the question 
+# DO NOT give any explanation or other infromation except the 
+# list of columns used to answer the question. 
+#
+# Question: What is the age of the youngest billionaire? 
+# Answer:
+
+# Description of dataframe schema. 
+df_schema = { example_schema() } 
  
 columns_used  = ['finalWorth', 'selfMade']
 
@@ -110,18 +124,15 @@ columns_used  = ['finalWorth', 'selfMade']
 # Question: {question_row['question']}
 # Answer:
 
-df_schema = {generate_dataframe_schma_json(backing_df)}
+df_schema = { generate_dataframe_schma_json(backing_df) }
 
-columns_used  = [
-"""
+columns_used  ="""
     return prompt
 
 def process_idx(idx, 
                 question_df  = None, 
                 datasets_map = None,    
                 model = None, 
-                regenerate = False, 
-                split="competition", 
                 max_tries=100):
     """
     Processes a question at a given index in a DataFrame, generates a prompt, and extracts code from the response.
@@ -136,80 +147,58 @@ def process_idx(idx,
     Returns:
         str: Extracted code from the response.
     """
-    logging.info(f"processing index {idx}")
+    assert model is not None, "Please provide a model for generating the prompt completion."
+    logging.debug(f"Processing Index: {idx}")
     question = question_df[idx]
     backing_df = datasets_map[question['dataset']]
 
     prompt = prompt_generator(question, backing_df)
-    logging.info(f"Prompt: {prompt}")
-    '''
+    logging.debug(f"Prompt: {prompt}")
+    
     tries = 0
     response = None
-    predicted_category = None
+    predicted_columns = None
     while tries < max_tries:
         response = get_api_prompt_completion(prompt, model=model)
-        predicted_category = extract_code_from_response(response) 
-        if is_valid_category(predicted_category):
+        logging.debug(f"Response: {response}")
+        predicted_columns = parse_list(response, backing_df.columns)
+        logging.debug(f"Predicted Columns: {predicted_columns}")
+        if predicted_columns is not None and len(predicted_columns) > 0:
             break
         tries += 1
-
-    return predicted_category 
-    '''
-
-def load_compeition_questions(file_path):
-    df  = pd.read_csv(file_path)
-    return df
+    return predicted_columns 
 
 def predict_question_columns_used(question_dataset, datasets_map,
                                     max_workers=cpu_count(), 
+                                    added_column_name="predicted_columns",
                                     split="competition", 
                                     regenerate=False, 
-                                    model="nvidia/Llama-3.1-Nemotron-70B-Instruct"):
+                                    model=DEFAULT_MODEL):
     """
     Predict the question columns used based on the question text.
     """
     # Parallel execution using ThreadPoolExecutor
-
-    '''
-    question_df = None
-    if split == "competition":
-        file_path = os.path.join(os.path.dirname(__file__), '..', '..', 'datasets', 'competition', 'test_qa.csv')
-        competition_df = load_compeition_questions(file_path)
-        question_df =  Dataset.from_pandas(competition_df)
-        question_df = question_df.add_column("predicted_column_used", [""] * len(question_df))
-    elif split =="dev":
-        question_df = load_dataset("cardiffnlp/databench", name="semeval", split=split)
-        question_df = question_df.add_column("predicted_columns_used", [""] * len(question_df))
-    elif split == "train":
-        question_df = load_dataset("cardiffnlp/databench", name="semeval", split=split)
-        question_df = question_df.add_column("predicted_columns_used", [""] * len(question_df))
-    '''
-    
     results = []
     # Adjust max_workers based on your system.
     with ThreadPoolExecutor(max_workers=max_workers) as executor:  
             results = executor.map(partial(process_idx, 
                                  model=model, 
-                                 regenerate=regenerate, 
                                  question_df=question_dataset,
-                                 datasets_map=datasets_map,    
-                                 split=split), range(len(question_df)))
+                                 datasets_map=datasets_map), range(len(questions_dataset)))
 
     results = list(results)
     print("Results: ", results)
     print("len of results: ", len(results))
     
     def update_predicted_type(df, idx, results):
-        df['predicted_type'] = str(results[idx])
+        df[added_column_name] = str(results[idx])
         return df
 
-    question_df = question_df.map(lambda df, idx: update_predicted_type(df, idx, list(results)), with_indices=True)
-    return question_df
+    question_dataset = question_dataset.map(lambda df, idx: update_predicted_type(df, idx, list(results)), with_indices=True)
+    return question_dataset
 
 if __name__ == '__main__':
     questions_dataset, datasets_map = load_phase_dataset(phase="competition", split="dev")
-     
-    # question_df = predict_question_columns_used(questions_dataset, datasets_map)
-    process_idx(0, questions_dataset, datasets_map) 
-    # Save the results
-    #question_df.to_csv("results.csv", index=False)
+    questions_dataset = predict_question_columns_used(questions_dataset, datasets_map, model="Qwen/Qwen2.5-Coder-32B-Instruct")
+    # save the results 
+    questions_dataset[list(["question","dataset","predicted_type", "predicted_columns"])].to_csv("result.csv", index=False)
