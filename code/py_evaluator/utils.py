@@ -28,12 +28,11 @@ def post_process(response: str, dataset, dummy_df=None, use_dummy=False):
         lead = """
 def answer(df):
     return """
-        exec(
-            "global ans\n"
-            + lead
-            + response.split("return")[1].split("\n")[0].strip().replace("[end of text]", "")
+        exec_code = "global ans\n" + lead \
+            + response.split("return")[1].split("\n")[0].strip().replace("[end of text]", "") \
             + f"\nans = answer(df)"
-        )
+        print(f"POST PROCESSING EXEC CODE: {exec_code}")
+        exec(exec_code)
         return ans.split("\n")[0] if "\n" in str(ans) else ans
     except Exception as e:
         traceback.print_exc()

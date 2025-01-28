@@ -50,8 +50,11 @@ def error_detecting_reward_fn(question_idx, prompt_item, backing_df, prompt, tes
         if not correct_type: 
             logging.info(f"Type mismatch detected: {predicted_type} vs {type(result)}")
             return -1
+
         # TODO: ADD A PENALTY FOR EXCESS TOKENS AFTER NEWLINE
         # TODO: ADD A PENALTY FOR TYPE MISMATCH 
+        # TODO: ADD TRIVIAL CODE DETECTION FOR BOOLEAN RETURN STATEMENTS
+        
         elif "CODE_ERROR" in str(result):
             logging.info("CODE ERROR DETECTED")
             logging.info(f"Error: {result} Code:\n{answer_method}")
