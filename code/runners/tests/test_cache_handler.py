@@ -1,4 +1,5 @@
-from cache_handler import construct_cache_key, cache_handler
+from runners.run_with_test_cases_competition import construct_cache_key
+from runners.cache_handler import cache_handler
 
 
 import pytest

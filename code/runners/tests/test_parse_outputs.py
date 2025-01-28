@@ -1,5 +1,5 @@
 import os
-from parse_outputs import read_pickle_output, find_all_output_files, make_dataset
+from runners.parse_outputs import read_pickle_output, find_all_output_files, make_dataset
 
 def test_read_pickle_output():
     result= read_pickle_output("../output/parallel-output_list-32-06-01-2025.pkl") 
