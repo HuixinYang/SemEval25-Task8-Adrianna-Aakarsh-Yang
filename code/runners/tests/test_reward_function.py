@@ -98,17 +98,6 @@ def mock_tests_all_pass():
             'update_timestamp': None,
         }]
 
-@pytest.fixture
-def mock_tests_partial_fail():
-    """
-    Returns test cases that will pass for 2 + 1, but fail on 2 + 2, etc.
-    So we can simulate partial pass scenarios.
-    """
-    return [
-        {'input': [1], 'output': 2},  # 1 + 1 = 2 => passes if code does x+1
-        {'input': [2], 'output': 4}   # 2 + 2 = 4 => passes if code does x+2
-    ]
-
 def test_all_tests_pass_correct_type(mock_prompt_item, mock_backing_df, mock_tests_all_pass):
     """
     Scenario: The code returns df['Age'].mean(), and all test cases pass, 
