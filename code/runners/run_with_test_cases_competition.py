@@ -3,7 +3,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from databench_eval import Runner, Evaluator, utils
 from datasets import load_dataset
 from dyna_gym.pipelines import uct_for_hf_transformer_pipeline
-from prompting.test_case_runner import test_run_code
+from py_evaluator.test_case_runner import test_run_code
 from transformers import pipeline, AutoModelForCausalLM, AutoTokenizer,AutoModel
 import argparse
 import ast
@@ -20,8 +20,8 @@ import pyarrow as pa
 import pyarrow.parquet as pq
 from cache_handler import cache_handler
  
-from prompting.test_case_load_dataset import load_phase_dataset
-from prompting.test_case_runner import is_predicted_type 
+from dataloading.semeval_load_dataset import load_phase_dataset
+from py_evaluator.test_case_runner import is_predicted_type 
 logging.basicConfig(level=logging.INFO)
 
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
@@ -88,7 +88,6 @@ def run_pipeline_on_qa_parallel(qa, dataset_map, prompt_dataset,test_dataset,
                                     num_threads=1, 
                                     start_idx=None, 
                                     end_idx=None):
-
     start_idx = start_idx if start_idx is not None else 0
     end_idx = end_idx if end_idx is not None else (len(qa)-1)
 
@@ -299,10 +298,16 @@ def parse_arguments():
     return parser.parse_args()
 
 def main(args):
+    # Download the prompt dataset.
     prompt_dataset = load_dataset(args.prompt_dataset, split='dev')
+    # Download the tests dataset.
     test_dataset = load_dataset(args.test_dataset, split='dev')
+    
+    # Load the competition questions dataset and the backing dataset map.
     questions_dataset, dataset_map = load_phase_dataset(phase="competition", split="dev")
     logging.info(f"Loaded {len(prompt_dataset)} prompts and {len(test_dataset)} test cases") 
+
+    # Read in the model and the tokenier.
     model, tokenizer = model_and_tokenzier(args.base_model) 
 
     run_pipeline_on_qa_parallel(questions_dataset, dataset_map, prompt_dataset, test_dataset, 
