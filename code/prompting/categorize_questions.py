@@ -162,10 +162,10 @@ def predict_question_category(max_workers=cpu_count(), split="competition", rege
     results = []
     with ThreadPoolExecutor(max_workers=max_workers) as executor:  # Adjust max_workers based on your system
             results = executor.map(partial(process_idx, 
-                                 model=model, 
-                                 regenerate=regenerate, 
-                                 question_df=question_df, 
-                                  split=split), range(len(question_df)))
+                                                    model=model, 
+                                                    regenerate=regenerate, 
+                                                    question_df=question_df, 
+                                                    split=split), range(len(question_df)))
 
     results = list(results)
     print("Results: ", results)
