@@ -1,3 +1,5 @@
+# TODO: This file is no longer used. Mark for deletion
+
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import torch
 import pickle

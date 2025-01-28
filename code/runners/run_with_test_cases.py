@@ -1,3 +1,4 @@
+# TODO: This file is no longer used. Mark for deletion.
 import torch
 import pickle
 import os

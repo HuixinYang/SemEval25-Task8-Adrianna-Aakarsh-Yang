@@ -1,8 +1,6 @@
 import os
-import json
 import pandas as pd
-from datasets import (load_dataset, 
-                      Dataset, 
+from datasets import (Dataset, 
                       DatasetDict, 
                       Features, 
                       Value)
@@ -45,6 +43,7 @@ def prompt_generator(question_dataset, dataset_map, split='dev', phase='competit
         'split': split,
         'phase': phase,
         'predicted_type': row['predicted_type'] if 'predicted_type' in row else None, 
+        'predicted_columns': row['predicted_columns'] if 'predicted_columns' in row else None,
         'question': row['question'],
         'content': prompt,
         'update_timestamp': current_timestamp 
@@ -54,7 +53,7 @@ def generate_all_prompts(phase="competition", split="dev", prompt_dataset=None):
   if isinstance(prompt_dataset, DatasetDict):
     prompt_dataset = prompt_dataset[split]
   questions_dataset, dataset_map = load_phase_dataset(phase=phase, split=split)
-  prompt_dataset  =DatasetDict({
+  prompt_dataset  = DatasetDict({
     split:  Dataset.from_generator(
       lambda s=split: prompt_generator(questions_dataset, dataset_map, split=s, phase=phase))
     for split in [split]
@@ -77,11 +76,12 @@ def main():
   logging.info(f"Generating prompts for phase: {args.phase} and split: {args.split}")
   prompt_dataset = generate_all_prompts(phase=args.phase, split=args.split)
   cache_dir = os.path.expanduser(args.cache_dir)
-  prompt_dataset.save_to_disk(f"{cache_dir}/{args.repo_name}")
+  save_dir = f"{cache_dir}/{args.phase}/{args.split}/{args.repo_name}"
+  prompt_dataset.save_to_disk(save_dir)
 
   if args.push_to_hub:
     logging.info(f"Pushing dataset to Hugging Face Hub")
-    prompt_dataset = DatasetDict.load_from_disk(f"{cache_dir}/{args.repo_name}")
+    prompt_dataset = DatasetDict.load_from_disk(save_dir)
     prompt_dataset.push_to_hub(f"{args.user}/{args.repo_name}")
 
 if __name__ == "__main__":

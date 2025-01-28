@@ -1,3 +1,5 @@
+# TODO: This script is no longer in use. Mark for deletion
+
 import argparse
 
 from dataloading import download_generated_test_cases

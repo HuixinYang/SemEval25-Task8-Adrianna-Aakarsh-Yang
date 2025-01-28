@@ -1,3 +1,5 @@
+# TODO: This file is no longer used. Mark for deletion
+
 import argparse
 from datasets import Dataset, DatasetDict, Features, Value
 import os

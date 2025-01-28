@@ -49,23 +49,30 @@ def build_prompt(row, df, skip_description=["029_NYTimes"]):
     )
     return prompt
 
-
-def build_inference_prompt(row, df, skip_description=["029_NYTimes"]):
+def build_inference_prompt(row, df, skip_description=["029_NYTimes"], prompt_template_type=None):
     question = row['question']
     df_random_sample = '{}'
     if not row['dataset'] in skip_description:
        df_random_sample = generate_dataframe_description_json(df) 
 
     current_dir = os.path.dirname(__file__)
-    template_path = os.path.join(current_dir, "prompt-templates/prompt_template.jinja")
+    template_path = None
+    if prompt_template_type is not None:
+        template_path = os.path.join(current_dir, "prompt-templates/{prompt_template_type}/prompt_template.jinja")
+    else:
+        template_path = os.path.join(current_dir, "prompt-templates/prompt_template.jinja")
     with open(template_path) as file:
         testcase_template = Template(file.read())
 
     type_hint = row['type'] if 'type' in row else None       
     type_hint = row['predicted_type'] if 'predicted_type' in row else type_hint 
+   
+    columns_used_hint  = row['columns_used'] if 'columns_used' in row else None 
+    columns_used_hint = row['predicted_columns'] if 'predicted_columns' in row else columns_used_hint
     
     prompt = testcase_template.render(
         predicted_type=type_hint,
+        columns_used=columns_used_hint,
         schema=generate_dataframe_schma_json(df),
         description=generate_dataframe_description_json(df),
         random_sample=df_random_sample,
@@ -73,5 +80,3 @@ def build_inference_prompt(row, df, skip_description=["029_NYTimes"]):
         columns=list(df.columns)
     )
     return prompt
-
- 
