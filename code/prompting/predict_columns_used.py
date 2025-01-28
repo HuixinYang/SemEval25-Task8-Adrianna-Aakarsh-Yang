@@ -16,7 +16,7 @@ import logging
 from datasets import Dataset
 from dataloading.semeval_load_dataset import load_phase_dataset
 
-from generate_prompts import generate_dataframe_schma_json
+from prompting.generate_prompts import generate_dataframe_schma_json
 logging.basicConfig(level=logging.DEBUG)
 
 DEFAULT_MODEL="Qwen/Qwen2.5-Coder-32B-Instruct"
