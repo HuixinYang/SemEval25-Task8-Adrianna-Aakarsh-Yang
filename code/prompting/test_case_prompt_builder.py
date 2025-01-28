@@ -1,3 +1,4 @@
+import os
 from jinja2 import Template
 import json
 import pandas as pd
@@ -30,7 +31,9 @@ def build_prompt(row, df, skip_description=["029_NYTimes"]):
     if not row['dataset'] in skip_description:
        df_random_sample = generate_dataframe_description_json(df) 
 
-    with open("prompt-templates/test_case_prompt_template.jinja") as file:
+    current_dir = os.path.dirname(__file__)
+    template_path = os.path.join(current_dir, "prompt-templates/test_case_prompt_template.jinja")
+    with open(template_path) as file:
         testcase_template = Template(file.read())
 
     type_hint = row['type'] if 'type' in row else None       
@@ -53,7 +56,9 @@ def build_inference_prompt(row, df, skip_description=["029_NYTimes"]):
     if not row['dataset'] in skip_description:
        df_random_sample = generate_dataframe_description_json(df) 
 
-    with open("prompt-templates/prompt_template.jinja") as file:
+    current_dir = os.path.dirname(__file__)
+    template_path = os.path.join(current_dir, "prompt-templates/prompt_template.jinja")
+    with open(template_path) as file:
         testcase_template = Template(file.read())
 
     type_hint = row['type'] if 'type' in row else None       

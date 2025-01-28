@@ -1,7 +1,7 @@
 import pandas as pd
 import re
-from test_case_prompt_builder import generate_dataframe_schma_json
-from test_case_prompt_builder import (generate_dataframe_schma_json, 
+from prompting.test_case_prompt_builder import generate_dataframe_schma_json
+from prompting.test_case_prompt_builder import (generate_dataframe_schma_json, 
                                       generate_dataframe_description_json, 
                                       generate_random_sample_of_n_rows_json, 
                                       build_prompt)
