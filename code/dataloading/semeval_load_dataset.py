@@ -21,11 +21,11 @@ def read_dataframe_by_id(df_id, phase = None, lite = False):
     df = pd.read_parquet(parquet_file)
     return df
 
-def fetch_all_dataframes(dataset, phase = None, lite = False):
+def fetch_all_dataframes(dataset, phase=None, lite=False):
     """
     Fetch all dataframes referenced in the dataset 
     """
-    dataset_ids  = set(map(lambda row: row['dataset'],  dataset))
+    dataset_ids = set(map(lambda row: row['dataset'],  dataset))
     retval = { 
         ds_id: read_dataframe_by_id(ds_id, phase=phase, lite=lite) for ds_id in dataset_ids 
     }
