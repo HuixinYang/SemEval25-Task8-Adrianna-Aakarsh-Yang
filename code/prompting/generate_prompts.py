@@ -90,6 +90,6 @@ def generate_all_prompts(split="dev"):
       print(f"Generate prompt {row_idx}")
       create_prompt_file(ds, row_idx, dataset_map[dataset_id], split=split, output_dir=OUTPUT_DIR)
 
-
-generate_all_prompts(split="train")
+if __name__ == "__main__":
+    generate_all_prompts(split="train")
 
