@@ -16,11 +16,6 @@ from py_evaluator.utils import (run_all_tests_for_answer,
                                 post_process)
 
 
-from py_evaluator.utils import (run_all_tests_for_answer, 
-                                extract_return_statement, 
-                                generate_method_template, 
-                                post_process)
-
 def error_detecting_reward_fn(question_idx, prompt_item, backing_df, prompt, tests):
     """
     Creates an error checking function that assigns a reward based on the correctness of generated code.
