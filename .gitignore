@@ -1,3 +1,9 @@
+# Code outputs
+code/output
+code/evals/parsed_rewards.json
+code/runners/result.json
+code/slurm/=4.30.0
+code/slurm/secrets.sh
 # 
 *.sbatch
 *.err
