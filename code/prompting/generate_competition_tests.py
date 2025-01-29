@@ -205,15 +205,14 @@ def main():
     parser.add_argument("--max-workers", type=int, default=os.cpu_count(), help="Number of workers for parallel processing.")
     parser.add_argument("--regenerate", action="store_true", help="Regenerate test cases even if cached.")
     parser.add_argument("--use-cache", action="store_true", help="Use cached test cases if available.")
-
+    parser.add_argument("--push-to-hub", default=False, action="store_true", help="Flag to push dataset to Hugging Face Hub")
+    parser.add_argument("--user", default="aakarsh-nair", type=str, help="User name for Hugging Face Hub") 
+    parser.add_argument("--repo-name", default="semeval-2025-task-8-test-cases-competition", type=str,  help="Repository name for Hugging Face Hub")
     args = parser.parse_args()
 
     cache_dir = os.path.expanduser(args.cache_dir)
-    repository_name = "semeval-2025-task-8-test-cases-competition"
-    user_repo = "aakarsh-nair"
     # Load datasets
     question_dataset, backing_dataset_map = semeval_load_dataset.load_phase_dataset(phase=args.phase, split=args.split)
-    test_case_dataset = load_dataset(f"{user_repo}/{repository_name}", split=args.split)
 
     # Run the test case generation
     test_case_dataset = run(
@@ -230,8 +229,9 @@ def main():
     )
 
     # Save results
-    test_case_dataset.save_to_disk((f"{cache_dir}/{repository_name}"))
-    test_case_dataset.push_to_hub(f"{user_repo}/{repository_name}", split=args.split)
+    test_case_dataset.save_to_disk((f"{cache_dir}/{args.repo_name}"))
+    if args.push_to_hub:
+        test_case_dataset.push_to_hub(f"{args.user}/{args.repo_name}", split=args.split)
 
 if __name__ == "__main__":
     main()
