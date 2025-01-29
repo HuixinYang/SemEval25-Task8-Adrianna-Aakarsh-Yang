@@ -46,9 +46,10 @@ def load_phase_dataset(phase="competition", split="dev", limit=None, lite=False)
         # add semeval_id to the dataset
         questions_dataset = questions_dataset.map(lambda example, idx: {"semeval_id": idx}, with_indices=True)
         # For dev dataset, we will use the type as the predicted
-        questions_dataset['predicted_type'] = questions_dataset['type']
-        # For dev dataset, we will use the columns_used as the predicted columns
-        questions_dataset['predicted_columns'] = questions_dataset['columns_used']
+        questions_dataset = questions_dataset.map(lambda example: {"predicted_type": example["type"]})
+        # For dev dataset, we will use the columns_used as the predicted columns 
+        questions_dataset = questions_dataset.map(lambda example: {"predicted_columns": example["columns_used"]})
+
         if limit:
             questions_dataset = questions_dataset.select(range(limit))
         datasets_map = fetch_all_dataframes(questions_dataset)

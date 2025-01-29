@@ -26,11 +26,11 @@ from py_evaluator.test_case_runner import is_predicted_type
 logging.basicConfig(level=logging.INFO)
 
 """
-    1. Fix the schema differences between the COMPETITION prompt and DEV
-    2. Run experimiments with different prompts and models using cross-validation 
-    on random subsets of the dev data 
-    3. Evaluate the performance of the models using the MCTS outputs
-    4. Save the results in a parquet file
+    1. Fix the schema differences between the COMPETITION prompt and DEV.
+    2. Run experimiments with different prompts and models using cross-validation.
+    on random subsets of the dev data.
+    3. Evaluate the performance of the models using the MCTS outputs.
+    4. Save the results in a parquet file.
     
 Let us examin differences between competition and dev data
 
@@ -65,7 +65,6 @@ Let us examin differences between competition and dev data
         dataset: -> TODO: needs to be added.
         predicted_type: -> TODO: needs to be added.
         update_timestamp: -> TODO: needs to be added.
-        
         
     test-cases: aakarsh-nair/semeval-2025-task-8-test-cases
         id: -> TODO : needs to be renamed to semeval_id
