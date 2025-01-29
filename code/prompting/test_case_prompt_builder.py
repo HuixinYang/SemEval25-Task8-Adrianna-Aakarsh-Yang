@@ -49,7 +49,7 @@ def build_prompt(row, df, skip_description=["029_NYTimes"]):
     )
     return prompt
 
-def build_inference_prompt(row, df, skip_description=["029_NYTimes"], prompt_template_type=None):
+def build_inference_prompt(row, df, skip_description=["029_NYTimes"], prompt_style=None):
     question = row['question']
     df_random_sample = '{}'
     if not row['dataset'] in skip_description:
@@ -57,8 +57,8 @@ def build_inference_prompt(row, df, skip_description=["029_NYTimes"], prompt_tem
 
     current_dir = os.path.dirname(__file__)
     template_path = None
-    if prompt_template_type is not None:
-        template_path = os.path.join(current_dir, "prompt-templates/{prompt_template_type}/prompt_template.jinja")
+    if prompt_style is not None:
+        template_path = os.path.join(current_dir, "prompt-templates/{prompt_style}/prompt_template.jinja")
     else:
         template_path = os.path.join(current_dir, "prompt-templates/prompt_template.jinja")
     with open(template_path) as file:
@@ -70,8 +70,17 @@ def build_inference_prompt(row, df, skip_description=["029_NYTimes"], prompt_tem
     columns_used_hint  = row['columns_used'] if 'columns_used' in row else None 
     columns_used_hint = row['predicted_columns'] if 'predicted_columns' in row else columns_used_hint
     
+    # Standard type mappings
+    return_types = {
+        "boolean": "bool",
+        "category": "str",
+        "number": "Union[int, float]",
+        "list[category]": "List[str]",
+        "list[number]": "List[Union[int, float]]",
+    }
+    
     prompt = testcase_template.render(
-        predicted_type=type_hint,
+        predicted_type=return_types[type_hint],
         columns_used=columns_used_hint,
         schema=generate_dataframe_schma_json(df),
         description=generate_dataframe_description_json(df),

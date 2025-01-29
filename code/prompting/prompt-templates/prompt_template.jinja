@@ -2,6 +2,7 @@
 # you can use pandas and numpy. Use the meta data information from df_schema, df_descprtion.
 import pandas as pd
 import numpy as np
+from typing import List, Union
 
 # Description of dataframe schema.
 df_schema = {{ schema }}
@@ -22,15 +23,15 @@ The question categories are:
 '''
 
 # TODO: complete the following function in one line, by completing the return statement. It should give the answer to: How many rows are there in this dataframe?
-def example(df: pd.DataFrame):
+def example(df: pd.DataFrame) -> Union[int, float] :
     df.columns=["A"]
     # Expected output type: is number, this will be checked.
     return df.shape[0]
 
 # It should give the answer to: {{question}}
 # The answer should only contain python code, you are not allowed leave any TODO undone.
-def answer(df: pd.DataFrame):
+def answer(df: pd.DataFrame) -> {{ return_type }}:
     # Use df to answer: {{ question }}
     df.columns = {{ columns }}
-    # Expected output type: is {{ predicted_type }}, this will be checked.
+    # Expected output type: is {{ return_type }}, this will be checked.
     return
