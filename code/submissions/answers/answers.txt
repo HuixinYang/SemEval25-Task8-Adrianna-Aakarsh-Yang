@@ -1,0 +1,522 @@
+True
+True
+True
+False
+True
+True
+True
+True
+True
+Sales Executive
+Sales
+Divorced
+Life Sciences
+Travel_Rarely
+Male
+3
+Human Resources
+36.92
+9.0
+40.0
+4919.0
+13513
+11.10
+446.0
+15.0
+15.0
+[4, 3]
+[1009, 1051, 1052, 1081, 1091]
+[2, 1, 4, 3, 5]
+[25, 25, 25, 25, 25]
+[35, 34, 36, 31, 29]
+['Sales Executive', 'Research Scientist', 'Laboratory Technician']
+['Research & Development', 'Sales']
+['Single', 'Married', 'Divorced']
+['Life Sciences', 'Other', 'Medical', 'Marketing', 'Technical Degree', 'Human Resources']
+['Travel_Rarely', 'Travel_Frequently', 'Non-Travel']
+['No', 'Yes']
+[1, 2, 3, 4]
+[1, 2, 3]
+True
+True
+True
+15132
+True
+False
+False
+False
+True
+True
+2012
+3.92
+5
+0
+charlietrisj
+812.39
+20000.0
+66.0
+1.1509
+12592
+2002
+1
+23020
+[2012, 2011, 2010, 2009]
+[66, 52, 47, 44, 43]
+['Manny S', 'David S','ZP83','palmsprings0']
+['Manny S']
+[3523356, 3236579, 3235844, 3235844, 3235844]
+['2012', '2011', '2010', '2009']
+True
+True
+True
+True
+True
+True
+True
+Request for Quotations
+SOUTH ASIA
+Lao People's Democratic Republic
+Civil Works
+EUROPE AND CENTRAL ASIA
+India
+Agriculture, Fishing and Forestry
+812960107.83
+9.0
+239461.0
+530724.5038668092
+427.0
+5652503.36
+27051.51
+[812960107.83, 616609217.47, 577047623.48]
+True
+[427.0, 832.0, 1418.0, 2530.0, 3058.0 ]
+[2021, 2022, 2023]
+[15925264883.9, 13321977331.02, 13505690141.88]
+[100000.05, 100005.34, 100008.0]
+[321127567.87, 306306411.37, 253905847.27, 180832613.5]
+['India', 'Western and Central Africa', 'Ethiopia', 'Madagascar', 'Bolivia']
+['SOUTH ASIA', 'Western and Central Africa', 'Eastern and Southern Africa', 'LATIN AMERICA AND CARIBBEAN']
+['Request for Bids', 'Individual Consultant Selection', 'Request for Quotations', 'Direct Selection']
+['Ghana', 'World', 'Burkina Faso', 'Nigeria']
+['Post', 'Prior']
+['Post', 'Prior']
+True
+True
+True
+True
+True
+True
+True
+False
+Business and Finance
+Business and Finance
+Sports
+Sports
+483
+Commercial Trucks
+Attractions
+703
+34
+85
+316
+40
+40
+8
+True
+703
+['483', '90', 'SPSHQS']
+[200, 150]
+[0, 0]
+[703, 663, 316, 60]
+['Attractions', 'Automotive', 'Books and Literature']
+['Attractions', 'Automotive']
+['Amusement and Theme Parks', 'Bars & Restaurants', 'Casinos', 'Parks']
+['Attractions']
+['Attractions', 'Attractions', 'Attractions', 'Attractions']
+['150', '1', '2', '37']
+['150', '1', '2']
+True
+True
+True
+True
+True
+False
+True
+True
+Hacendado
+Spain
+No gluten
+263
+Hacendado
+kiliweb
+8329
+29
+5423
+3420
+9102
+9483
+1913
+[00001522, 8480000041968, 8480000041975, 8480000046444, 8480000230058, 8480000865274, 8480000707000]
+['Seitán a la plancha' ,'Seitán a la piastra' ,'Hamburguesa de seitán' ,'Seitán a la plancha' ,'Seitán' ,'Seitan' ,'Seitán a la plancha']
+['No gluten', 'Green Dot']
+['No gluten', 'Green Dot', 'No lactose', 'Vegetarian', 'Vegan']
+['Hacendado', 'Mercadona']
+[4148, 3420]
+['Spain', 'Portugal', 'France']
+[9147, 186, 141]
+True
+True
+True
+True
+True
+True
+True
+True
+Switzerland
+Pakistan
+Pakistan
+Switzerland
+Hong Kong (China)
+Singapore
+Barbados
+101.1
+46.5
+121.0
+44.22
+84.2
+72.1
+110.91
+3.0
+[46.5, 36.7, 39.2, 67.2, 19.0]
+[18.8, 20.4, 21.0, 21.2, 22.5]
+[158.7, 54.6, 120.3, 111.1, 43.5]
+[109.1, 88.4, 84.6]
+[97.0, 83.3, 86.8, 50.4, 69.4]
+[11.1, 12.7, 12.7, 12.8, 13.7]
+[99.4, 101.1, 102.4, 102.4, 102.8]
+['Switzerland', 'Bahamas', 'Iceland', 'Singapore', 'Barbados']
+['Switzerland', 'Iceland', 'Hong Kong (China)']
+['Bangladesh', 'Pakistan', 'Nepal']
+['Australia', 'Austria', 'Canada', 'New Zealand', 'Ireland', 'France']
+['Luxembourg', 'Kuwait', 'Qatar', 'Switzerland', 'United States']
+['Bangladesh', 'Pakistan', 'Indonesia']
+True
+True
+True
+True
+True
+True
+True
+True
+4.0
+4.0
+4.0
+2
+2.0
+4.5
+3.0
+True
+340.0
+109.70
+162.0
+9.7
+1.5
+0.6048128003332054
+11854.0
+108.0
+[340, 340, 340, 340, 340]
+9
+50
+[120, 120, 120, 120, 120]
+[6.8, 7.2, 7.21, 7.23, 7.25]
+[5.0, 5.0, 5.0, 5.0, 5.0]
+[5.0, 5.0, 5.0, 5.0, 5.0]
+[120, 120, 120, 120, 120]
+[340, 340]
+[7.21, 7.28]
+[4, 5, 5, 5, 5]
+[1, 1, 2, 1, 1]
+[4.0, 4.5, 4.5, 4.0]
+[4.5, 5.0, 4.0, 4.5, 4.5]
+[2.0, 2.0, 3.0, 4.0, 2.0]
+True
+True
+True
+False
+True
+True
+True
+False
+True
+southeast
+male
+yes
+southeast
+male
+True
+0
+northeast
+no
+53.13
+1.09
+4
+17755824.99
+18
+356
+274
+30.4
+[53.13, 52.58]
+[1163.46, 44501.39, 2438.05]
+[18, 18, 18, 18, 18]
+[18, 18, 18]
+['yes', 'no']
+['southeast', 'southeast', 'southeast']
+True
+True
+False
+True
+True
+True
+True
+True
+True
+83 kg
+93 kg
+Bench Press
+399.0
+10
+5
+5
+399
+399
+Sarah Thomas
+258507.0
+100.0
+299.0
+326.0
+[399, 399, 399]
+[100, 100, 100, 100, 100]
+[88849, 88071, 87862, 83245, 81271]
+[46, 46, 46]
+[100, 100]
+[399, 399, 399]
+['Emily Davis', 'Jessica Wilson', 'Jane Smith', 'Laura Taylor', 'Sarah Thomas']
+['Chris Brown', 'John Doe', 'Michael Johnson', 'Daniel Lee', 'Matthew Anderson']
+['93 kg', 'Open']
+['Laura Taylor', 'Sarah Thomas', 'Matthew Anderson', 'Jane Smith', 'Laura Taylor']
+['Deadlift', 'Bench Press', 'Squat']
+['Deadlift', 'Bench Press', 'Squat']
+False
+False
+True
+True
+False
+False
+False
+False
+HHS Region 04
+Suicide
+Male
+Urban
+HHS Region 04
+276.4
+0.1
+25
+22762.7
+0.640
+63.16
+10
+273.0
+[276.4, 266.4, 248.8, 246.0, 245.2]
+[0.1, 0.1, 0.1, 0.1, 0.1]
+[106.0, 106.7, 114.3, 115.1, 119.8]
+[1.4, 1.3, 1.3, 1.3]
+[0.4, 0.4, 0.4, 0.5, 0.5]
+['Heart disease', 'Cancer', 'Lower respiratory', 'Unintentional injuries', 'Cerebrovascular diseases', 'Alzheimers', 'Diabetes', 'Flu and pneumonia', 'Suicide', 'Nephritis']
+['HHS Region 04', 'HHS Region 06', 'HHS Region 03']
+['Urban', 'Rural']
+True
+False
+True
+False
+True
+True
+True
+True
+Kevin Durant
+Kevin Durant
+GSW
+Kevin Garnett
+GSW
+Greivis Vasquez
+Mike Conley
+174
+1348034
+1027348
+76.210
+82
+907
+0
+0
+269
+[1247, 1232, 1226]
+[907, 840, 839]
+[2818, 2593, 2558, 2376]
+[191, 177, 174]
+[269, 254, 242]
+['Harrison Barnes', 'DeMar DeRozan', 'Jeff Green', 'P.J. Tucker', 'Andre Drummond']
+['Andre Drummond', 'Nikola Vucevic', 'Rudy Gobert']
+['GSW', 'LAC', 'BOS', 'MIL', 'MIA']
+[GSW, MIL, BOS, OKC, DEN]
+['Chris Paul', 'Russell Westbrook', 'James Harden']
+['Hassan Whiteside', 'Victor Wembanyama', 'Serge Ibaka']
+['James Harden', 'Russell Westbrook', 'Rajon Rondo', 'Chris Paul']
+True
+True
+False
+False
+False
+True
+False
+42
+True
+0
+19
+163.0
+2.0
+31.6
+126.0
+1.35
+29.25
+1012
+30
+90
+0.61
+5.09
+[196.0, 186.0, 180.0]
+[16.0, 17.0, 18.0, 19.0]
+[1, 2, 3, 4, 5, 6, 7, 8, 9]
+[49.0, 50.0, 55.0, 66.0, 61.0]
+[0, 1]
+[0, 1]
+[165.0, 180.0, 175.0, 167.0]
+[1,2,3,4,5,6,7,8,9]
+[17.0, 18.0, 19.0, 20.0, 21.0]
+False
+False
+False
+False
+False
+False
+True
+True
+True
+1
+5
+December
+11
+Monday
+January
+6
+Thursday
+33.3
+0.4
+574.40
+7
+44.28
+852.7
+4.55
+247
+[33.3, 33.1, 32.6]
+[7.9, 9.3, 15.3, 15.5, 15.8]
+[2, 3, 4, 5, 6, 8, 9]
+[15, 15, 17, 18]
+[9.4, 9.4, 9.4, 9.4, 8.9]
+[6.995619625, 6.616439948, 5.633109621]
+[1.1, 2.4, 3.0]
+[January, February, March, April, May, June, July, August, September, October, November, December]
+[Monday, Thursday, Wednesday]
+[August, November]
+[Tuesday, Thursday, Saturday]
+['December', 'August']
+[Wednesday, Thursday, Friday]
+['Monday', 'Thursday', 'Saturday', 'Wednesday', 'Sunday', 'Friday', 'Tuesday']
+False
+False
+False
+False
+False
+True
+True
+False
+Hell's Kitchen
+Flavours
+Sat
+Premium Beans
+Jun
+20
+Lower Manhattan
+Coffee
+8.0
+80.0
+698812.33
+True
+3.38
+21096
+3
+360
+35352.0
+[8, 6, 4]
+[5, 8, 3]
+[0.8, 2.0, 2.1, 2.2]
+[360.0, 72.0, 56.0]
+[7, 1, 2, 3, 4, 5, 6]
+["Hell's Kitchen", 'Astoria', 'Lower Manhattan']
+['Coffee beans', 'Branded']
+['Brewed Chai tea', 'Gourmet brewed coffee', 'Barista Espresso']
+['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
+['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+[8, 3]
+['Premium Beans', 'Premium Beans']
+Civet Cat
+True
+True
+True
+True
+False
+False
+True
+True
+How to Win Friends and Influence People
+Novel
+1000
+10
+Ernest Hemingway
+80
+BPB Publications (India)
+6
+Islamic Books
+8
+14087
+5
+20.236
+9
+498
+2
+12
+37
+[498, 640, 80, 512, 492]
+[1258, 1598, 528, 950, 718]
+[73.0, 85.0, 50.0, 30.0]
+[492]
+[4, 6, 21, 38, 18]
+[5.0, 0.0, 27.0, 1.0, 40.0]
+[498]
+2
+['History and Tradition', ' Business, Investment and Economics', 'Islamic Books', 'Islamic Books', 'Computer Science & Engineering']
+['Harish Bhat , B.S. Badan', 'Leil Lowndes', 'Dr. Joseph Murphy']
+['Madinah Arabic Reader 1', 'How Harsh Mariwala ?Groomed? Marico', 'Train to Pakistan', 'The Old Man and The Sea', 'Metamorphosis', 'Animal Farm', 'The Alchemist', 'Who Moved My Cheese?', 'The Art of War']
+['History and Tradition', ' Business, Investment and Economics', 'Novel', 'Novel', 'Novel', 'Novel', 'Novel', 'Novel', 'Self-help and meditation', 'Self-help and meditation', 'Self-help and meditation', 'Self-help and meditation', 'Self-help and meditation', 'Self-help and meditation', ' Mystery, Detective, Thriller and Adventure']
+['Yuval Noah Harari', 'Benjamin Graham', 'Khaled Hosseini', 'Ernest Hemingway', 'George Orwell', 'Chetan Bhagat', 'Dale Carnegie', 'Spencer Johnson', 'Napoleon Hill', 'Dr. Joseph Murphy', 'Jack Welch, Suzy Welch', 'J. K. Rowling']
+['Self-help and meditation', 'Self-help and meditation', 'Self-help and meditation', 'War Tactics and Foreign Policy', ' Mystery, Detective, Thriller and Adventure']
+['1st Edition', 'Edition', 'Edition', '1st Published']
